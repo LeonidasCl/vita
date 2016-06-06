@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.MainActivity"
+    tools:showIn="@layout/activity_main">
+
+    <FrameLayout
+        android:id="@+id/fl_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="12" >
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/fragment_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/maintab_toolbar_bg"
+        android:orientation="horizontal"
+        android:paddingTop="0dp">
+
+        <Button
+            android:id="@+id/button_main"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/latest_btn_selector"
+            android:text="主页"/>
+
+        <Button
+            android:id="@+id/button_yuepai"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/latest_btn_selector"
+            android:text="约拍"/>
+
+        <Button
+            android:id="@+id/button_find"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/latest_btn_selector"
+            android:text="发现"/>
+
+
+        <Button
+            android:id="@+id/button_user"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/latest_btn_selector"
+            android:text="我的"/>
+
+    </LinearLayout>
+
+</LinearLayout>
