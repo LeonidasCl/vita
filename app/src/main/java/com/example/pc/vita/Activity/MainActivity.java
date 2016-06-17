@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initView();
 
         fragmentTrs=fragmentMgr.beginTransaction();
+        btn_yuepai.setSelected(true);
         toYuePai();
         fragmentTrs.commit();
     }

@@ -1,7 +1,5 @@
 package com.example.pc.vita.Activity;
 
-
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -19,9 +17,10 @@ import com.example.pc.vita.R;
 import java.util.ArrayList;
 import java.util.List;
 
-////////////////////
+
 //引导界面
 //黄鑫晨 2016.03.16
+//licl 优化了销毁动画-2016.06.07
 public class GuideActivity extends AppCompatActivity {
 
     View view1, view2, view3,view4;//4张引导界面
@@ -46,8 +45,9 @@ public class GuideActivity extends AppCompatActivity {
                     editor.putInt("time",++time);
                     editor.commit();
                 }else{
-                    //
+
                     finish();
+                    //要关掉销毁Activity的动画，不然很丑
                     overridePendingTransition(0,0);
                     Intent intent=new Intent("android.intent.action.SPLASHACTIVITY");
 
