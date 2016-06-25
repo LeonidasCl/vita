@@ -88,10 +88,10 @@ public class MoveHideView extends FrameLayout implements TouchMoveView.TouchMove
         this.mContext = context;
         TypedArray typeArray = context.obtainStyledAttributes(attributeSet, R.styleable.MoveHideView);
 
-        //页面头部的高度(对应UC首页新闻视图向上滑动完成后页面的头部View，UC中最开始隐藏)
+        //页面头部搜索框的高度
         float pageHeadViewHeight = typeArray.getDimension(R.styleable.MoveHideView_pageHeadViewHeight, 0);
         mPageHeadViewHeight = (int)(pageHeadViewHeight);
-        //页面头部是否固定，默认不固定(即默认隐藏，随着滑动而展示出来)，如果固定的话则一直在头部展示不会随着滑动和动
+        //搜索框是否固定，如果固定就不会隐藏而是一直显示
         mIsPageHeadViewFixed = typeArray.getBoolean(R.styleable.MoveHideView_isPageHeadViewFixed, true);
         //页面头部的内容布局资源ID
         int pageHeadViewLayoutId = typeArray.getResourceId(R.styleable.MoveHideView_pageHeadViewLayoutId, 0);
@@ -331,7 +331,7 @@ public class MoveHideView extends FrameLayout implements TouchMoveView.TouchMove
                 return;
             }
             if(!isHideFinish()) {//恢复状态是否已完成
-                if(mIsPageHeadViewFixed == false) {
+                if(!mIsPageHeadViewFixed) {
                     mPageHeadView.onHideAnimation(pageHeadViewStep);
                 }
                 mContentView.onHideAnimation(contentViewStep);
@@ -342,7 +342,7 @@ public class MoveHideView extends FrameLayout implements TouchMoveView.TouchMove
             }
         } else {//上滑
             if(!isShowFinish()) {//展示状态是否已完成
-                if(mIsPageHeadViewFixed == false) {//PageHeadView没有被固定时才进行滑动
+                if(!mIsPageHeadViewFixed) {//PageHeadView没有被固定时才进行滑动
                     mPageHeadView.onShowAnimation(pageHeadViewStep);
                 }
                 mContentView.onShowAnimation(contentViewStep);
@@ -356,14 +356,13 @@ public class MoveHideView extends FrameLayout implements TouchMoveView.TouchMove
 
     /**
      * 判断所有视图是否全部恢复结束
-     * @return
      */
     private boolean isHideFinish() {
 
         //当PageHeadView固定的时候，默认为恢复结束
-        boolean pageHeadViewHideFinish = mIsPageHeadViewFixed ? true : mPageHeadView.isHideFinish();
+        boolean pageHeadViewHideFinish = mIsPageHeadViewFixed||mPageHeadView.isHideFinish();
         //当ContentHeadView不启用的时候，默认为恢复结束
-        boolean contentHeadViewHideFinish = mIsContentHeadViewEnable ? mContentHeadView.isHideFinish() : true;
+        boolean contentHeadViewHideFinish = !mIsContentHeadViewEnable || mContentHeadView.isHideFinish();
 
         return pageHeadViewHideFinish && mPageNavigationView.isHideFinish() &&
                 contentHeadViewHideFinish && mContentView.isHideFinish();
@@ -371,14 +370,13 @@ public class MoveHideView extends FrameLayout implements TouchMoveView.TouchMove
 
     /**
      * 判断所有视图是否全部展示结束
-     * @return
      */
     private boolean isShowFinish() {
 
         //当PageHeadView固定的时候，默认为展示结束
-        boolean pageHeadViewShowFinish = mIsPageHeadViewFixed ? true : mPageHeadView.isShowFinish();
+        boolean pageHeadViewShowFinish = mIsPageHeadViewFixed||mPageHeadView.isShowFinish();
         //当ContentHeadView不启用的时候，默认为展示结束
-        boolean contentHeadViewShowFinish = mIsContentHeadViewEnable ? mContentHeadView.isShowFinish() : true;
+        boolean contentHeadViewShowFinish = !mIsContentHeadViewEnable || mContentHeadView.isShowFinish();
 
         return pageHeadViewShowFinish && mPageNavigationView.isShowFinish() &&
                 contentHeadViewShowFinish && mContentView.isShowFinish();
