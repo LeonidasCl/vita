@@ -58,7 +58,7 @@ public class ContentView extends TouchMoveView {
         listView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                // 尝试自己处理触摸事件, 完成处理 (不需要其他 View 再处理), 则返回 true
+                // 只好在这里显示调用父view的动画，因为listView的事件往上冒泡时不知道传到哪里去了
                 parent.onTouchEvent(event);
                 return false;
             }
@@ -103,11 +103,11 @@ public class ContentView extends TouchMoveView {
 		return getMarginTop() - mShowStopMarginTop;
 	}
 
- /*   @Override
+   /* @Override
     //在顶部导航按钮还在的时候要拦截触摸事件让动画显示
     public boolean onInterceptTouchEvent(MotionEvent ev){
-        super.onInterceptTouchEvent(ev);
-        return true;
+        //return  super.onInterceptTouchEvent(ev);
+        return false;
     }*/
 
     @Override
@@ -116,7 +116,7 @@ public class ContentView extends TouchMoveView {
         return ret;
     }
 
-  /*  @Override
+   /* @Override
     public boolean onTouchEvent(MotionEvent event) {
        super.onTouchEvent(event);
         return false;

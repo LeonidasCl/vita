@@ -430,4 +430,5 @@ public class MoveHideView extends FrameLayout implements TouchMoveView.TouchMove
     public void setPullRestoreEnable(boolean isPullRestoreEnable) {
         mIsPullRestoreEnable = isPullRestoreEnable;
     }
+
 }
