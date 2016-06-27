@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.FrameLayout;
 
 import com.example.pc.vita.R;
@@ -220,6 +221,15 @@ public class MoveHideView extends FrameLayout implements TouchMoveView.TouchMove
         }
 
         mContentView = new ContentView(mContext);
+       /* mContentView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // 尝试自己处理触摸事件, 完成处理 (不需要其他 View 再处理), 则返回 true
+                event.getRawY();
+                return false;
+            }
+        });*/
+
         LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         layoutParams.topMargin = (int)(marginTop + 0.5f);
         mContentView.setLayoutParams(layoutParams);
@@ -232,6 +242,7 @@ public class MoveHideView extends FrameLayout implements TouchMoveView.TouchMove
         mContentView.setNeedMoveHeight(Math.abs(layoutParams.topMargin - mContentHeadViewHeight - mPageHeadViewHeight));
 
         inflate(mContext, resId, mContentView);
+        mContentView.init();
         addView(mContentView);
     }
 
@@ -245,7 +256,7 @@ public class MoveHideView extends FrameLayout implements TouchMoveView.TouchMove
     private float mDelY = 0;
 
     @Override
-    public void onTouchMoveEvent(MotionEvent event) {
+    public int onTouchMoveEvent(MotionEvent event) {
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -260,7 +271,7 @@ public class MoveHideView extends FrameLayout implements TouchMoveView.TouchMove
                 int offset = 0;
                 if(mDelY > 0) {//hide，下拉
                     if(!mIsPullRestoreEnable) {//当前不允许下拉恢复
-                        return;
+                        return -1;
                     }
                     offset = mContentView.getHideOffset();
                 } else {//show， 上拉
@@ -273,6 +284,8 @@ public class MoveHideView extends FrameLayout implements TouchMoveView.TouchMove
                 }
                 break;
         }
+
+        return 0;
     }
 
     /**
@@ -394,8 +407,27 @@ public class MoveHideView extends FrameLayout implements TouchMoveView.TouchMove
         return mIsPullRestoreEnable;
     }
 
-    public void setPullRestoreEnable(boolean isPullRestoreEnable) {
+    /*  @Override
+    //在顶部导航按钮还在的时候要拦截触摸事件让动画显示
+  public boolean onInterceptTouchEvent(MotionEvent ev){
+        super.onInterceptTouchEvent(ev);
+        return false;
+    }*/
 
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev){
+       boolean ret= super.dispatchTouchEvent(ev);
+        return ret;
+    }
+
+  /*  @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        super.onTouchEvent(event);
+        return false;
+    }*/
+
+    public void setPullRestoreEnable(boolean isPullRestoreEnable) {
         mIsPullRestoreEnable = isPullRestoreEnable;
     }
 }

@@ -5,9 +5,10 @@
               android:layout_height="match_parent"
               android:background="@android:color/holo_purple"
               android:gravity="center">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/content"
+   <ListView
+        android:id="@+id/yuepai_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:textColor="@android:color/white"/>
+
 </LinearLayout>

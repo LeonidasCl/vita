@@ -2,6 +2,7 @@ package com.example.pc.vita.View;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 
 /**
  * 导航按钮
@@ -51,4 +52,5 @@ public class PageNavigationView extends TouchMoveView {
 
 		return getMarginTop() >= mHideStopMarginTop ? true : false;
 	}
+
 }
