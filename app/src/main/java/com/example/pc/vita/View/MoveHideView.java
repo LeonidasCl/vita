@@ -178,6 +178,7 @@ public class MoveHideView extends FrameLayout implements TouchMoveView.TouchMove
         mPageNavigationView.setHideStopMarginTop(layoutParams.topMargin);
 
         inflate(mContext, resId, mPageNavigationView);
+        mPageNavigationView.init();
         addView(mPageNavigationView);
     }
 

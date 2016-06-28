@@ -1,8 +1,13 @@
 package com.example.pc.vita.View;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
+
+import com.example.pc.vita.R;
 
 /**
  * 导航按钮
@@ -49,8 +54,18 @@ public class PageNavigationView extends TouchMoveView {
 
 	@Override
 	public synchronized boolean isHideFinish() {
-
 		return getMarginTop() >= mHideStopMarginTop ? true : false;
 	}
+
+	public void init(){
+
+
+	}
+
+/*	@Override
+    public boolean onTouchEvent(MotionEvent event) {
+       super.onTouchEvent(event);
+        return false;
+    }*/
 
 }
