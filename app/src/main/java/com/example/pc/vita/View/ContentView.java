@@ -110,6 +110,13 @@ public class ContentView extends TouchMoveView {
         return false;
     }*/
 
+    /*licl 2016.6.27
+       由于listview是可点击的，ret值为true
+       如果在这里强行返回false，将导致父view（MoveHideView）的dispatch->onTouch执行
+       其实父view什么都没有放，所以执行它们看不到任何效果
+       要执行两个，listView的滑动（没有覆盖掉的话，默认就是有的）
+       和 contentview（本view）的滑动动画--用监听+显示调用实现了
+       */
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev){
         boolean ret=super.dispatchTouchEvent(ev);
