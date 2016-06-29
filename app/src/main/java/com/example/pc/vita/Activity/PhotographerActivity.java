@@ -128,6 +128,7 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
                         }
                         clearFormerUploadUrlList = false;
                     }
+                    //在这里处理，获取拍到的图
                     Bitmap bitmap = UploadPhotoUtil.getInstance()
                             .trasformToZoomBitmapAndLessMemory(takePictureUrl);
                     BitmapDrawable bd = new BitmapDrawable(getResources(), bitmap);
@@ -335,9 +336,9 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
                                 .setVisibility(View.VISIBLE);
                      /*   get_photo_layout_in_from_down = AnimationUtils
                                 .loadAnimation(UploadPicActivity.this,
-                                        R.anim.search_layout_in_from_down);*/
+                                        R.anim.search_layout_in_from_down);
                         edit_photo_outer_layout
-                                .startAnimation(get_photo_layout_in_from_down);
+                                .startAnimation(get_photo_layout_in_from_down);*/
                     }
                 } else {
                     //点击图片查看大图
@@ -482,14 +483,14 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
         switch (view.getId()) {
             case R.id.take_picture:
                 edit_photo_fullscreen_layout.setVisibility(View.GONE);
-                takePictureUrl = APP.photo_path + "take_pic"
-                        + addTakePicCount + ".png";
+                takePictureUrl = APP.photo_path + "picture_take_0"
+                        + addTakePicCount + ".jpg";
                 File file = new File(takePictureUrl);
-                if (file.exists()) {
+            /*    if (file.exists()) {
                     if (file.exists()) {
                         file.delete();
                     }
-                }
+                }*/
                 intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
                 startActivityForResult(intent, TAKE_PICTURE);

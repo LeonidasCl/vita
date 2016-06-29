@@ -8,6 +8,11 @@ import android.view.WindowManager;
 
 import com.example.pc.vita.Data.Cache.RAMimageCache;
 import com.example.pc.vita.Data.Cache.SDimageCache;
+import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 import java.io.File;
 
@@ -26,6 +31,10 @@ public class APP extends Application {
         context = this;
         RAMcache=new RAMimageCache();
         SDcache=new SDimageCache();
+
+        applicationContext = this;
+        getScreenDimension();
+        initImageLoader(this);
         applicationContext = this;
         getScreenDimension();
     }
@@ -81,8 +90,8 @@ public class APP extends Application {
             photo_path = sdcardDir.getPath() + "/vita/cache/photoes/";
             photoDir = new File(photo_path);
         } else {
-            photo_path= "/vita/cache/photoes/";
-            cacheImageDir = new File("/vita/cache/images");
+            photo_path= "/storage/emulated/0"+"/vita/cache/photoes/";
+            cacheImageDir = new File("/storage/emulated/0"+"/vita/cache/images");
             photoDir = new File(photo_path);
         }
         if (!cacheImageDir.exists()) {
@@ -93,7 +102,30 @@ public class APP extends Application {
         }
         return cacheImageDir;
     }
+    //先初始化UniversalImageLoader
+    private void initImageLoader(Context context) {
+        File cacheDir = createCacheDir();
 
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+                context)
+                .threadPriority(Thread.NORM_PRIORITY - 1)
+                .threadPoolSize(3)
+                .memoryCacheExtraOptions(480, 800)
+                .diskCacheExtraOptions(480, 800, null)
+                .denyCacheImageMultipleSizesInMemory()
+                .diskCacheFileNameGenerator(new Md5FileNameGenerator())
+                .tasksProcessingOrder(QueueProcessingType.LIFO)
+                .memoryCacheSize(1 * 1024 * 1024)
+                .diskCacheSize(50 * 1024 * 1024)
+                        // .discCacheFileCount(200)
+                        // .defaultDisplayImageOptions(options)
+
+                .diskCache(new UnlimitedDiskCache(cacheDir)).build();
+
+        // Initialize ImageLoader with configuration.
+        ImageLoader imageLoader = ImageLoader.getInstance();
+        imageLoader.init(config);
+    }
     @Override public void onTerminate() {
         super.onTerminate();
     }
