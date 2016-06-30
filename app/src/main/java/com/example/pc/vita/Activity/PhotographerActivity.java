@@ -67,10 +67,9 @@ import java.util.Map;
 public class PhotographerActivity extends AppCompatActivity implements View.OnClickListener, MyInterface.NetRequestIterface, MyInterface.OnSingleTapDismissBigPhotoListener {
 
     private final int UPLOAD_TAKE_PICTURE = 5;
-    private final int UPLOAD_LOCAL_PICTURE = 6;
-    private final int SAVE_PHOTO_IMAGE = 7;
+
     private final int NONE = 0, TAKE_PICTURE = 1, LOCAL_PICTURE = 2;
-    private final int SHOW_PHOTO = 4;
+
     private final int SAVE_THEME_IMAGE = 8;
     private final int SHOW_TAKE_PICTURE = 9;
     private final int SHOW_LOCAL_PICTURE = 10;
@@ -79,11 +78,11 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
     private Animation get_photo_layout_out_from_up, get_photo_layout_in_from_down;
     private TextView title, take_picture, select_local_picture, position_in_total, upload;
     private ImageView delete_image;
-    private String photo_take_file_path = APP.photo_path + "temp.png";
-    private String photo_local_file_path, photo_url = null, takePictureUrl, newThemeId;
+
+    private String  takePictureUrl, newThemeId;
     private Intent intent;
     private NetRequest requestFragment;
-    private GridView display_image_gridview;
+
     private GridView add_image_gridview;
     private int addPicCount = 1, addTakePicCount = 1, viewpagerPosition;
     private List<String> uploadImgUrlList = new ArrayList<String>();
@@ -103,20 +102,18 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
         public void handleMessage(Message msg) {
             switch (msg.what) {
 
-                case SAVE_THEME_IMAGE:
+                case SAVE_THEME_IMAGE://第三次：上传图片
                     Map<String, Object> map = (Map<String, Object>) msg.obj;
-                    requestFragment.httpRequest(map, CommonUrl.saveThemeImgNew);
+                    requestFragment.httpRequest(map, CommonUrl.saveThemeImgNew);//最后将图片在这里传出去
                     break;
-                case UPLOAD_TAKE_PICTURE:
-                    Log.d("gaolei",
-                            "uploadImgUrlList.size()--------upload---------"
-                                    + uploadImgUrlList.size());
+                case UPLOAD_TAKE_PICTURE://第二次：在本地把图片封装保存，去服务器获取一个信息
+
                     if (uploadImgUrlList.size() > 0) {
                         for (int i = 0; i < uploadImgUrlList.size(); i++) {
-                            saveThemeImgNew(newThemeId, uploadImgUrlList.get(i));
+                            saveThemeImgNew(newThemeId, uploadImgUrlList.get(i));//保存要上传的图片
                         }
                     }
-                    getThemeList();
+                    getThemeList();//第二次握手
                     show_upload_pic_layout.setVisibility(View.VISIBLE);
                     isShowUploadPic=true;
                     break;
@@ -140,7 +137,7 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
                     Log.d("gaolei", "uploadImgUrlList.size()--------add---------"
                             + uploadImgUrlList.size());
                     break;
-
+                //在图库选中了本地的图
                 case SHOW_LOCAL_PICTURE:
                     addPic = true;
                     if (clearFormerUploadUrlList) {
@@ -150,12 +147,6 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
                         clearFormerUploadUrlList = false;
                     }//获取到资源位置
                     Uri uri = intent.getData();
-                  /*  String[] pojo = {MediaStore.Images.Media.DATA};
-
-                    CursorLoader cursorLoader = new CursorLoader(UploadPicActivity.this, uri, pojo, null,null, null);
-                    Cursor cursor = cursorLoader.loadInBackground();
-                    cursor.moveToFirst();
-                    String photo_local_file_path = cursor.getString(cursor.getColumnIndex(pojo[0]));*/
                     String photo_local_file_path =getPath_above19(getApplicationContext(),uri);
                     Bitmap bitmap2 = UploadPhotoUtil.getInstance()
                             .trasformToZoomBitmapAndLessMemory(photo_local_file_path);
@@ -323,10 +314,10 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                // TODO 这里是添加图片的按钮的回调
+                //  这里是添加图片的按钮的回调
 
                 if (position == 0) {
-                    if (addPicCount == 4) {
+                    if (addPicCount == 9) {
                       /*  CommonUtils.getUtilInstance().showToast(UploadPicActivity.this,
                                 getString(R.string.no_more_than_3));*/
                         return;
@@ -334,11 +325,11 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
                         //点击添加图片
                         edit_photo_fullscreen_layout
                                 .setVisibility(View.VISIBLE);
-                     /*   get_photo_layout_in_from_down = AnimationUtils
-                                .loadAnimation(UploadPicActivity.this,
+                        get_photo_layout_in_from_down = AnimationUtils
+                                .loadAnimation(PhotographerActivity.this,
                                         R.anim.search_layout_in_from_down);
                         edit_photo_outer_layout
-                                .startAnimation(get_photo_layout_in_from_down);*/
+                                .startAnimation(get_photo_layout_in_from_down);
                     }
                 } else {
                     //点击图片查看大图
@@ -410,25 +401,6 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
         PhotoViewAttacher.setOnSingleTapToPhotoViewListener(this);
     }
 
-    public void uploadUserPhotoNew(final String filePath) {
-        uploading_photo_progress.setVisibility(View.VISIBLE);
-        //为什么另开一个线程呢?因为要把图片字节流转化为字符串上传，比较耗时，阻塞UI线程，会使应用卡卡卡，所以要另开一线程
-        new Thread() {
-            public void run() {
-                String fileType = UploadPhotoUtil.getInstance().getFileType(filePath);
-                String fileString = UploadPhotoUtil.getInstance().getUploadPhotoZoomString(
-                        filePath);
-                Map<String, Object> map = new HashMap<String, Object>();
-                map.put("imgType", fileType);
-                map.put("imgBody", fileString);
-                Message msg = handler.obtainMessage();
-                msg.obj = map;
-                msg.what = SAVE_PHOTO_IMAGE;
-                handler.sendMessage(msg);
-
-            }
-        }.start();
-    }
 
     public void showEditPhotoLayout(View view) {
         edit_photo_fullscreen_layout.setVisibility(View.VISIBLE);
@@ -460,7 +432,7 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
                     }
                 });
     }
-    //TODO 下面函数是选中了要上传图片或者拍照打完钩后运行的
+    // 下面函数是选中了要上传图片或者拍照打完钩后运行的
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
         if (resultCode == NONE)
@@ -477,7 +449,7 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
     }
 
     @Override
-    //TODO 选择本地图片 拍照 取消 三个按钮 发表按钮
+    //选择本地图片 拍照 取消 三个按钮 发表按钮
     public void onClick(View view) {
         Intent intent;
         switch (view.getId()) {
@@ -486,11 +458,6 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
                 takePictureUrl = APP.photo_path + "picture_take_0"
                         + addTakePicCount + ".jpg";
                 File file = new File(takePictureUrl);
-            /*    if (file.exists()) {
-                    if (file.exists()) {
-                        file.delete();
-                    }
-                }*/
                 intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
                 startActivityForResult(intent, TAKE_PICTURE);
@@ -504,12 +471,13 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
                         "image/*");
                 startActivityForResult(intent, LOCAL_PICTURE);
                 break;
-            case R.id.upload:
-                if (UserInfoUtil.getInstance().getAuthKey() == null) {
+            case R.id.upload://第一次握手：按发表键后
+                //检查用户是否登录
+              /*  if (UserInfoUtil.getInstance().getAuthKey() == null) {
                     CommonUtils.getUtilInstance().showToast(this,
                             getString(R.string.publish_theme_after_login));
                     return;
-                }
+                }*/
                 if (theme_title_edit.getText().toString().length() == 0) {
                     CommonUtils.getUtilInstance().showToast(this,
                             getString(R.string.input_theme_comment_title));
@@ -544,8 +512,7 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
                 addPictureList.remove(viewpagerPosition + 1);
                 imageAddGridViewAdapter.changeList(addPictureList);
                 imageAddGridViewAdapter.notifyDataSetChanged();
-                position_in_total.setText((viewpagerPosition + 1) + "/"
-                        + uploadImgUrlList.size());
+                position_in_total.setText((viewpagerPosition + 1) + "/" + uploadImgUrlList.size());
                 if (uploadImgUrlList.size() == 0) {
                     display_big_image_layout.setVisibility(View.GONE);
                     isBigImageShow = false;
@@ -554,35 +521,32 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
                 break;
         }
     }
-
+    //隐藏“添加主题成功”提示框
     public void hideAddThemeLayout() {
         edit_photo_fullscreen_layout.setVisibility(View.GONE);
         upload.setVisibility(View.GONE);
         title.setText(getResources().getString(R.string.detail));
         addPic = false;
     }
-
+    //保存要上传的图片(每一张调用一次这个函数)
     public void saveThemeImgNew(final String themeId, final String picUrl) {
         new Thread() {
             public void run() {
-                Map<String, Object> map = new HashMap<String, Object>();
+                Map<String, Object> map = new HashMap<>();
                 map.put("themeId", themeId);
-                map.put("imgBody", UploadPhotoUtil.getInstance()
-                        .getUploadBitmapZoomString(picUrl));
-                map.put("imgType",
-                        UploadPhotoUtil.getInstance().getFileType(picUrl));
+                map.put("imgBody", UploadPhotoUtil.getInstance().getUploadBitmapZoomString(picUrl));
+                map.put("imgType", UploadPhotoUtil.getInstance().getFileType(picUrl));
                 map.put("type", 1);
                 Message msg = handler.obtainMessage();
                 msg.obj = map;
                 msg.what = SAVE_THEME_IMAGE;
-                handler.sendMessage(msg);
+                handler.sendMessage(msg);//要上传的图片包装在msg后变成了消息发到handler
             }
         }.start();
     }
 
     public void getThemeList() {
-
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         map.put("from", 0);
         map.put("to", 2);
         requestFragment.httpRequest(map, CommonUrl.getThemeList);
@@ -595,17 +559,14 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
         requestFragment.httpRequest(map, CommonUrl.saveThemeInfo);
     }
 
+    //
     @Override
-    public void changeView(final String result, String requestUrl) {
+    public void requestFinish(final String result, String requestUrl) {
 
-        if (requestUrl.equals(CommonUrl.saveThemeImgNew)) {
+        if (requestUrl.equals(CommonUrl.saveThemeImgNew)) {//上传图片完成的回调
             try {
                 JSONObject object = new JSONObject(result);
-                int errorCode = object.getInt("errorCode");
-                Log.d("gaolei", "result--------saveThemeImgNew-------------"
-                        + result);
             } catch (JSONException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
@@ -615,8 +576,8 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
                 public void run() {
                     try {
                         JSONObject gamesInfoObject = new JSONObject(result);
-                        Log.d("gaolei", "result-----------saveThemeInfo------------"
-                                + result);
+
+
                         int errorCode = gamesInfoObject.getInt("errorCode");
 
                         if (errorCode == 0) {
@@ -639,28 +600,19 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
             });
         }
 
-        if (requestUrl.equals(CommonUrl.getThemeList))
+       if (requestUrl.equals(CommonUrl.getThemeList))
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                  /*   try {
-                       JSONObject gamesInfoObject = new JSONObject(result);
-                        Log.d("gaolei", "result--------getThemeList--------" + result);
+                 try {
+                       JSONObject infoObject = new JSONObject(result);
 
-                        List<ThemeObject> themeList = new Gson().fromJson(
-                                gamesInfoObject.getString("themeInfoList"),
-                                new TypeToken<List<ThemeObject>>() {
-                                }.getType());
-
-                        ThemeListViewAdapter
-                                themeListViewAdapter = new ThemeListViewAdapter(themeList,
-                                uploadImgUrlList, UploadPicActivity.this);
-                        theme_listview.setAdapter(themeListViewAdapter);
                         hideAddThemeLayout();
+
                     } catch (JSONException e) {
-                        // TODO Auto-generated catch block
+                        //
                         e.printStackTrace();
-                    }*/
+                    }
                 }
             });
     }
@@ -677,7 +629,7 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void exception(IOException e, String requestUrl) {
-        Log.d("gaolei", "exception--------------------------" + e.getMessage());
+        Log.d("发生错误", "--------------------------" + e.getMessage());
     }
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         super.onKeyDown(keyCode, event);

@@ -71,7 +71,7 @@ public class NetRequest {
                 public void onResponse(Call call, Response response) throws IOException {
                     String result = response.body().string();
 //					Log.d("gaolei", "onResponse----------------------" + result);
-                    netRequestIterface.changeView(result, requestUrl);
+                    netRequestIterface.requestFinish(result, requestUrl);
                 }
 
 			});

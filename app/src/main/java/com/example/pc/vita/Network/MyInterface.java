@@ -11,7 +11,7 @@ public class MyInterface {
      * 网络请求回调接口
      */
     public interface NetRequestIterface {
-        void changeView(String result, String requestUrl);
+        void requestFinish(String result, String requestUrl);
         void exception(IOException e, String requestUrl);
     }
     /**

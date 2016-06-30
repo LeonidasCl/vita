@@ -278,11 +278,6 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
 		return mMinScale;
 	}
 
-	// @Override
-	// public float getMidScale() {
-	// return mMidScale;
-	// }
-
 	@Override
 	public float getMaxScale() {
 		return mMaxScale;
@@ -303,10 +298,7 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
 			float scale = getScale();
 			float x = ev.getX();
 			float y = ev.getY();
-
-			/*
-			 * if (scale < mMidScale) { zoomTo(mMidScale, x, y); } else
-			 */if (/* scale >= mMidScale && */scale < mMaxScale) {
+			if (/* scale >= mMidScale && */scale < mMaxScale) {
 				zoomTo(mMaxScale, x, y);
 			} else {
 				zoomTo(mMinScale, x, y);
@@ -397,9 +389,6 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
 	}
 
 	public final void onScale(float scaleFactor, float focusX, float focusY) {
-		if (DEBUG) {
-			Log.d(LOG_TAG, String.format("onScale: scale: %.2f. fX: %.2f. fY: %.2f", scaleFactor, focusX, focusY));
-		}
 
 		if (hasDrawable(getImageView()) && (getScale() < mMaxScale || scaleFactor < 1f)) {
 			mSuppMatrix.postScale(scaleFactor, scaleFactor, focusX, focusY);
@@ -425,9 +414,6 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
 
 						float xResult = (x - displayRect.left) / displayRect.width();
 						float yResult = (y - displayRect.top) / displayRect.height();
-						Log.d("gaolei", "onSingleTapConfirmed--------------");
-						Log.d("gaolei", "xResult--------------"+xResult);
-						Log.d("gaolei", "yResult--------------"+yResult);
 						mPhotoTapListener.onPhotoTap(imageView, xResult, yResult);
 						return true;
 					}

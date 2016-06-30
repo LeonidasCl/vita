@@ -35,8 +35,6 @@ public class APP extends Application {
         applicationContext = this;
         getScreenDimension();
         initImageLoader(this);
-        applicationContext = this;
-        getScreenDimension();
     }
 
     public static String cache_image_path, photo_path;
