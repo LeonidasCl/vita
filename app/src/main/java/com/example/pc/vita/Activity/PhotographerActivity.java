@@ -64,7 +64,8 @@ import java.util.Map;
 /**
  * Created by pc on 2016/6/28.
  */
-public class PhotographerActivity extends AppCompatActivity implements View.OnClickListener, MyInterface.NetRequestIterface, MyInterface.OnSingleTapDismissBigPhotoListener {
+public class PhotographerActivity extends AppCompatActivity implements View.OnClickListener, MyInterface.NetRequestIterface,
+        MyInterface.OnSingleTapDismissBigPhotoListener {
 
     private final int UPLOAD_TAKE_PICTURE = 5;
 
@@ -102,22 +103,21 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
         public void handleMessage(Message msg) {
             switch (msg.what) {
 
-                case SAVE_THEME_IMAGE://第三次：上传图片
+                case SAVE_THEME_IMAGE://响应第二次msg，发送第二次请求：上传图片
                     Map<String, Object> map = (Map<String, Object>) msg.obj;
                     requestFragment.httpRequest(map, CommonUrl.saveThemeImgNew);//最后将图片在这里传出去
                     break;
-                case UPLOAD_TAKE_PICTURE://第二次：在本地把图片封装保存，去服务器获取一个信息
+                case UPLOAD_TAKE_PICTURE://响应第一次msg，发送第二次msg：在本地把图片封装保存，准备发送图片
 
                     if (uploadImgUrlList.size() > 0) {
                         for (int i = 0; i < uploadImgUrlList.size(); i++) {
-                            saveThemeImgNew(newThemeId, uploadImgUrlList.get(i));//保存要上传的图片
+                            saveThemeImgNew(newThemeId, uploadImgUrlList.get(i));//逐张保存要上传的图片并发消息到发送的handle
                         }
                     }
-                    getThemeList();//第二次握手
                     show_upload_pic_layout.setVisibility(View.VISIBLE);
                     isShowUploadPic=true;
                     break;
-                case SHOW_TAKE_PICTURE:
+                case SHOW_TAKE_PICTURE://拍了照片后msg的处理
                     addPic = true;
                     if (clearFormerUploadUrlList) {
                         if (uploadImgUrlList.size() > 0) {
@@ -134,8 +134,6 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
                     imageAddGridViewAdapter.changeList(addPictureList);
                     imageAddGridViewAdapter.notifyDataSetChanged();
                     addPicCount++;
-                    Log.d("gaolei", "uploadImgUrlList.size()--------add---------"
-                            + uploadImgUrlList.size());
                     break;
                 //在图库选中了本地的图
                 case SHOW_LOCAL_PICTURE:
@@ -290,7 +288,7 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
         show_upload_pic_layout = (RelativeLayout) findViewById(R.id.show_upload_pic_layout);
         take_picture = (TextView) findViewById(R.id.take_picture);
         title = (TextView) findViewById(R.id.title);
-        title.setText(getResources().getString(R.string.upload_pic));
+        title.setText(getResources().getString(R.string.yuepai_photographer));
         position_in_total = (TextView) findViewById(R.id.position_in_total);
         select_local_picture = (TextView) findViewById(R.id.select_local_picture);
         upload = (TextView) findViewById(R.id.upload);
@@ -305,8 +303,7 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
         delete_image.setOnClickListener(this);
 
         ImageDisplayFragment.showNetImg = false;
-        addPictureList.add(getResources().getDrawable(
-                R.mipmap.theme_add_picture_icon));
+        addPictureList.add(getResources().getDrawable(R.mipmap.theme_add_picture_icon));
         imageAddGridViewAdapter = new ImageAddGridViewAdapter(this,
                 addPictureList);
         add_image_gridview.setAdapter(imageAddGridViewAdapter);
@@ -314,12 +311,11 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                //  这里是添加图片的按钮的回调
-
+                //这里是添加图片的按钮的回调
                 if (position == 0) {
                     if (addPicCount == 9) {
-                      /*  CommonUtils.getUtilInstance().showToast(UploadPicActivity.this,
-                                getString(R.string.no_more_than_3));*/
+                       CommonUtils.getUtilInstance().showToast(PhotographerActivity.this,
+                                getString(R.string.no_more_than_9));
                         return;
                     } else {
                         //点击添加图片
@@ -333,8 +329,7 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
                     }
                 } else {
                     //点击图片查看大图
-                    showImageViewPager(position, pictureUrlList,
-                            uploadImgUrlList, "local", "upload");
+                    showImageViewPager(position, pictureUrlList, uploadImgUrlList, "local", "upload");
                     viewpagerPosition = position - 1;
                 }
             }
@@ -354,7 +349,6 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
         } else {
             urlList = localUrlList;
         }
-        Log.d("gaolei", "urlList.toString()------------------" + urlList.toString());
         display_big_image_layout.setVisibility(View.VISIBLE);
         imagePagerAdapter = new ImagePagerAdapter(getSupportFragmentManager(), urlList);
         image_viewpager.setAdapter(imagePagerAdapter);
@@ -371,11 +365,9 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
                 // TODO Auto-generated method stub
                 viewpagerPosition = position;
                 if (flag.equals("net")) {
-                    position_in_total.setText((position + 1) + "/"
-                            + pictureUrlList.size());
+                    position_in_total.setText((position + 1) + "/" + pictureUrlList.size());
                 } else {
-                    position_in_total.setText((position + 1) + "/"
-                            + localUrlList.size());
+                    position_in_total.setText((position + 1) + "/" + localUrlList.size());
                 }
 
             }
@@ -473,19 +465,16 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
                 break;
             case R.id.upload://第一次握手：按发表键后
                 //检查用户是否登录
-              /*  if (UserInfoUtil.getInstance().getAuthKey() == null) {
-                    CommonUtils.getUtilInstance().showToast(this,
-                            getString(R.string.publish_theme_after_login));
+                if (UserInfoUtil.getInstance().getAuthKey() == null) {
+                    CommonUtils.getUtilInstance().showToast(this, getString(R.string.publish_theme_after_login));
                     return;
-                }*/
+                }
                 if (theme_title_edit.getText().toString().length() == 0) {
-                    CommonUtils.getUtilInstance().showToast(this,
-                            getString(R.string.input_theme_comment_title));
+                    CommonUtils.getUtilInstance().showToast(this, getString(R.string.input_theme_comment_title));
                     return;
                 }
                 if (theme_desc_edit.getText().toString().length() == 0) {
-                    CommonUtils.getUtilInstance().showToast(this,
-                            getString(R.string.input_theme_comment_desc));
+                    CommonUtils.getUtilInstance().showToast(this, getString(R.string.input_theme_comment_desc));
                 }
                 if (!addPic) {
                     if (clearFormerUploadUrlList) {
@@ -495,7 +484,7 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
                         }
                     }
                 }
-                saveThemeInfo();
+                saveThemeInfo();//发第一次请求
 
 
                 if (!clearFormerUploadUrlList) {
@@ -521,13 +510,7 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
                 break;
         }
     }
-    //隐藏“添加主题成功”提示框
-    public void hideAddThemeLayout() {
-        edit_photo_fullscreen_layout.setVisibility(View.GONE);
-        upload.setVisibility(View.GONE);
-        title.setText(getResources().getString(R.string.detail));
-        addPic = false;
-    }
+
     //保存要上传的图片(每一张调用一次这个函数)
     public void saveThemeImgNew(final String themeId, final String picUrl) {
         new Thread() {
@@ -545,12 +528,6 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
         }.start();
     }
 
-    public void getThemeList() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("from", 0);
-        map.put("to", 2);
-        requestFragment.httpRequest(map, CommonUrl.getThemeList);
-    }
 
     public void saveThemeInfo() {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -566,32 +543,32 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
         if (requestUrl.equals(CommonUrl.saveThemeImgNew)) {//上传图片完成的回调
             try {
                 JSONObject object = new JSONObject(result);
+
+                edit_photo_fullscreen_layout.setVisibility(View.GONE);
+                addPic = false;
+                finish();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-        if (requestUrl.equals(CommonUrl.saveThemeInfo)) {
+        if (requestUrl.equals(CommonUrl.saveThemeInfo)) {//发表主题完成的回调
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     try {
                         JSONObject gamesInfoObject = new JSONObject(result);
-
-
                         int errorCode = gamesInfoObject.getInt("errorCode");
 
                         if (errorCode == 0) {
-                           /* CommonUtils.getUtilInstance().showToast(UploadPicActivity.this,
-                                    getString(R.string.publish_theme_sucess));*/
+                            CommonUtils.getUtilInstance().showToast(PhotographerActivity.this, getString(R.string.publish_theme_sucess));
                             newThemeId = gamesInfoObject.getString("themeId");
-                            UserInfoUtil.getInstance().setThemeNum(
-                                    UserInfoUtil.getInstance().getThemeNum() + 1);
+                           /* UserInfoUtil.getInstance().setThemeNum(
+                                    UserInfoUtil.getInstance().getThemeNum() + 1);*/
                             handler.sendEmptyMessageDelayed(UPLOAD_TAKE_PICTURE, 100);
                         } else {
                            /* CommonUtils.getUtilInstance().showToast(UploadPicActivity.this,
                                     getString(R.string.publish_theme_failure));*/
                         }
-
                     } catch (JSONException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
@@ -600,21 +577,6 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
             });
         }
 
-       if (requestUrl.equals(CommonUrl.getThemeList))
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                 try {
-                       JSONObject infoObject = new JSONObject(result);
-
-                        hideAddThemeLayout();
-
-                    } catch (JSONException e) {
-                        //
-                        e.printStackTrace();
-                    }
-                }
-            });
     }
 
     @Override
@@ -637,7 +599,7 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
             if(isShowUploadPic){
                 show_upload_pic_layout.setVisibility(View.GONE);
                 upload.setVisibility(View.VISIBLE);
-                title.setText(getResources().getString(R.string.upload_pic));
+                title.setText(getResources().getString(R.string.yuepai_photographer));
                 theme_title_edit.setText("");
                 theme_desc_edit.setText("");
                 addPictureList.clear();addPictureList.add(getResources().getDrawable(

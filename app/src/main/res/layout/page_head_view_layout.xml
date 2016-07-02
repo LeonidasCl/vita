@@ -28,8 +28,8 @@
                       android:layout_height="wrap_content"
                       android:singleLine="true"
                       android:layout_marginRight="10dp"
-                      android:paddingLeft="32dp"
-                      android:textSize="12sp"
+                      android:paddingLeft="2dp"
+                      android:textSize="14sp"
                       android:hint="请输入文字..."/>
 
             <ImageView android:id="@+id/ivDeleteText"

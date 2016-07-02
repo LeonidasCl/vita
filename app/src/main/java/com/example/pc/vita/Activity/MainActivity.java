@@ -79,9 +79,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private boolean manageLogin() throws JSONException {
-        String name=user.getUsername();
+     /*   String name=user.getUsername();
         if(name==null)
-            return false;
+            return false;*/
         return true;
     }
 
