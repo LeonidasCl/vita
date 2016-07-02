@@ -6,9 +6,10 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;  
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.widget.TextView;  
+import android.widget.EditText;
+import android.widget.TextView;
   
-public class IconTextView extends TextView {  
+public class IconTextView extends EditText {
       
     private final String nameSpace="http://com.licl.icontext";
       

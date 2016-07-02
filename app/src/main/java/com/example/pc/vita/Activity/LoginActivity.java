@@ -6,7 +6,9 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,10 +37,11 @@ public class LoginActivity extends AppCompatActivity implements MyInterface.NetR
 
     private TextView username;
     private TextView password;
-    private ImageButton btn_login;
+    private Button btn_login;
     private NetRequest requestFragment;
     private ProgressDialog loginProgressDlg;
     private int loginReturn;
+    private ImageView loginbtnimg;
     private DialogInterface.OnCancelListener cancelListener = new DialogInterface.OnCancelListener() {
         @Override
         public void onCancel(DialogInterface dialog) {
@@ -59,7 +62,7 @@ public class LoginActivity extends AppCompatActivity implements MyInterface.NetR
 
         username=(TextView)findViewById(R.id.login_username);
         password=(TextView)findViewById(R.id.login_password);
-        btn_login=(ImageButton)findViewById(R.id.btn_login);
+        btn_login=(Button)findViewById(R.id.btn_login);
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,12 +72,14 @@ public class LoginActivity extends AppCompatActivity implements MyInterface.NetR
                 String pwd=password.getText().toString();
                 map.put("username",usrnm);
                 map.put("password",pwd);
-                loginProgressDlg = ProgressDialog.show(APP.context, "vita", "正在登陆中", true, false);
+                loginProgressDlg = ProgressDialog.show(LoginActivity.this, "vita", "正在登陆中", true, false);
                 requestFragment.httpRequest(map, CommonUrl.loginAccount);
             }
         });
         requestFragment=new NetRequest(this,this);
 
+        loginbtnimg=(ImageView)findViewById(R.id.loginimgview);
+        loginbtnimg.bringToFront();
     }
 
     @Override

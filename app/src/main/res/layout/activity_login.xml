@@ -119,44 +119,38 @@
         loginlayout:layout_heightPercent="30%"
         loginlayout:layout_widthPercent="100%"
         android:layout_gravity="bottom">
+
         <android.support.percent.PercentFrameLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:loginlayout="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-    <com.example.pc.vita.View.RoundCornerImgView
+    <Button
         android:id="@+id/btn_login"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
-        android:background="#E3BD65"
+        android:background="@drawable/shape"
         loginlayout:layout_heightPercent="30%"
         loginlayout:layout_widthPercent="45%"
-        android:layout_gravity="top|center_horizontal"/>
+        android:layout_gravity="top|center_horizontal"
+        android:text="@string/text_login_btn"
+        android:textSize="22sp"
+        android:textColor="#ffffff"/>
             <ImageView
+                android:id="@+id/loginimgview"
                 android:contentDescription="@string/app_name"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginRight="45dp"
                 android:scaleType="fitStart"
                 android:background="#E3BD65"
                 android:src="@drawable/login_button"
-                loginlayout:layout_heightPercent="30%"
-                loginlayout:layout_widthPercent="45%"
+                loginlayout:layout_heightPercent="20%"
+                loginlayout:layout_widthPercent="10%"
                 android:layout_gravity="top|center_horizontal"
                 android:textSize="12sp"/>
-     <TextView
-         loginlayout:layout_heightPercent="30%"
-         loginlayout:layout_widthPercent="45%"
-         android:layout_width="0dp"
-         android:layout_height="0dp"
-         android:layout_marginTop="10dp"
-         android:text="@string/text_login_btn"
-         android:textColor="#ffffff"
-         android:layout_gravity="top|center_horizontal"
-         android:gravity="center_vertical|center_horizontal"
-         android:textSize="22sp"
-                />
         </android.support.percent.PercentFrameLayout>
     </RelativeLayout>
 
