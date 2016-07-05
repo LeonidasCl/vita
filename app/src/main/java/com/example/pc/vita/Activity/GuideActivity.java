@@ -87,14 +87,26 @@ public class GuideActivity extends AppCompatActivity {
         btn_login.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-              finish();
+                finish();
                 Intent intent = new Intent("android.intent.action.LOGINACTIVITY");
-     ///////***********2016-3-8 added by licl****************////
-     /*********/intent.putExtra("father","GuideActivity");/////////////
+                ///////***********2016-3-8 added by licl****************////
+                /*********/intent.putExtra("father", "GuideActivity");/////////////
 
                 startActivity(intent);
             }
         });
+        btn_regist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                Intent intent = new Intent("android.intent.action.LOGINACTIVITY");
+                ///////***********2016-3-8 added by licl****************////
+                /*********/intent.putExtra("father", "GuideActivity");/////////////
+                intent.putExtra("method", "register");
+                startActivity(intent);
+            }
+        });
+
     }
     //初始化几张view
     public void initialViews() {

@@ -1,6 +1,7 @@
 package com.example.pc.vita.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -82,6 +83,8 @@ public class LoginActivity extends AppCompatActivity implements MyInterface.NetR
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (eventFlag==1){
                 //检查输入格式，发弹窗请求到handler，并发网络请求
                 Map map = new HashMap();
                 String usrnm=username.getText().toString();
@@ -89,7 +92,13 @@ public class LoginActivity extends AppCompatActivity implements MyInterface.NetR
                 map.put("username",usrnm);
                 map.put("password",pwd);
                 loginProgressDlg = ProgressDialog.show(LoginActivity.this, "vita", "正在登录", true, false);
-                requestFragment.httpRequest(map, CommonUrl.loginAccount);
+                requestFragment.httpRequest(map, CommonUrl.loginAccount); }
+                if (eventFlag==2){
+                    //TODO
+                }
+                if (eventFlag==3){
+                    //TODO
+                }
             }
         });
         requestFragment=new NetRequest(this,this);
@@ -99,6 +108,18 @@ public class LoginActivity extends AppCompatActivity implements MyInterface.NetR
         forgotpassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(eventFlag==2){
+                    eventFlag=1;
+                    forgotpassword.setText("忘记密码了");
+                    animationHide.setDuration(500);
+                    verifycode.startAnimation(animationHide);
+                    verifycode.setVisibility(View.GONE);
+                    animationShow.setDuration(500);
+                    password.startAnimation(animationShow);
+                    password.setVisibility(View.VISIBLE);
+                    return;
+                }
+                if(eventFlag!=2){
                 eventFlag=2;
                 animationHide.setDuration(500);
                 password.startAnimation(animationHide);
@@ -106,12 +127,15 @@ public class LoginActivity extends AppCompatActivity implements MyInterface.NetR
                 animationShow.setDuration(500);
                 verifycode.startAnimation(animationShow);
                 verifycode.setVisibility(View.VISIBLE);
+                forgotpassword.setText("找回了密码");}
+                return;
             }
         });
         signup=(TextView)findViewById(R.id.btn_newuser);
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(eventFlag!=3){
                 eventFlag=3;
                 animationHide.setDuration(500);
                 password.startAnimation(animationHide);
@@ -119,8 +143,30 @@ public class LoginActivity extends AppCompatActivity implements MyInterface.NetR
                 animationShow.setDuration(500);
                 verifycode.startAnimation(animationShow);
                 verifycode.setVisibility(View.VISIBLE);
+                signup.setText("老用户登录");
+                    btn_login.setText("  注   册");
+                    return;
+                }
+                if(eventFlag==3){
+                    eventFlag=1;
+                    animationHide.setDuration(500);
+                    verifycode.startAnimation(animationHide);
+                    verifycode.setVisibility(View.GONE);
+                    animationShow.setDuration(500);
+                    password.startAnimation(animationShow);
+                    password.setVisibility(View.VISIBLE);
+                    signup.setText("新用户注册");
+                    btn_login.setText("  登   录");
+                    return;
+                }
             }
         });
+
+        Intent intent = getIntent();
+        String value = intent.getStringExtra("method");
+        if (value!=null&&value.equals("register")){
+            signup.performClick();
+        }
     }
 
     @Override
