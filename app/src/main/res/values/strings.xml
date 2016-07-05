@@ -4,10 +4,11 @@
     <string name="action_logout">注销</string>
     <string name="action_about">关于本软件</string>
     <string name="title_activity_login">登录</string>
-
+    <string name="forget_password">忘记密码？</string>
     <!-- Strings related to login -->
     <string name="prompt_email">请输入邮箱/手机号</string>
     <string name="prompt_password">请输入密码</string>
+    <string name="register_code">请输入验证码</string>
     <string name="action_sign_in">注册或登录</string>
     <string name="action_sign_in_short">登录|注册</string>
     <string name="error_invalid_email">用户名错误</string>
@@ -42,4 +43,5 @@
     <string name="login_success">登录成功</string>
     <string name="login_fail">登录失败</string>
     <string name="text_login_btn">  登   录</string>
+    <string name="new_user">新用户注册</string>
 </resources>

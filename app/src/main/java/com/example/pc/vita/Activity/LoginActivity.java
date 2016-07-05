@@ -6,6 +6,8 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -37,11 +39,24 @@ public class LoginActivity extends AppCompatActivity implements MyInterface.NetR
 
     private TextView username;
     private TextView password;
+    private TextView forgotpassword;
+    private TextView signup;
+    private TextView verifycode;
     private Button btn_login;
     private NetRequest requestFragment;
     private ProgressDialog loginProgressDlg;
     private int loginReturn;
     private ImageView loginbtnimg;
+    private int eventFlag=1;//1为登录 2为忘记密码 3为注册
+    TranslateAnimation animationHide=new TranslateAnimation(Animation.RELATIVE_TO_SELF,
+            0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
+            Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
+            -1.0f);
+    TranslateAnimation animationShow=new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
+            Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
+            -1.0f, Animation.RELATIVE_TO_SELF, 0.0f);
+
+
     private DialogInterface.OnCancelListener cancelListener = new DialogInterface.OnCancelListener() {
         @Override
         public void onCancel(DialogInterface dialog) {
@@ -62,6 +77,7 @@ public class LoginActivity extends AppCompatActivity implements MyInterface.NetR
 
         username=(TextView)findViewById(R.id.login_username);
         password=(TextView)findViewById(R.id.login_password);
+        verifycode=(TextView)findViewById(R.id.register_verifycode);
         btn_login=(Button)findViewById(R.id.btn_login);
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,14 +88,39 @@ public class LoginActivity extends AppCompatActivity implements MyInterface.NetR
                 String pwd=password.getText().toString();
                 map.put("username",usrnm);
                 map.put("password",pwd);
-                loginProgressDlg = ProgressDialog.show(LoginActivity.this, "vita", "正在登陆中", true, false);
+                loginProgressDlg = ProgressDialog.show(LoginActivity.this, "vita", "正在登录", true, false);
                 requestFragment.httpRequest(map, CommonUrl.loginAccount);
             }
         });
         requestFragment=new NetRequest(this,this);
-
         loginbtnimg=(ImageView)findViewById(R.id.loginimgview);
         loginbtnimg.bringToFront();
+        forgotpassword=(TextView)findViewById(R.id.btn_forgot);
+        forgotpassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                eventFlag=2;
+                animationHide.setDuration(500);
+                password.startAnimation(animationHide);
+                password.setVisibility(View.GONE);
+                animationShow.setDuration(500);
+                verifycode.startAnimation(animationShow);
+                verifycode.setVisibility(View.VISIBLE);
+            }
+        });
+        signup=(TextView)findViewById(R.id.btn_newuser);
+        signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                eventFlag=3;
+                animationHide.setDuration(500);
+                password.startAnimation(animationHide);
+                password.setVisibility(View.GONE);
+                animationShow.setDuration(500);
+                verifycode.startAnimation(animationShow);
+                verifycode.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override
@@ -100,4 +141,3 @@ public class LoginActivity extends AppCompatActivity implements MyInterface.NetR
 
     }
 }
-
