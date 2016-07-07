@@ -34,16 +34,16 @@
 
     <!-- 约拍导航页面的style -->
     <style name="BannerDefaultStyle">
-
-        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginTop">0dp</item>
         <item name="android:layout_marginBottom">10dp</item>
-        <item name="android:layout_marginLeft">10dp</item>
-        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_marginLeft">0dp</item>
+        <item name="android:layout_marginRight">0dp</item>
         <!-- 自定义属性在styles.xml中不需要命名空间,直接用属性名就可以了 -->
         <!-- 开启自动轮播 -->
         <item name="banner_pointAutoPlayAble">false</item>
         <!-- 自动轮播的时间间隔 -->
         <item name="banner_pointAutoPlayInterval">1111</item>
+
         <!-- 指示点容器背景 -->
         <item name="banner_pointContainerBackground">#44aaaaaa</item>
         <!-- 指示点背景 -->
@@ -59,7 +59,7 @@
         <!-- 页码切换过程的时间长度 -->
         <item name="banner_pageChangeDuration">800</item>
         <!-- 提示文案的文字大小 -->
-        <item name="banner_tipTextSize">30sp</item>
+        <item name="banner_tipTextSize">12sp</item>
         <!-- 提示文案的文字颜色 -->
         <item name="banner_tipTextColor">@android:color/white</item>
         <!-- 加载网络数据时覆盖在BGABanner最上层的占位图 -->

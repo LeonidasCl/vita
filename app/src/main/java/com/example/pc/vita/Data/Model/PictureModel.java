@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ *
  * Created by pc on 2016/3/7.
  */
 public class PictureModel  {

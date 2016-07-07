@@ -44,4 +44,5 @@
     <string name="login_fail">登录失败</string>
     <string name="text_login_btn">  登   录</string>
     <string name="new_user">新用户注册</string>
+    <string name="yuepainavi1">约模特</string>
 </resources>

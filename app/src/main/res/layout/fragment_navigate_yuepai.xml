@@ -1,22 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              xmlns:yuepai="http://schemas.android.com/apk/res-auto">
+                xmlns:yuepai="http://schemas.android.com/apk/res-auto">
+
+
     <android.support.percent.PercentFrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:loginlayout="http://schemas.android.com/apk/res-auto"
+        android:windowTranslucentStatus="true"
+        android:windowTranslucentNavigation="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
     <cn.bingoogolapple.bgabanner.BGABanner
+        android:windowTranslucentStatus="true"
+        android:windowTranslucentNavigation="true"
         android:layout_height="0dp"
         android:layout_width="0dp"
-        loginlayout:layout_heightPercent="80%"
-        loginlayout:layout_widthPercent="80%"
+        loginlayout:layout_heightPercent="100%"
+        loginlayout:layout_widthPercent="100%"
         android:id="@+id/banner_main_zoom"
         style="@style/BannerDefaultStyle"
+        android:layout_gravity="center_horizontal|top"
         yuepai:banner_transitionEffect="zoom" />
-    </android.support.percent.PercentFrameLayout>
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/yuepainavi"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        loginlayout:layout_heightPercent="15%"
+        loginlayout:layout_widthPercent="60%"
+        android:textColor="#ffffff"
+        android:textSize="45sp"
+        android:text="@string/yuepainavi1"
+        android:layout_gravity="start|bottom"
+        android:layout_marginStart="10dp"/>
+
+</android.support.percent.PercentFrameLayout>
+</RelativeLayout>

@@ -1,5 +1,6 @@
 package com.example.pc.vita.Activity;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -22,6 +23,7 @@ import com.example.pc.vita.Data.Model.UserModel;
 import com.example.pc.vita.Fragment.MainFragment;
 import com.example.pc.vita.Fragment.UserFragment;
 import com.example.pc.vita.Fragment.YuePaiFragment;
+import com.example.pc.vita.Fragment.YuePaiNavigation;
 import com.example.pc.vita.R;
 
 import org.json.JSONException;
@@ -44,10 +46,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //四个功能项Fragment
     private MainFragment mainFragment;
-    private YuePaiFragment yuePaiFragment;
+    private YuePaiNavigation yuePaiFragment;
     private FindFragment findFragment;
     private UserFragment userFragment;
-
+    private Toolbar toolbar;
     //Fragment切换按钮
     private Button btn_main;
     private Button btn_find;
@@ -59,12 +61,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        //setSupportActionBar(toolbar);
         Window window = getWindow();
         //4.4版本及以上
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            window.setFlags(
-                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
-                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
         //5.0版本及以上
@@ -93,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_yuepai.setSelected(true);
         toYuePai();
         fragmentTrs.commit();
+
     }
 
     private void initNetworkData() {
@@ -171,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void toYuePai(){
         if(yuePaiFragment == null){
-            yuePaiFragment = new YuePaiFragment();
+            yuePaiFragment = new YuePaiNavigation();
             fragmentTrs.add(R.id.fl_content, yuePaiFragment);
         }else{
             btn_yuepai.setSelected(true);
