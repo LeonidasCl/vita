@@ -5,9 +5,6 @@ import android.content.Context;
 import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
-
-import com.example.pc.vita.Data.Cache.RAMimageCache;
-import com.example.pc.vita.Data.Cache.SDimageCache;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -17,20 +14,19 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import java.io.File;
 
 /**
+ *
  * Created by pc on 2016/4/21.
  */
 public class APP extends Application {
 
     public static Context context;
-    public static RAMimageCache RAMcache;
-    public static SDimageCache SDcache;
+
 
 
     @Override public void onCreate() {
         super.onCreate();
         context = this;
-        RAMcache=new RAMimageCache();
-        SDcache=new SDimageCache();
+
 
         applicationContext = this;
         getScreenDimension();
@@ -113,7 +109,7 @@ public class APP extends Application {
                 .denyCacheImageMultipleSizesInMemory()
                 .diskCacheFileNameGenerator(new Md5FileNameGenerator())
                 .tasksProcessingOrder(QueueProcessingType.LIFO)
-                .memoryCacheSize(1 * 1024 * 1024)
+                .memoryCacheSize( 1024 * 1024)
                 .diskCacheSize(50 * 1024 * 1024)
                         // .discCacheFileCount(200)
                         // .defaultDisplayImageOptions(options)

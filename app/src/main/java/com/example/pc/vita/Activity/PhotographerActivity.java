@@ -33,7 +33,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.example.pc.vita.APP;
 import com.example.pc.vita.Adapter.ImageAddGridViewAdapter;
 import com.example.pc.vita.Adapter.ImagePagerAdapter;
@@ -62,6 +61,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ *
  * Created by pc on 2016/6/28.
  */
 public class PhotographerActivity extends AppCompatActivity implements View.OnClickListener, MyInterface.NetRequestIterface,
@@ -86,9 +86,9 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
 
     private GridView add_image_gridview;
     private int addPicCount = 1, addTakePicCount = 1, viewpagerPosition;
-    private List<String> uploadImgUrlList = new ArrayList<String>();
-    private List<Drawable> addPictureList = new ArrayList<Drawable>();
-    private List<String> pictureUrlList = new ArrayList<String>();
+    private List<String> uploadImgUrlList = new ArrayList<>();
+    private List<Drawable> addPictureList = new ArrayList<>();
+    private List<String> pictureUrlList = new ArrayList<>();
     private ImageAddGridViewAdapter imageAddGridViewAdapter;
     private ImagePagerAdapter imagePagerAdapter;
     private MyViewPager image_viewpager;

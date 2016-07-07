@@ -4,7 +4,7 @@ public class CommonUrl {
 
 	private static final String netUrl="http://203.195.182.52:8078/";
 	private static final String netImgUrl="http://203.195.182.52:8082/";
-	
+	public static final String getYuepaiNavigateurl = netUrl+"xxxxxxxxxx/xxxxxxxx/";
 	public static final String url = netUrl+"tongwan-gosu-service/json/";
 	public static final String imageUrl =netImgUrl+"gosu-pic/";
 	public static final String loginAccount= url + "accountLogin/loginAccountNew";//登录接口，登陆之后才能更换头像、发表主题

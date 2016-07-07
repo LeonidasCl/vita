@@ -19,7 +19,6 @@ import android.widget.RelativeLayout;
 
 import com.example.pc.vita.APP;
 import com.example.pc.vita.R;
-import com.example.pc.vita.Task.CToast;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;

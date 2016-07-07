@@ -12,17 +12,15 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.example.pc.vita.Task.BaseTask;
-import com.example.pc.vita.Task.TaskManager;
 import com.example.pc.vita.Util.DisplayUtil;
 
 /**
+ *
  * Created by pc on 2016/3/10.
  */
 public abstract class BaseSplashActivity extends AppCompatActivity {
 
     public static final int LOGIN_CHECK = 1;
-    private BackgroundTask mAuthTask = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +61,8 @@ public abstract class BaseSplashActivity extends AppCompatActivity {
         objectAnimator.start();
       //  mAuthTask = new BackgroundTask();
        // mAuthTask.execute((Void) null);
-        TaskManager.addTask(new BackgroundTask());
+        initNetworkData();
+        initCheck();
     }
 
 
@@ -77,11 +76,4 @@ public abstract class BaseSplashActivity extends AppCompatActivity {
     //获取闪屏界面结束后的activity
     abstract public Class getNextActivityClass();
 
-    private class BackgroundTask extends BaseTask {
-        @Override
-        public void run() {
-            initNetworkData();
-            initCheck();
-        }
-    }
 }

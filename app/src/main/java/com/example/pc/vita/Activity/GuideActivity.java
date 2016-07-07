@@ -30,32 +30,28 @@ public class GuideActivity extends AppCompatActivity implements View.OnClickList
 
     private TextView mSkipTv;
     private BGABanner mContentBanner;
-    // View view4;4张引导界面
-    int screenwidth;//屏幕宽度
-    Button btn_login,btn_regist;//登陆，注册按钮
+
+    Button btn_login,btn_regist;//登录，注册按钮
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_guide);
         checkPreference();
+        setContentView(R.layout.activity_guide);
         initialWidgets();//初始化控件
     }
 
     private void checkPreference() {
-
                 SharedPreferences settings = getSharedPreferences("setting", 0);
                 SharedPreferences.Editor editor = settings.edit();
                 int time = settings.getInt("time", 0);
                 if (time==0){
                     editor.putInt("time",++time);
-                    editor.commit();
+                    editor.apply();
                 }else{
-
                     finish();
                     //要关掉销毁Activity的动画，不然很丑
                     overridePendingTransition(0,0);
                     Intent intent=new Intent("android.intent.action.SPLASHACTIVITY");
-
                     startActivity(intent);
                 }
 
@@ -79,11 +75,11 @@ public class GuideActivity extends AppCompatActivity implements View.OnClickList
 
         View v = findViewById(R.id.guidebtn_login);//将按钮设置为透明
         btn_login= (Button)v;//注意，因为button在View4中，所以
-        v.getBackground().setAlpha(60);//0~255透明度值
+        v.getBackground().setAlpha(120);//0~255透明度值
 
         View v2 = findViewById(R.id.guidebtn_regist);//将按钮设置为透明
         btn_regist= (Button) v2;
-        v2.getBackground().setAlpha(60);//0~255透明度值
+        v2.getBackground().setAlpha(120);//0~255透明度值
 
         mSkipTv.setOnClickListener(this);
 
@@ -128,7 +124,7 @@ public class GuideActivity extends AppCompatActivity implements View.OnClickList
                         mSkipTv.setVisibility(View.VISIBLE);
                     }
                 } else if (position == mContentBanner.getItemCount() - 1) {
-                    mSkipTv.setVisibility(View.GONE);
+                    mSkipTv.setVisibility(View.VISIBLE);
                     btn_login.setVisibility(View.VISIBLE);
                     btn_regist.setVisibility(View.VISIBLE);
                     ViewCompat.setAlpha(btn_login, 1.0f);

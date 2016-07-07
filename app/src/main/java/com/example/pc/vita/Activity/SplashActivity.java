@@ -1,8 +1,5 @@
 package com.example.pc.vita.Activity;
 
-/**
- * Created by pc on 2016/3/10.
- */
 
 import android.util.Log;
 import android.view.View;
@@ -90,11 +87,8 @@ public class SplashActivity extends BaseSplashActivity implements MyInterface.Ne
         if (requestUrl.equals(CommonUrl.loginAccountNew)) {
 
             Gson gson = new Gson();
-            LoginDataModel loginStatusInfoObject = gson
-                    .fromJson(result,
-                            LoginDataModel.class);
-            String errorCode = loginStatusInfoObject
-                    .getErrorCode();
+            LoginDataModel loginStatusInfoObject = gson.fromJson(result, LoginDataModel.class);
+            String errorCode = loginStatusInfoObject.getErrorCode();
             if (errorCode.equals("0")) {
 
                 UserInfoUtil.getInstance().setAuthKey(

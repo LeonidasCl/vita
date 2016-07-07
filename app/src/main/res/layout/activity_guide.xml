@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
     style="@style/MatchMatch">
 
     <cn.bingoogolapple.bgabanner.BGABanner
@@ -29,13 +28,15 @@
     <Button
         android:layout_width="240dp"
         android:layout_height="70dp"
-        android:text="登陆"
+        android:text="登录"
         android:background="@drawable/shape"
         android:id="@+id/guidebtn_login"
         android:textSize="36sp"
         android:layout_gravity="center_horizontal"
-        android:layout_margin="30dp"
-        />
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"/>
     <Button
         android:layout_width="240dp"
         android:layout_height="70dp"
@@ -45,5 +46,7 @@
         android:textSize="36sp"
         android:layout_gravity="center_horizontal"
 
-        />
+        android:layout_below="@+id/guidebtn_login"
+        android:layout_alignStart="@+id/guidebtn_login"
+        android:layout_marginTop="41dp"/>
 </RelativeLayout>
