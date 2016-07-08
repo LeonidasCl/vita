@@ -1,62 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.percent.PercentFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.MainActivity"
-    tools:showIn="@layout/activity_main">
+    tools:showIn="@layout/activity_main"
+    xmlns:navilayout="http://schemas.android.com/apk/res-auto">
 
     <FrameLayout
         android:id="@+id/fl_content"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="12" >
-
+        navilayout:layout_heightPercent="100%"
+        navilayout:layout_widthPercent="100%">
     </FrameLayout>
 
     <LinearLayout
         android:id="@+id/fragment_list"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#20000000"
+        navilayout:layout_heightPercent="10%"
+        navilayout:layout_widthPercent="100%"
         android:orientation="horizontal"
-        android:paddingTop="0dp">
+        android:layout_gravity="bottom"
+        android:background="#60000000">
 
-        <Button
+        <ImageButton
+            android:contentDescription="@string/app_name"
             android:id="@+id/button_main"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#20000000"
-            android:text="主页"/>
+            android:src="@drawable/btn_maintab1"
+            android:scaleType="centerInside"
+            android:background="#60000000"
+        />
 
-        <Button
+        <ImageButton
+            android:contentDescription="@string/app_name"
             android:id="@+id/button_yuepai"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#20000000"
-            android:text="约拍"/>
+            android:src="@drawable/button_maintab2"
+            android:scaleType="centerInside"
+            android:background="#60000000"
+        />
 
-        <Button
+        <ImageButton
+            android:contentDescription="@string/app_name"
             android:id="@+id/button_find"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#20000000"
-            android:text="发现"/>
+            android:src="@drawable/button_maintab3"
+            android:scaleType="centerInside"
+            android:background="#60000000"
+         />
 
-        <Button
+        <ImageButton
+            android:contentDescription="@string/app_name"
             android:id="@+id/button_user"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#20000000"
-            android:text="我的"/>
+            android:src="@drawable/button_maintab4"
+            android:scaleType="centerInside"
+            android:background="#60000000"
+         />
 
     </LinearLayout>
 
-</LinearLayout>
+</android.support.percent.PercentFrameLayout>

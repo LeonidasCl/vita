@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.pc.vita.Fragment.FindFragment;
@@ -51,10 +52,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private UserFragment userFragment;
     private Toolbar toolbar;
     //Fragment切换按钮
-    private Button btn_main;
-    private Button btn_find;
-    private Button btn_yuepai;
-    private Button btn_user;
+    private ImageButton btn_main;
+    private ImageButton btn_find;
+    private ImageButton btn_yuepai;
+    private ImageButton btn_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,10 +115,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initView() {
 
-        btn_main=(Button)findViewById(R.id.button_main);
-        btn_find=(Button)findViewById(R.id.button_find);
-        btn_user=(Button)findViewById(R.id.button_user);
-        btn_yuepai=(Button)findViewById(R.id.button_yuepai);
+        btn_main=(ImageButton)findViewById(R.id.button_main);
+        btn_find=(ImageButton)findViewById(R.id.button_find);
+        btn_user=(ImageButton)findViewById(R.id.button_user);
+        btn_yuepai=(ImageButton)findViewById(R.id.button_yuepai);
 
         btn_main.setOnClickListener(this);
         btn_find.setOnClickListener(this);
