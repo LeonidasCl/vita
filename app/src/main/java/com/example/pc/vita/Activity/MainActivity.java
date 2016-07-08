@@ -1,5 +1,6 @@
 package com.example.pc.vita.Activity;
 
+import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Color;
@@ -56,14 +57,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageButton btn_find;
     private ImageButton btn_yuepai;
     private ImageButton btn_user;
+    private android.support.v7.app.ActionBar actbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //toolbar = (Toolbar) findViewById(R.id.main_toolbar);
-        //setSupportActionBar(toolbar);
+        toolbar = (Toolbar) findViewById(R.id.m_toolbar);
+        setSupportActionBar(toolbar);
         Window window = getWindow();
         //4.4版本及以上
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -82,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             window.setNavigationBarColor(Color.TRANSPARENT);
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
-
+        actbar=getSupportActionBar();
         initLocalData();
         initNetworkData();
         try {
@@ -96,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_yuepai.setSelected(true);
         toYuePai();
         fragmentTrs.commit();
+
 
     }
 
@@ -155,6 +158,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void toMain(){
+        actbar.show();
         if(mainFragment == null){
             mainFragment = new MainFragment();
             fragmentTrs.add(R.id.fl_content, mainFragment);
@@ -164,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void toFind(){
+        actbar.show();
         if(findFragment == null){
             findFragment = new FindFragment();
             fragmentTrs.add(R.id.fl_content, findFragment);
@@ -174,6 +179,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void toYuePai(){
+        actbar.hide();
         if(yuePaiFragment == null){
             yuePaiFragment = new YuePaiNavigation();
             fragmentTrs.add(R.id.fl_content, yuePaiFragment);
@@ -184,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void toUser(){
+        actbar.show();
         if(userFragment == null){
             userFragment = new UserFragment();
             fragmentTrs.add(R.id.fl_content, userFragment);

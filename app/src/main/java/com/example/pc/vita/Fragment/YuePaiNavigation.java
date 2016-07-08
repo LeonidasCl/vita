@@ -1,5 +1,6 @@
 package com.example.pc.vita.Fragment;
 
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.pc.vita.APP;
+import com.example.pc.vita.Activity.MainActivity;
 import com.example.pc.vita.Data.Model.PictureModel;
 import com.example.pc.vita.Network.MyInterface;
 import com.example.pc.vita.Network.NetRequest;
@@ -45,7 +47,7 @@ public class YuePaiNavigation extends android.support.v4.app.Fragment implements
     private YuePaiFragment yuepaiFragment;
     private ArrayList tips=new ArrayList();
     private TextView yuepainavi;
-    private Toolbar toolbar;
+
     public static int yuepaiStatus=0;//设置当前的约拍子页面种类：0-未选择 1-约模特 2-约摄影师 3-活动 4-榜单
 
 
@@ -87,6 +89,7 @@ public class YuePaiNavigation extends android.support.v4.app.Fragment implements
 
             }
         });
+
         return view;
     }
 
