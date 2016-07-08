@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -27,8 +28,11 @@ import com.example.pc.vita.Fragment.UserFragment;
 import com.example.pc.vita.Fragment.YuePaiFragment;
 import com.example.pc.vita.Fragment.YuePaiNavigation;
 import com.example.pc.vita.R;
+import com.example.pc.vita.Util.SystemBarTintManager;
 
 import org.json.JSONException;
+
+import java.lang.reflect.Field;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -65,12 +69,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.m_toolbar);
+
         setSupportActionBar(toolbar);
         Window window = getWindow();
         //4.4版本及以上
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            //创建状态栏的管理实例
+            SystemBarTintManager tintManager = new SystemBarTintManager(this);
+            //激活状态栏设置
+            tintManager.setStatusBarTintEnabled(true);
+            //设置状态栏颜色
+            tintManager.setTintResource(R.color.gold);
+            //激活导航栏设置
+            tintManager.setNavigationBarTintEnabled(true);
+            //设置导航栏颜色
+            tintManager.setNavigationBarTintResource(R.color.gold);
         }
         //5.0版本及以上
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -83,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             window.setStatusBarColor(Color.TRANSPARENT);
             window.setNavigationBarColor(Color.TRANSPARENT);
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            window.setStatusBarColor(getResources().getColor(R.color.gold, getTheme()));
         }
         actbar=getSupportActionBar();
         initLocalData();
@@ -100,6 +116,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fragmentTrs.commit();
 
 
+    }
+
+    @Override//不要忘记渲染APP动作条的overflow菜单
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_appbar, menu);
+        return true;
     }
 
     private void initNetworkData() {
@@ -159,6 +181,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void toMain(){
         actbar.show();
+
         if(mainFragment == null){
             mainFragment = new MainFragment();
             fragmentTrs.add(R.id.fl_content, mainFragment);
@@ -169,6 +192,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void toFind(){
         actbar.show();
+
         if(findFragment == null){
             findFragment = new FindFragment();
             fragmentTrs.add(R.id.fl_content, findFragment);
@@ -191,6 +215,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void toUser(){
         actbar.show();
+
         if(userFragment == null){
             userFragment = new UserFragment();
             fragmentTrs.add(R.id.fl_content, userFragment);
@@ -230,4 +255,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         }
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_favorite:
+                // User chose the "Settings" item, show the app settings UI...
+                return true;
+
+            case R.id.action_settings:
+                // User chose the "Favorite" action, mark the current item
+                // as a favorite...
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
+  /*  //force to show overflow menu in actionbar
+    private void getOverflowMenu() {
+        try {
+            ViewConfiguration config = ViewConfiguration.get(this);
+            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+            if(menuKeyField != null) {
+                menuKeyField.setAccessible(true);
+                menuKeyField.setBoolean(config, false);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }*/
+
 }

@@ -45,4 +45,6 @@
     <string name="text_login_btn">  登   录</string>
     <string name="new_user">新用户注册</string>
     <string name="yuepainavi1">约模特</string>
+    <string name="action_favorite">收藏</string>
+    <string name="action_settings">设置</string>
 </resources>
