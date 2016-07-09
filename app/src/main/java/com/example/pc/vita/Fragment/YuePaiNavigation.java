@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -47,7 +48,7 @@ public class YuePaiNavigation extends android.support.v4.app.Fragment implements
     private YuePaiFragment yuepaiFragment;
     private ArrayList tips=new ArrayList();
     private TextView yuepainavi;
-
+    private Toolbar toolbar;
     public static int yuepaiStatus=0;//设置当前的约拍子页面种类：0-未选择 1-约模特 2-约摄影师 3-活动 4-榜单
 
 

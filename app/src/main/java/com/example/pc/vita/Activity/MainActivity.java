@@ -6,19 +6,25 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewConfiguration;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.pc.vita.Fragment.FindFragment;
@@ -33,6 +39,7 @@ import com.example.pc.vita.Util.SystemBarTintManager;
 import org.json.JSONException;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -62,15 +69,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageButton btn_yuepai;
     private ImageButton btn_user;
     private android.support.v7.app.ActionBar actbar;
+    private TextView toolbarTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        //获取toolbar
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.m_toolbar);
-
+        //将这个toolbar设置为actionBar
         setSupportActionBar(toolbar);
+
+  /*      //尝试获取toolbar的标题TextView
+        CharSequence actionbarTitle =  toolbar.getTitle();
+        for(int i= 0; i < toolbar.getChildCount(); i++){
+            View v = toolbar.getChildAt(i);
+            if(v != null && v instanceof TextView){
+                TextView t = (TextView) v;
+                CharSequence title = t.getText();
+                if(!TextUtils.isEmpty(title) && actionbarTitle.equals(title) && t.getId() == View.NO_ID){
+                    //Toolbar does not assign id to views with layout params SYSTEM, hence getId() == View.NO_ID
+                    //in same manner subtitle TextView can be obtained.
+                    toolbarTitle=t;
+                }
+            }
+        }*/
+
+        actbar=getSupportActionBar();
+        if (actbar!=null)
+        actbar.setDisplayShowTitleEnabled(false);
+
+
+       TextView text=(TextView)findViewById(R.id.m_toolbar_title);
+       text.setText("未登录");
+
         Window window = getWindow();
         //4.4版本及以上
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -95,12 +128,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.TRANSPARENT);
-            window.setNavigationBarColor(Color.TRANSPARENT);
-            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            window.setStatusBarColor(getResources().getColor(R.color.gold, getTheme()));
+            //设置状态栏颜色
+            window.setStatusBarColor(getResources().getColor(R.color.gold));
+            //设置导航栏颜色
+            window.setNavigationBarColor(getResources().getColor(R.color.gold));
         }
-        actbar=getSupportActionBar();
+        //actbar.setTitle("未登录");
         initLocalData();
         initNetworkData();
         try {
@@ -114,7 +147,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_yuepai.setSelected(true);
         toYuePai();
         fragmentTrs.commit();
-
 
     }
 
@@ -180,9 +212,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void toMain(){
-        actbar.show();
-
-        if(mainFragment == null){
+     if(mainFragment == null){
             mainFragment = new MainFragment();
             fragmentTrs.add(R.id.fl_content, mainFragment);
         }else{
@@ -191,8 +221,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void toFind(){
-        actbar.show();
-
         if(findFragment == null){
             findFragment = new FindFragment();
             fragmentTrs.add(R.id.fl_content, findFragment);
@@ -203,7 +231,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void toYuePai(){
-        actbar.hide();
         if(yuePaiFragment == null){
             yuePaiFragment = new YuePaiNavigation();
             fragmentTrs.add(R.id.fl_content, yuePaiFragment);
@@ -214,8 +241,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void toUser(){
-        actbar.show();
-
         if(userFragment == null){
             userFragment = new UserFragment();
             fragmentTrs.add(R.id.fl_content, userFragment);
@@ -290,4 +315,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }*/
 
+    @Override
+    public boolean onMenuOpened(int featureId,Menu menu){
+
+        boolean ret= super.onMenuOpened(featureId,menu);
+        setOverflowIconVisible(featureId,menu);
+        return ret;
+    }
+    /**
+     * 利用反射让隐藏在Overflow中的MenuItem显示Icon图标
+     * @param featureId
+     * @param menu
+     * onMenuOpened方法中调用
+     */
+    public static void setOverflowIconVisible(int featureId, Menu menu) {
+        if (featureId == Window.FEATURE_ACTION_BAR && menu != null) {
+            if (menu.getClass().getSimpleName().equals("MenuBuilder")) {
+                try {
+                    Method m = menu.getClass().getDeclaredMethod("setOptionalIconsVisible", Boolean.TYPE);
+                    m.setAccessible(true);
+                    m.invoke(menu, true);
+                } catch (Exception e) {
+                }
+            }
+        }
+    }
 }
