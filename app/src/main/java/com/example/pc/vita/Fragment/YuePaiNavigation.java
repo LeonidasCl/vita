@@ -122,6 +122,8 @@ public class YuePaiNavigation extends android.support.v4.app.Fragment implements
         mSideZoomBanner.setDelegate(new BGABanner.Delegate() {
             @Override
             public void onClickBannerItem(int position) {
+
+               if(position==2) {//如果是活动界面
                 if (yuepaiFragment == null) {
                     yuepaiFragment = new YuePaiFragment();
                 }
@@ -130,6 +132,7 @@ public class YuePaiNavigation extends android.support.v4.app.Fragment implements
                 fragmentTrs.replace(R.id.fl_content, yuepaiFragment);
                 fragmentTrs.addToBackStack(null);
                 fragmentTrs.commit();
+               }
 
             }
         });
