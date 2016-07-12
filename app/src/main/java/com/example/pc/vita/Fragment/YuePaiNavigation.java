@@ -133,7 +133,6 @@ public class YuePaiNavigation extends android.support.v4.app.Fragment implements
                 fragmentTrs.addToBackStack(null);
                 fragmentTrs.commit();
                }
-
             }
         });
     }

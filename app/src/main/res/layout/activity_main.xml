@@ -6,7 +6,6 @@
     android:fitsSystemWindows="true"
     tools:context=".Activity.MainActivity">
 
-
     <include
         layout="@layout/toolbar_layout"
         android:layout_width="match_parent"
