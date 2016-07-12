@@ -1,14 +1,11 @@
 package com.example.pc.vita.Fragment;
 
-import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -17,7 +14,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.pc.vita.APP;
-import com.example.pc.vita.Activity.MainActivity;
 import com.example.pc.vita.Data.Model.PictureModel;
 import com.example.pc.vita.Network.MyInterface;
 import com.example.pc.vita.Network.NetRequest;
@@ -45,7 +41,8 @@ public class YuePaiNavigation extends android.support.v4.app.Fragment implements
     private int naviContent=4;
     FragmentManager fragmentManager;
     private FragmentTransaction fragmentTrs;
-    private YuePaiFragment yuepaiFragment;
+    private activityFragment yuepaiFragment;
+    private YuePaiFragmentA yuePaiFragmentA;
     private ArrayList tips=new ArrayList();
     private TextView yuepainavi;
     private Toolbar toolbar;
@@ -123,9 +120,24 @@ public class YuePaiNavigation extends android.support.v4.app.Fragment implements
             @Override
             public void onClickBannerItem(int position) {
 
+                if (position==0){
+                    if (yuePaiFragmentA == null) {
+                        yuePaiFragmentA = new YuePaiFragmentA();
+                    }
+
+                    fragmentTrs = fragmentManager.beginTransaction();
+                    fragmentTrs.replace(R.id.fl_content, yuePaiFragmentA);
+                    fragmentTrs.addToBackStack(null);
+                    fragmentTrs.commit();
+                }
+
+                if (position==1){
+
+                }
+
                if(position==2) {//如果是活动界面
                 if (yuepaiFragment == null) {
-                    yuepaiFragment = new YuePaiFragment();
+                    yuepaiFragment = new activityFragment();
                 }
 
                 fragmentTrs = fragmentManager.beginTransaction();
@@ -133,6 +145,10 @@ public class YuePaiNavigation extends android.support.v4.app.Fragment implements
                 fragmentTrs.addToBackStack(null);
                 fragmentTrs.commit();
                }
+
+                if (position==3){//榜单界面
+
+                }
             }
         });
     }

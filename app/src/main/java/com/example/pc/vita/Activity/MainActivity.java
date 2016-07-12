@@ -1,45 +1,29 @@
 package com.example.pc.vita.Activity;
 
-import android.app.ActionBar;
-import android.app.Fragment;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewConfiguration;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.pc.vita.Fragment.FindFragment;
 import com.example.pc.vita.Data.Model.UserModel;
 import com.example.pc.vita.Fragment.MainFragment;
 import com.example.pc.vita.Fragment.UserFragment;
-import com.example.pc.vita.Fragment.YuePaiFragment;
 import com.example.pc.vita.Fragment.YuePaiNavigation;
 import com.example.pc.vita.R;
 import com.example.pc.vita.Util.SystemBarTintManager;
 
 import org.json.JSONException;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
