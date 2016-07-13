@@ -45,7 +45,7 @@ import com.nineoldandroids.view.ViewPropertyAnimator;
  */
 public class CardView extends FrameLayout {
 
-	private static final int ITEM_SPACE = 40;
+	private static final int ITEM_SPACE = 30;
 	private static final int DEF_MAX_VISIBLE = 10;
 
 	private int mMaxVisible = DEF_MAX_VISIBLE;
@@ -131,8 +131,10 @@ public class CardView extends FrameLayout {
             //viewMap.put(index, viewHolder);
 			// 添加剩余的View时，始终处在最后
 			index = Math.min(adapterPosition, mMaxVisible - 1);
+            if (index!=0)
 			ViewHelper.setScaleX(view, ((mMaxVisible - index - 1) / (float) mMaxVisible) * 0.2f + 0.8f);
-			int topMargin = (mMaxVisible - index - 1) * 10;
+			//ViewHelper.setScaleY(view, ((mMaxVisible - index - 1) / (float) mMaxVisible) * 0.2f + 0.7f);
+			int topMargin = (mMaxVisible - index - 1) * 4;
 			ViewHelper.setTranslationY(view, topMargin);
 			ViewHelper.setAlpha(view, adapterPosition == 0 ? 1 : 0.5f);
 
@@ -153,7 +155,7 @@ public class CardView extends FrameLayout {
 		int widthMode = MeasureSpec.getMode(widthMeasureSpec);
 		int heightMode = MeasureSpec.getMode(heightMeasureSpec);
 		int widthSize = MeasureSpec.getSize(widthMeasureSpec);
-		int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+		int heightSize = MeasureSpec.getSize(heightMeasureSpec)+40;//临时矩形修正
 
 		int childCount = getChildCount();
 		int maxHeight = 0;
@@ -219,19 +221,19 @@ public class CardView extends FrameLayout {
     /**
      * 上移视图
      */
-    private boolean goUp() {
+    public boolean goUp() {
         final View topView = getChildAt(getChildCount() - 1);
         final int index=viewHolder.indexOfValue(topView);
 
        /* if (adapterPosition==10){
-            //return goDown();
+            //return goDown();((mMaxVisible - index - 1) / (float) mMaxVisible) * 0.2f + 0.8f
             adapterPosition=1;
         }*/
 
         topView.setEnabled(false);
 
         ViewPropertyAnimator anim = ViewPropertyAnimator
-                .animate(topView).scaleX(((mMaxVisible - adapterPosition % mMaxVisible - 1) / (float) mMaxVisible) * 0.2f + 0.8f)
+                .animate(topView).scaleX(((mMaxVisible - index - 1) / (float) mMaxVisible) * 0.2f + 0.8f)
                 .alpha(adapterPosition == 0 ? 1 : 0.5f)
                 .setListener(null).setDuration(200);
 
@@ -255,7 +257,7 @@ public class CardView extends FrameLayout {
 	/**
 	 * 下移视图
 	 */
-	private boolean goDown() {
+	public boolean goDown() {
 		final View topView = getChildAt(getChildCount() - 1);
         final int index=viewHolder.indexOfValue(topView);
 
@@ -320,14 +322,14 @@ public class CardView extends FrameLayout {
 	 */
 	private void bringToTop(final View view) {
 		topPosition++;
-		float scaleX = ViewHelper.getScaleX(view) + ((float) 1 / mMaxVisible)
+		/*float scaleX = ViewHelper.getScaleX(view) + ((float) 1 / mMaxVisible)
 				* 0.2f;
 		float tranlateY = ViewHelper.getTranslationY(view) + itemSpace;
-		/*ViewPropertyAnimator.animate(view).translationY(tranlateY)
+		ViewPropertyAnimator.animate(view).translationY(tranlateY)
 				.scaleX(scaleX).setDuration(200).alpha(1)
 				.setInterpolator(new AccelerateInterpolator());*/
         ViewPropertyAnimator.animate(view)
-                .scaleX(1).setDuration(200).alpha(1)
+                .scaleY(1).scaleX(1).setDuration(200).alpha(1)
                 .setInterpolator(new AccelerateInterpolator());
         view.bringToFront();
 	}

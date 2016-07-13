@@ -1,13 +1,14 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.activityFragment"
+    tools:context=".Fragment.YuePaiFragmentC"
     android:windowTranslucentStatus="true"
     android:windowTranslucentNavigation="true">
 
     <android.support.percent.PercentFrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_marginTop="?attr/actionBarSize"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#00ffff00">

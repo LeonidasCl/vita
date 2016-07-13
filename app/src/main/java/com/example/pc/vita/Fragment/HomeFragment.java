@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.example.pc.vita.R;
 
-public class MainFragment extends Fragment {
+public class HomeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

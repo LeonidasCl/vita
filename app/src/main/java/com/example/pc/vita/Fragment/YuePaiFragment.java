@@ -31,18 +31,18 @@ import cn.bingoogolapple.bgabanner.BGABanner;
 import cn.bingoogolapple.bgabanner.BGABannerUtil;
 
 /**
- *
+ * 约拍主界面（一级）
  * Created by pc on 2016/7/7.
  */
-public class YuePaiNavigation extends android.support.v4.app.Fragment implements  MyInterface.NetRequestIterface{
+public class YuePaiFragment extends android.support.v4.app.Fragment implements  MyInterface.NetRequestIterface{
 
     private BGABanner mSideZoomBanner;
     private NetRequest requestFragment;
     private int naviContent=4;
     FragmentManager fragmentManager;
     private FragmentTransaction fragmentTrs;
-    private activityFragment yuepaiFragment;
-    private YuePaiFragmentA yuePaiFragmentA;
+    private YuePaiFragmentC yuepaiFragment;
+    private YuePaiFragmentAB yuePaiFragmentAB;
     private ArrayList tips=new ArrayList();
     private TextView yuepainavi;
     private Toolbar toolbar;
@@ -52,7 +52,7 @@ public class YuePaiNavigation extends android.support.v4.app.Fragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_navigate_yuepai, container, false);
+        View view = inflater.inflate(R.layout.fragment_yuepai, container, false);
 
         mSideZoomBanner = (BGABanner) view.findViewById(R.id.banner_main_zoom);
         yuepainavi=(TextView)view.findViewById(R.id.yuepainavi);
@@ -121,23 +121,32 @@ public class YuePaiNavigation extends android.support.v4.app.Fragment implements
             public void onClickBannerItem(int position) {
 
                 if (position==0){
-                    if (yuePaiFragmentA == null) {
-                        yuePaiFragmentA = new YuePaiFragmentA();
+                    if (yuePaiFragmentAB == null) {
+                        yuePaiFragmentAB = new YuePaiFragmentAB();
+                        yuePaiFragmentAB.setEventflag(1);
                     }
 
                     fragmentTrs = fragmentManager.beginTransaction();
-                    fragmentTrs.replace(R.id.fl_content, yuePaiFragmentA);
+                    fragmentTrs.replace(R.id.fl_content, yuePaiFragmentAB);
                     fragmentTrs.addToBackStack(null);
                     fragmentTrs.commit();
                 }
 
                 if (position==1){
+                    if (yuePaiFragmentAB == null) {
+                        yuePaiFragmentAB = new YuePaiFragmentAB();
+                        yuePaiFragmentAB.setEventflag(2);
+                    }
 
+                    fragmentTrs = fragmentManager.beginTransaction();
+                    fragmentTrs.replace(R.id.fl_content, yuePaiFragmentAB);
+                    fragmentTrs.addToBackStack(null);
+                    fragmentTrs.commit();
                 }
 
                if(position==2) {//如果是活动界面
                 if (yuepaiFragment == null) {
-                    yuepaiFragment = new activityFragment();
+                    yuepaiFragment = new YuePaiFragmentC();
                 }
 
                 fragmentTrs = fragmentManager.beginTransaction();
@@ -164,7 +173,7 @@ public class YuePaiNavigation extends android.support.v4.app.Fragment implements
                 for (int i=0;i<naviContent;i++){
                     String currentCount="pic"+String.valueOf(i);
                     String picUrl=picStatusInfoObject.getPicUrl(currentCount);
-                    Glide.with(YuePaiNavigation.this)
+                    Glide.with(YuePaiFragment.this)
                             .load(picUrl)
                             .placeholder(R.drawable.holder)
                             .error(R.drawable.holder)

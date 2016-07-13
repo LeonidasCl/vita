@@ -17,9 +17,9 @@ import android.widget.TextView;
 
 import com.example.pc.vita.Fragment.FindFragment;
 import com.example.pc.vita.Data.Model.UserModel;
-import com.example.pc.vita.Fragment.MainFragment;
+import com.example.pc.vita.Fragment.HomeFragment;
 import com.example.pc.vita.Fragment.UserFragment;
-import com.example.pc.vita.Fragment.YuePaiNavigation;
+import com.example.pc.vita.Fragment.YuePaiFragment;
 import com.example.pc.vita.R;
 import com.example.pc.vita.Util.SystemBarTintManager;
 
@@ -42,8 +42,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FragmentTransaction fragmentTrs;
 
     //四个功能项Fragment
-    private MainFragment mainFragment;
-    private YuePaiNavigation yuePaiFragment;
+    private HomeFragment mainFragmentNavigation;
+    private YuePaiFragment yuePaiFragment;
     private FindFragment findFragment;
     private UserFragment userFragment;
     private Toolbar toolbar;
@@ -196,11 +196,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void toMain(){
-     if(mainFragment == null){
-            mainFragment = new MainFragment();
-            fragmentTrs.add(R.id.fl_content, mainFragment);
+     if(mainFragmentNavigation == null){
+            mainFragmentNavigation = new HomeFragment();
+            fragmentTrs.add(R.id.fl_content, mainFragmentNavigation);
         }else{
-            fragmentTrs.show(mainFragment);
+            fragmentTrs.show(mainFragmentNavigation);
         }
     }
 
@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void toYuePai(){
         if(yuePaiFragment == null){
-            yuePaiFragment = new YuePaiNavigation();
+            yuePaiFragment = new YuePaiFragment();
             fragmentTrs.add(R.id.fl_content, yuePaiFragment);
         }else{
             btn_yuepai.setSelected(true);
@@ -238,9 +238,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_find.setSelected(false);
         btn_yuepai.setSelected(false);
         btn_user.setSelected(false);
-        if(mainFragment != null){
+        if(mainFragmentNavigation != null){
             //
-            fragmentTrs.hide(mainFragment);
+            fragmentTrs.hide(mainFragmentNavigation);
         }
         if(findFragment != null){
             fragmentTrs.hide(findFragment);

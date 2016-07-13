@@ -5,6 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="?attr/actionBarSize"
     tools:context=".Activity.MainActivity"
     tools:showIn="@layout/activity_main"
     xmlns:navilayout="http://schemas.android.com/apk/res-auto">
@@ -33,7 +34,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/btn_maintab1"
+            android:src="@drawable/btn_main_selector"
             android:scaleType="centerInside"
             android:background="#60000000"
         />
@@ -44,7 +45,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/button_maintab2"
+            android:src="@drawable/btn_yuepai_selector"
             android:scaleType="centerInside"
             android:background="#60000000"
         />
@@ -55,7 +56,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/button_maintab3"
+            android:src="@drawable/btn_find_selector"
             android:scaleType="centerInside"
             android:background="#60000000"
          />
@@ -66,11 +67,13 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/button_maintab4"
+            android:src="@drawable/btn_user_selector"
             android:scaleType="centerInside"
             android:background="#60000000"
          />
 
     </LinearLayout>
+
+
 
 </android.support.percent.PercentFrameLayout>

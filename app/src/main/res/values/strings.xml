@@ -47,5 +47,6 @@
     <string name="yuepainavi1">约模特</string>
     <string name="action_favorite">收藏</string>
     <string name="action_settings">设置</string>
-    <string name="inloading">数据加载中</string>
+    <string name="inloading">加载中...</string>
+    <string name="yuepai_hint">点击翻开查看</string>
 </resources>

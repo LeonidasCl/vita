@@ -15,16 +15,17 @@ import com.example.pc.vita.Activity.PhotographerActivity;
 import com.example.pc.vita.Activity.activityActivity;
 import com.example.pc.vita.R;
 
-public class activityFragment extends Fragment {
+public class YuePaiFragmentC extends Fragment {
 
     private Activity yuepai;
+    private View navibar;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         yuepai=this.getActivity();
-        View view = inflater.inflate(R.layout.fragment_huo_dong, container, false);
+        View view = inflater.inflate(R.layout.fragment_yue_pai_c, container, false);
 
      /*   view.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -58,8 +59,17 @@ public class activityFragment extends Fragment {
                 startActivity(new Intent(yuepai, activityActivity.class));
             }
         });
+
+        navibar=yuepai.findViewById(R.id.fragment_list);
+        navibar.setVisibility(View.GONE);
+        
         return view;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        navibar.setVisibility(View.VISIBLE);
+    }
 
 }

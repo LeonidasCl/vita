@@ -1,19 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#00688B"
                 android:clipChildren="false"
+                android:windowTranslucentStatus="true"
+                android:windowTranslucentNavigation="true"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
     >
 
-    <com.example.pc.vita.View.Custom.CardView
-        android:id="@+id/cardView1"
+    <android.support.percent.PercentFrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clipChildren="false"
-        >
-    </com.example.pc.vita.View.Custom.CardView>
+        android:layout_height="match_parent"
+        android:background="#66333333">
+
+        <RelativeLayout
+            android:id="@+id/yuepai_avatars_a"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_heightPercent="60%"
+            app:layout_widthPercent="25%"
+            android:layout_gravity="center_vertical"
+            android:background="#00688B"
+            >
+        </RelativeLayout>
+
+    <android.support.percent.PercentRelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_heightPercent="100%"
+        app:layout_widthPercent="75%"
+        android:layout_gravity="end"
+        android:background="#00000000"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true">
+
+        <ImageButton
+            android:contentDescription="@string/app_name"
+            android:id="@+id/btn_previouscard"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_heightPercent="10%"
+            app:layout_widthPercent="100%"
+            android:layout_gravity="top"
+            android:src="@drawable/uparrow"
+            android:background="#00000000"
+            android:scaleType="centerInside"/>
+
+        <com.example.pc.vita.View.Custom.CardView
+            android:id="@+id/yuepai_cards_a"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_heightPercent="80%"
+            app:layout_widthPercent="95%"
+            android:layout_gravity="center_horizontal"
+            app:layout_marginTopPercent="6%"
+
+            android:clipChildren="false"
+            >
+        </com.example.pc.vita.View.Custom.CardView>
+
+        <ImageButton
+            android:contentDescription="@string/app_name"
+            android:id="@+id/btn_nextcard"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_heightPercent="10%"
+            app:layout_widthPercent="100%"
+            app:layout_marginTopPercent="90%"
+            android:src="@drawable/downarrow"
+            android:background="#00000000"
+            android:scaleType="centerInside"/>
+
+    </android.support.percent.PercentRelativeLayout>
+
+    </android.support.percent.PercentFrameLayout>
 
     <LinearLayout
         android:id="@+id/contentView"
@@ -22,4 +84,5 @@
         android:orientation="vertical"
         >
     </LinearLayout>
-</RelativeLayout>
+
+</FrameLayout>

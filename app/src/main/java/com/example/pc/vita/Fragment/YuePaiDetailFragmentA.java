@@ -15,6 +15,9 @@ import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
+/*
+* 单条约拍项打开的页面
+* */
 public class YuePaiDetailFragmentA extends Fragment {
 	private TextView tv;
 	private View root;
@@ -34,7 +37,7 @@ public class YuePaiDetailFragmentA extends Fragment {
 			@Override
 			public void onClick(View v) {}
 		});
-		tv = (TextView) root.findViewById(R.id.textView);
+		//tv = (TextView) root.findViewById(R.id.textView);
 		root.findViewById(R.id.button).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -53,11 +56,11 @@ public class YuePaiDetailFragmentA extends Fragment {
 		});
 	}
 	
-	public void show(final View view,Bundle bundle){
+	public void show(final View view/*,Bundle bundle*/){
 		view.setEnabled(false);
 		this.view = view;
-		String text = bundle.getString("text");
-		tv.setText(text);
+		//String text = bundle.getString("text");
+		//tv.setText(text);
 		ViewHelper.setRotationY(view, 0);
 		ViewHelper.setRotationY(root, -90);
 		root.setVisibility(View.VISIBLE);
