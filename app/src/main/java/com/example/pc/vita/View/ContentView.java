@@ -1,13 +1,26 @@
 package com.example.pc.vita.View;
 
 import android.content.Context;
+import android.os.Handler;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.chanven.lib.cptr.PtrClassicFrameLayout;
+import com.chanven.lib.cptr.PtrDefaultHandler;
+import com.chanven.lib.cptr.PtrFrameLayout;
+import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
+import com.chanven.lib.cptr.recyclerview.RecyclerAdapterWithHF;
+import com.example.pc.vita.Data.Model.ActivityItem;
 import com.example.pc.vita.R;
-import com.example.pc.vita.View.Custom.YuePaiItem;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,10 +29,19 @@ import java.util.List;
  */
 public class ContentView extends TouchMoveView {
 
-	List<ListItem> list = new ArrayList<ListItem>();
-	ListView listView;
+	//List<ListItem> list = new ArrayList<ListItem>();
+	//ListView listView;
     Context context;
     View parent;
+
+    PtrClassicFrameLayout ptrClassicFrameLayout;
+    RecyclerView mRecyclerView;
+    private List<String> mData = new ArrayList<String>();
+    private RecyclerAdapter adapter;
+    private RecyclerAdapterWithHF mAdapter;
+    Handler handler = new Handler();
+
+    int page = 0;
 
 	public ContentView(Context context) {
 		super(context);
@@ -41,19 +63,17 @@ public class ContentView extends TouchMoveView {
 
     //这个init必须由父view在inflate完成后调用
 	public void init() {
-        YuePaiItem apple = new YuePaiItem("Apple");
+       /* ActivityItem apple = new ActivityItem("Apple");
         list.add(apple);
-        YuePaiItem banana = new YuePaiItem("banana");
+        ActivityItem banana = new ActivityItem("banana");
         list.add(banana);
-        YuePaiItem orange = new YuePaiItem("orange");
+        ActivityItem orange = new ActivityItem("orange");
         list.add(orange);
         list.add(orange);
         list.add(banana);list.add(banana);list.add(apple);list.add(orange);list.add(banana);list.add(orange);
         list.add(apple);list.add(orange);list.add(apple);list.add(orange);list.add(banana);list.add(orange);
         list.add(apple);list.add(banana);list.add(orange);list.add(apple);list.add(orange);list.add(apple);
         list.add(banana);list.add(banana);list.add(apple);list.add(orange);list.add(apple);list.add(orange);
-
-
         listView = (ListView)findViewById(R.id.yuepai_list_view);
         listView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -63,9 +83,75 @@ public class ContentView extends TouchMoveView {
                 return false;
             }
         });
+        ListFactory.createList(context,R.layout.yuepai_item,list,listView);*/
 
+        ptrClassicFrameLayout = (PtrClassicFrameLayout) this.findViewById(R.id.huodong_view_frame);
+        mRecyclerView = (RecyclerView) this.findViewById(R.id.huodong_recycler_view);
 
-        ListFactory.createList(context,R.layout.yuepai_item,list,listView);
+        adapter = new RecyclerAdapter(context, mData);
+        mAdapter = new RecyclerAdapterWithHF(adapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        mRecyclerView.setAdapter(mAdapter);
+        ptrClassicFrameLayout.postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                ptrClassicFrameLayout.autoRefresh(true);
+            }
+        }, 150);
+
+        ptrClassicFrameLayout.setPtrHandler(new PtrDefaultHandler() {
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        page = 0;
+                        mData.clear();
+                        for (int i = 0; i < 17; i++) {
+                            mData.add(new String("  RecyclerView item  -" + i));
+                        }
+                        mAdapter.notifyDataSetChanged();
+                        ptrClassicFrameLayout.refreshComplete();
+                        ptrClassicFrameLayout.setLoadMoreEnable(true);
+                    }
+                }, 2000);
+            }
+        });
+
+        ptrClassicFrameLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+
+            @Override
+            public void loadMore() {
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mData.add(new String("  RecyclerView item  - add " + page));
+                        mAdapter.notifyDataSetChanged();
+                        ptrClassicFrameLayout.loadMoreComplete(true);
+                        page++;
+                        //Toast.makeText(RecyclerViewActivity.this, "load more complete", Toast.LENGTH_SHORT).show();
+                    }
+                }, 1000);
+            }
+        });
+
+        mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                parent.onTouchEvent(event);
+                return false;
+            }
+        });
+
+      /*  mRecyclerView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });*/
+
 	}
 
 
@@ -90,10 +176,8 @@ public class ContentView extends TouchMoveView {
 	 * @return
 	 */
 	public int getShowOffset() {
-
 		return mHideStopMarginTop - getMarginTop();
 	}
-
 
 	/**
 	 * 获取当前视图在恢复过程中已经滑离展示停止位置的距离
@@ -102,31 +186,42 @@ public class ContentView extends TouchMoveView {
 	public int getHideOffset() {
 		return getMarginTop() - mShowStopMarginTop;
 	}
+    public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+        private List<String> datas;
+        private LayoutInflater inflater;
 
-   /* @Override
-    //在顶部导航按钮还在的时候要拦截触摸事件让动画显示
-    public boolean onInterceptTouchEvent(MotionEvent ev){
-        //return  super.onInterceptTouchEvent(ev);
-        return false;
-    }*/
+        public RecyclerAdapter(Context context, List<String> data) {
+            super();
+            inflater = LayoutInflater.from(context);
+            datas = data;
+        }
 
-    /*licl 2016.6.27
-       由于listview是可点击的，ret值为true
-       如果在这里强行返回false，将导致父view（MoveHideView）的dispatch->onTouch执行
-       其实父view什么都没有放，所以执行它们看不到任何效果
-       要执行两个，listView的滑动（没有覆盖掉的话，默认就是有的）
-       和 contentview（本view）的滑动动画--用监听+显示调用实现了
-       */
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev){
-        boolean ret=super.dispatchTouchEvent(ev);
-        return ret;
+        @Override
+        public int getItemCount() {
+            return datas.size();
+        }
+
+        @Override
+        public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+            ChildViewHolder holder = (ChildViewHolder) viewHolder;
+            holder.itemTv.setText(datas.get(position));
+        }
+
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewHolder, int position) {
+            View view = inflater.inflate(R.layout.huodong_item_layout, null);
+            return new ChildViewHolder(view);
+        }
+
     }
 
-   /* @Override
-    public boolean onTouchEvent(MotionEvent event) {
-       super.onTouchEvent(event);
-        return false;
-    }*/
+    public class ChildViewHolder extends RecyclerView.ViewHolder {
+        public TextView itemTv;
 
+        public ChildViewHolder(View view) {
+            super(view);
+            itemTv = (TextView) view;
+        }
+
+    }
 }

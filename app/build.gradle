@@ -32,6 +32,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
     compile 'com.android.support:percent:23.2.1'
+    compile 'com.chanven.lib:cptr:1.0.0'
     compile files('src/main/java/libs/universal-image-loader-1.9.5.jar')
     compile files('src/main/java/libs/gson-2.3.1.jar')
 }

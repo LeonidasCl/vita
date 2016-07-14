@@ -1,4 +1,4 @@
-package com.example.pc.vita.View.Custom;
+package com.example.pc.vita.Data.Model;
 
 import android.view.View;
 import android.widget.TextView;
@@ -9,11 +9,11 @@ import com.example.pc.vita.View.ListItem;
 /**
  * Created by Mercer on 2016/6/26.
  */
-public class YuePaiItem implements ListItem {
+public class ActivityItem implements ListItem {
 
     private String name;
 
-    public YuePaiItem(String name){
+    public ActivityItem(String name){
         this.name = name;
     }
 

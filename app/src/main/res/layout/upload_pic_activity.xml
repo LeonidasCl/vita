@@ -106,7 +106,7 @@
                     android:gravity="center"
                     android:padding="8dp"
                     android:text="@string/take_picture"
-                    android:textColor="@color/blue_text"
+                    android:textColor="@color/chocolate"
                     android:textSize="20sp" />
 
                 <View style="@style/horizontal_divider" >
@@ -119,7 +119,7 @@
                     android:gravity="center"
                     android:padding="8dp"
                     android:text="@string/select_local_picture"
-                    android:textColor="@color/blue_text"
+                    android:textColor="@color/chocolate"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -139,7 +139,7 @@
                     android:gravity="center"
                     android:padding="8dp"
                     android:text="@string/cancel"
-                    android:textColor="@color/blue_text"
+                    android:textColor="@color/chocolate"
                     android:clickable="true"
                     android:onClick="hideEditPhotoLayout"
                     android:textSize="20sp" />

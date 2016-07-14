@@ -11,6 +11,7 @@ import com.example.pc.vita.R;
 
 
 /**
+ * 活动列表页面
  * Created by pc on 2016/6/25.
  */
 public class MoveHideView extends FrameLayout implements TouchMoveView.TouchMoveListener {

@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+
     <color name="colorAccent">#ffffff</color>
-    <color name="gold">#D4AF37</color>
+    <color name="gold">#E6BF66</color>
     <color name="chocolate">#5C3317</color>
     <color name="item_selected_gray">#d9d9d9</color>
     <color name="edit_photo_bg_color">#f1f4f2</color>
-    <color name="blue_text">#007aff</color>
     <color name="aa_black">#aa000000</color>
     <color name="ee_black">#ee000000</color>
     <color name="cc_white">#ccffffff</color>
