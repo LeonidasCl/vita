@@ -101,6 +101,8 @@ public class YuePaiFragmentAB extends Fragment implements CardView.OnCardClickLi
         headerlist.setAdapter(new HeaderAdapter());
         headerlist.setClipToPadding(false);
         headerlist.setClipChildren(false);
+        headerlist.setVerticalScrollBarEnabled(true);//配合xml中滚动条null实现取消滚动条
+        //XML中fadingedge去掉滑到顶端/底端的效果
         headerlist.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -148,7 +150,7 @@ public class YuePaiFragmentAB extends Fragment implements CardView.OnCardClickLi
 
 
     private List<YuePaiDataModel> initData() {
-        yuepaiDatalist = new ArrayList<YuePaiDataModel>();
+        yuepaiDatalist = new ArrayList<>();
         //模拟从网络获取数据
         for (int i=0;i<10;i++)
         {
