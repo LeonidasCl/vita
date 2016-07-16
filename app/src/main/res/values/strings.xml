@@ -3,6 +3,8 @@
     <string name="action_login">登录</string>
     <string name="action_logout">注销</string>
     <string name="action_about">关于本软件</string>
+    <string name="huodong_time">YYYY-MM-DD HH:MM-HH:MM</string>
+    <string name="huodong_price">消费情况</string>
     <string name="title_activity_login">登录</string>
     <string name="forget_password">忘记密码了</string>
     <!-- Strings related to login -->
@@ -49,4 +51,11 @@
     <string name="action_settings">设置</string>
     <string name="inloading">加载中...</string>
     <string name="yuepai_hint">点击翻开查看</string>
+    <string name="huodong_location">活动详细地点正在加载......</string>
+    <string name="huodong_usrname">加载中...</string>
+    <string name="huodong_settime">发表时间</string>
+    <string name="huodong_describe">活动描述信息加载中...</string>
+    <string name="join_num">报名</string>
+    <string name="yuepai_piarse_num">000</string>
+    <string name="yuepai_join_num">(000)</string>
 </resources>

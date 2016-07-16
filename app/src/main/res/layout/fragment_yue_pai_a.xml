@@ -14,16 +14,7 @@
         android:layout_height="match_parent"
         android:background="#66333333">
 
-        <RelativeLayout
-            android:id="@+id/yuepai_avatars_a"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_heightPercent="60%"
-            app:layout_widthPercent="25%"
-            android:layout_gravity="center_vertical"
-            android:background="#00688B"
-            >
-        </RelativeLayout>
+
 
     <android.support.percent.PercentRelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -75,6 +66,24 @@
 
     </android.support.percent.PercentRelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/yuepai_avatars_a"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_heightPercent="90%"
+            app:layout_widthPercent="30%"
+            android:layout_gravity="top">
+
+            <ListView
+                android:id="@+id/yuepai_headerlist"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingRight="20dp"
+                android:paddingLeft="0dp"
+                android:divider="@null"
+                android:dividerHeight="0px" />
+
+        </RelativeLayout>
     </android.support.percent.PercentFrameLayout>
 
     <LinearLayout

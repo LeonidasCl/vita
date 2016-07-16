@@ -5,6 +5,7 @@
               android:layout_height="match_parent"
               android:background="@android:color/holo_purple"
               android:gravity="center">
+
     <com.chanven.lib.cptr.PtrClassicFrameLayout
         xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
         android:id="@+id/huodong_view_frame"

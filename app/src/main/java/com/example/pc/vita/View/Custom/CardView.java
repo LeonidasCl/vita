@@ -56,7 +56,7 @@ public class CardView extends FrameLayout {
 	private SparseArray<View> viewHolder = new SparseArray<View>();
     //private Map<Integer,SparseArray<View>> viewMap;
 	private OnCardClickListener mListener;
-	private int topPosition;
+	//private int topPosition;
 	private Rect topRect;
 
 	public interface OnCardClickListener {
@@ -79,7 +79,6 @@ public class CardView extends FrameLayout {
 	}
 
 	private void init() {
-        //viewMap=new HashMap<Integer, SparseArray<View>>();
 		topRect = new Rect();
 		ViewConfiguration con = ViewConfiguration.get(getContext());
 		mTouchSlop = con.getScaledTouchSlop();
@@ -147,7 +146,7 @@ public class CardView extends FrameLayout {
 
 			adapterPosition += 1;
 		}
-		// requestLayout();
+
 	}
 
 	@Override
@@ -193,7 +192,7 @@ public class CardView extends FrameLayout {
 		}
 	}
 
-	float downX, downY,upX,upY;
+	float downX, downY;
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
@@ -225,32 +224,54 @@ public class CardView extends FrameLayout {
         final View topView = getChildAt(getChildCount() - 1);
         final int index=viewHolder.indexOfValue(topView);
 
-       /* if (adapterPosition==10){
-            //return goDown();((mMaxVisible - index - 1) / (float) mMaxVisible) * 0.2f + 0.8f
-            adapterPosition=1;
-        }*/
-
         topView.setEnabled(false);
 
         ViewPropertyAnimator anim = ViewPropertyAnimator
                 .animate(topView).scaleX(((mMaxVisible - index - 1) / (float) mMaxVisible) * 0.2f + 0.8f)
-                .alpha(adapterPosition == 0 ? 1 : 0.5f)
-                .setListener(null).setDuration(200);
+                .alpha(0.5f)
+                .setListener(null).setDuration(100);
 
+        //防止重复监听
         final int[] flag = {0};
         anim.setListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 if (flag[0]==1)return;
                 topView.setEnabled(true);
-                adapterPosition-=1;
-                //adapterPosition += 1;
-                final int count = getChildCount();
                 View view=viewHolder.get((index-1)<0?9:index-1);
                 bringToTop(view);
                 flag[0] =1;
             }
         });
+        return true;
+    }
+
+	public boolean scrollCards(int order) throws InterruptedException {
+        final View topView = getChildAt(getChildCount() - 1);
+        final int index=viewHolder.indexOfValue(topView);
+        order-=3;
+        topView.setEnabled(false);
+
+        ViewPropertyAnimator anim = ViewPropertyAnimator
+                .animate(topView).scaleX(((mMaxVisible - index - 1) / (float) mMaxVisible) * 0.2f + 0.8f)
+                .alpha(adapterPosition == 0 ? 1 : 0.5f)
+                .setListener(null).setDuration(100);
+
+        final int front=order;
+        final int[] flag = {0};
+        anim.setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if (flag[0]==1)return;
+                super.onAnimationEnd(animation);
+                View view=viewHolder.get(front);
+                view.setEnabled(true);
+                bringToTop(view);
+                flag[0]=1;
+            }
+        });
+
+
         return true;
     }
 
@@ -264,49 +285,26 @@ public class CardView extends FrameLayout {
 		if(!topView.isEnabled()){
 			return false;
 		}
-		// topView.getHitRect(topRect); 在4.3以前有bug，用以下方法代替
 		topRect = getHitRect(topRect, topView);
 		// 如果按下的位置不在顶部视图上，则不移动
 		if (!topRect.contains((int) downX, (int) downY)) {
 			return false;
 		}
 
-        /*if (adapterPosition==1){
-            adapterPosition=10;
-        }*/
-
 		topView.setEnabled(false);
 
-		/*ViewPropertyAnimator anim = ViewPropertyAnimator
-				.animate(topView).scaleX(((mMaxVisible - getChildCount()+2) / (float) mMaxVisible) * 0.2f + 0.8f)
-				.translationY(topMargin).alpha(adapterPosition == 0 ? 1 : 0.5f)
-				.setListener(null).setDuration(200);*/
-
         ViewPropertyAnimator anim = ViewPropertyAnimator
-                .animate(topView).scaleX(((mMaxVisible - adapterPosition % mMaxVisible - 1) / (float) mMaxVisible) * 0.2f + 0.8f)
+                .animate(topView).scaleX(((mMaxVisible - index - 1) / (float) mMaxVisible) * 0.2f + 0.8f)
                 .alpha(adapterPosition == 0 ? 1 : 0.5f)
-                .setListener(null).setDuration(200);
+                .setListener(null).setDuration(100);
 
+        //防止重复监听
         final int[] flag = {0};
 		anim.setListener(new AnimatorListenerAdapter() {
 			@Override
 			public void onAnimationEnd(Animator animation) {
                 if (flag[0]==1)return;
 				topView.setEnabled(true);
-
-                //adapterPosition += 1;
-                adapterPosition+=1;
-
-				/*final int count = getChildCount();
-				for (int i = 0; i < count; i++) {
-					View view = getChildAt(i);
-					float scaleX = ViewHelper.getScaleX(view) + ((float) 1 / mMaxVisible) * 0.2f;
-					float tranlateY = ViewHelper.getTranslationY(view) + itemSpace;
-					if (i ==getChildCount()-adapterPosition%mMaxVisible-1) {
-						bringToTop(view);
-					} else {
-					}
-				}*/
                 View view=viewHolder.get((index+1)==10?0:index+1);
                 bringToTop(view);
                 flag[0] =1;
@@ -321,15 +319,9 @@ public class CardView extends FrameLayout {
 	 * @param view
 	 */
 	private void bringToTop(final View view) {
-		topPosition++;
-		/*float scaleX = ViewHelper.getScaleX(view) + ((float) 1 / mMaxVisible)
-				* 0.2f;
-		float tranlateY = ViewHelper.getTranslationY(view) + itemSpace;
-		ViewPropertyAnimator.animate(view).translationY(tranlateY)
-				.scaleX(scaleX).setDuration(200).alpha(1)
-				.setInterpolator(new AccelerateInterpolator());*/
+		//topPosition++;
         ViewPropertyAnimator.animate(view)
-                .scaleY(1).scaleX(1).setDuration(200).alpha(1)
+                .scaleY(1).scaleX(1).setDuration(100).alpha(1)
                 .setInterpolator(new AccelerateInterpolator());
         view.bringToFront();
 	}
@@ -356,8 +348,7 @@ public class CardView extends FrameLayout {
 		rect.left = child.getLeft();
 		rect.right = child.getRight();
 		rect.top = (int) (child.getTop() + ViewHelper.getTranslationY(child));
-		rect.bottom = (int) (child.getBottom() + ViewHelper
-				.getTranslationY(child));
+		rect.bottom = (int) (child.getBottom() + ViewHelper.getTranslationY(child));
 		return rect;
 	}
 
@@ -378,7 +369,7 @@ public class CardView extends FrameLayout {
 		@Override
 		public void onClick(View v) {
 			if (mListener != null) {
-				mListener.onCardClick(v, topPosition);
+				mListener.onCardClick(v,-1);
 			}
 		}
 	};
