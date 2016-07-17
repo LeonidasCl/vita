@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.example.pc.courseapp"
+        applicationId "com.example.pc.vita"
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
