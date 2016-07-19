@@ -1,17 +1,10 @@
 package com.example.pc.vita.Activity;
 
 
-import android.util.Log;
-import android.view.View;
-
 import com.example.pc.vita.APP;
 import com.example.pc.vita.Data.Model.LoginDataModel;
-import com.example.pc.vita.Data.Model.UserModel;
-import com.example.pc.vita.Network.BaseNetworkRequestor;
-import com.example.pc.vita.Network.LoginReciever;
-import com.example.pc.vita.Network.MyInterface;
+import com.example.pc.vita.Network.PhotoCallbackInterface;
 import com.example.pc.vita.Network.NetRequest;
-import com.example.pc.vita.Network.NetworkRecieverInterface;
 import com.example.pc.vita.R;
 import com.example.pc.vita.Util.CommonUrl;
 import com.example.pc.vita.Util.UserInfoUtil;
@@ -21,7 +14,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SplashActivity extends BaseSplashActivity implements MyInterface.NetRequestIterface {
+public class SplashActivity extends BaseSplashActivity implements PhotoCallbackInterface.NetRequestIterface {
 
     private NetRequest requestFragment;
 

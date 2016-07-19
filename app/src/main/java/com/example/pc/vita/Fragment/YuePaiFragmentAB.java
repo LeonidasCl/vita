@@ -186,7 +186,7 @@ public class YuePaiFragmentAB extends Fragment implements CardView.OnCardClickLi
                                    View convertView, ViewGroup parent) {
             if(convertView == null) {
                 LayoutInflater inflater = LayoutInflater.from(yuepai);
-                convertView = inflater.inflate(R.layout.item_layout, parent, false);
+                convertView = inflater.inflate(R.layout.item_yuapai_layout, parent, false);
             }
 
             ImageView cardPic=(ImageView)convertView.findViewById(R.id.yuepai_card_pic);
@@ -231,7 +231,7 @@ public class YuePaiFragmentAB extends Fragment implements CardView.OnCardClickLi
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
-                MatrixView m = (MatrixView) LayoutInflater.from(yuepai).inflate(R.layout.yuepai_header_item, null);
+                MatrixView m = (MatrixView) LayoutInflater.from(yuepai).inflate(R.layout.item_yuepai_header, null);
                 m.setParentHeight(headerlist.getHeight());
                 convertView = m;
             }

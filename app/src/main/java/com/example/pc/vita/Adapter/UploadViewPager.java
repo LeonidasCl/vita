@@ -7,17 +7,17 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 
-public class MyViewPager extends ViewPager {
+public class UploadViewPager extends ViewPager {
 
 	PointF downPoint = new PointF();
 	public static boolean ifIntercept = true;
 	OnSingleTouchListener onSingleTouchListener;
 
-	public MyViewPager(Context context) {
+	public UploadViewPager(Context context) {
 		super(context);
 	}
 
-	public MyViewPager(Context context, AttributeSet attrs) {
+	public UploadViewPager(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 
@@ -48,13 +48,6 @@ public class MyViewPager extends ViewPager {
 		}
 		return super.onTouchEvent(event);
 	}
-//
-//	public boolean onInterceptTouchEvent(MotionEvent event) {
-//		Log.d("gaolei", "onInterceptTouchEvent-------------");
-//		// 当拦截触摸事件到达此位置的时候，返回true，
-//		// 说明将onTouch拦截在此控件，进而执行此控件的onTouchEvent
-//		return ifIntercept;
-//	}
 
 	// 创建点击事件接口 
 	 

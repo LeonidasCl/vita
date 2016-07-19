@@ -1,7 +1,9 @@
 package com.example.pc.vita.View;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -9,19 +11,21 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.chanven.lib.cptr.PtrClassicFrameLayout;
 import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
 import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
 import com.chanven.lib.cptr.recyclerview.RecyclerAdapterWithHF;
-import com.example.pc.vita.Data.Model.ActivityItem;
+import com.example.pc.vita.Adapter.HuodongItemAdapter;
+import com.example.pc.vita.Data.Model.HuoDongItemModel;
 import com.example.pc.vita.R;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,19 +33,23 @@ import java.util.List;
  */
 public class ContentView extends TouchMoveView {
 
-	//List<ListItem> list = new ArrayList<ListItem>();
-	//ListView listView;
     Context context;
     View parent;
 
-    PtrClassicFrameLayout ptrClassicFrameLayout;
+    /*PtrClassicFrameLayout ptrClassicFrameLayout;
     RecyclerView mRecyclerView;
     private List<String> mData = new ArrayList<String>();
     private RecyclerAdapter adapter;
     private RecyclerAdapterWithHF mAdapter;
     Handler handler = new Handler();
+    int page = 0;*/
 
-    int page = 0;
+    private SwipeRefreshLayout refreshLayout;
+    private HuodongItemAdapter personAdapter;
+    private ListView listView;
+    private int bootCounter=0;
+    private int maxRecords = 400;
+
 
 	public ContentView(Context context) {
 		super(context);
@@ -62,30 +70,9 @@ public class ContentView extends TouchMoveView {
 	}
 
     //这个init必须由父view在inflate完成后调用
-	public void init() {
-       /* ActivityItem apple = new ActivityItem("Apple");
-        list.add(apple);
-        ActivityItem banana = new ActivityItem("banana");
-        list.add(banana);
-        ActivityItem orange = new ActivityItem("orange");
-        list.add(orange);
-        list.add(orange);
-        list.add(banana);list.add(banana);list.add(apple);list.add(orange);list.add(banana);list.add(orange);
-        list.add(apple);list.add(orange);list.add(apple);list.add(orange);list.add(banana);list.add(orange);
-        list.add(apple);list.add(banana);list.add(orange);list.add(apple);list.add(orange);list.add(apple);
-        list.add(banana);list.add(banana);list.add(apple);list.add(orange);list.add(apple);list.add(orange);
-        listView = (ListView)findViewById(R.id.yuepai_list_view);
-        listView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                // 只好在这里显示调用父view的动画，因为listView的事件往上冒泡时不知道传到哪里去了
-                parent.onTouchEvent(event);
-                return false;
-            }
-        });
-        ListFactory.createList(context,R.layout.yuepai_item,list,listView);*/
+	public void init(View view) {
 
-        ptrClassicFrameLayout = (PtrClassicFrameLayout) this.findViewById(R.id.huodong_view_frame);
+        /*ptrClassicFrameLayout = (PtrClassicFrameLayout) this.findViewById(R.id.huodong_view_frame);
         mRecyclerView = (RecyclerView) this.findViewById(R.id.huodong_recycler_view);
 
         adapter = new RecyclerAdapter(context, mData);
@@ -135,9 +122,16 @@ public class ContentView extends TouchMoveView {
                     }
                 }, 1000);
             }
-        });
+        });*/
 
-        mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
+
+
+        personAdapter = new HuodongItemAdapter(context,bootData(0));
+        listView = (ListView) view.findViewById(R.id.huodong_list);
+        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_huodong);
+        listView.setAdapter(personAdapter);
+
+        listView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 parent.onTouchEvent(event);
@@ -145,17 +139,43 @@ public class ContentView extends TouchMoveView {
             }
         });
 
-      /*  mRecyclerView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });*/
+        onScrollListener();
+        onRefreshListener();
 
 	}
 
+    private void onRefreshListener() {
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshLayout.setRefreshing(true);
+                bootCounter = 0;
+                personAdapter.refresh(bootData(0));
+                personAdapter.notifyDataSetChanged();
+                refreshLayout.setRefreshing(false);
+            }
+        });
+    }
 
-	public synchronized void onShowAnimation(float step) {
+    private void onScrollListener() {
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (firstVisibleItem + visibleItemCount > totalItemCount - 2 && totalItemCount < maxRecords) {
+                    personAdapter.add(bootData(0));
+                    personAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+    }
+
+
+    public synchronized void onShowAnimation(float step) {
 
 		if(isShowFinish()) {
 			return;
@@ -184,9 +204,28 @@ public class ContentView extends TouchMoveView {
 	 * @return
 	 */
 	public int getHideOffset() {
-		return getMarginTop() - mShowStopMarginTop;
-	}
-    public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+        return getMarginTop() - mShowStopMarginTop;
+    }
+
+    private List<HuoDongItemModel> bootData(int Type){
+        List<HuoDongItemModel> persons = new ArrayList<>();
+        for(int i=bootCounter;i<bootCounter+20;i++){
+            HuoDongItemModel huodong = new HuoDongItemModel();
+            huodong.setDescribe("活动描述信息加载中...不得少于十五字不得多于一百五十字");
+            huodong.setEndtime(new Date());
+            huodong.setStarttime(new Date());
+            huodong.setSetTime(new Date());
+            huodong.setJoinNum((int) Math.random() % 100);
+            huodong.setPraiseNum((int) Math.random() % 100);
+            huodong.setUsrName("用户" + i);
+            huodong.setLocation("这是活动地点");
+            huodong.setPrice(1234*i);
+        }
+        bootCounter+=20;
+        return persons;
+    }
+
+    /*public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private List<String> datas;
         private LayoutInflater inflater;
 
@@ -209,7 +248,7 @@ public class ContentView extends TouchMoveView {
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewHolder, int position) {
-            View view = inflater.inflate(R.layout.huodong_item_layout, null);
+            View view = inflater.inflate(R.layout.item__huodong_layout2, null);
             return new ChildViewHolder(view);
         }
 
@@ -223,5 +262,5 @@ public class ContentView extends TouchMoveView {
             itemTv = (TextView) view;
         }
 
-    }
+    }*/
 }

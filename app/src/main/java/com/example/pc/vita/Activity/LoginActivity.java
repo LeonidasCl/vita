@@ -3,21 +3,17 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.pc.vita.APP;
-import com.example.pc.vita.Network.MyInterface;
+import com.example.pc.vita.Network.PhotoCallbackInterface;
 import com.example.pc.vita.Network.NetRequest;
 import com.example.pc.vita.R;
 import com.example.pc.vita.Util.CommonUrl;
@@ -29,14 +25,12 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
 
 /**
  *
  */
-public class LoginActivity extends AppCompatActivity implements MyInterface.NetRequestIterface{
+public class LoginActivity extends AppCompatActivity implements PhotoCallbackInterface.NetRequestIterface{
 
     private TextView username;
     private TextView password;

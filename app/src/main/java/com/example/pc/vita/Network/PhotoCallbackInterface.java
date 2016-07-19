@@ -5,7 +5,7 @@ import java.io.IOException;
 /**
  *  项目中用到的回调接口
  */
-public class MyInterface {
+public class PhotoCallbackInterface {
 
     /**
      * 网络请求回调接口

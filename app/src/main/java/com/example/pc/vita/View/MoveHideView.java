@@ -243,8 +243,8 @@ public class MoveHideView extends FrameLayout implements TouchMoveView.TouchMove
         //ContentView需要移动的距离为其本身到顶部的MarginTop值减去ContentHeadView和PageHeadView两者的高度
         mContentView.setNeedMoveHeight(Math.abs(layoutParams.topMargin - mContentHeadViewHeight - mPageHeadViewHeight));
 
-        inflate(mContext, resId, mContentView);
-        mContentView.init();
+        View view=inflate(mContext, resId, mContentView);
+        mContentView.init(view);
         addView(mContentView);
     }
 

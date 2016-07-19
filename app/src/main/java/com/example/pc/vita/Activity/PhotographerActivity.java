@@ -36,19 +36,16 @@ import android.widget.TextView;
 import com.example.pc.vita.APP;
 import com.example.pc.vita.Adapter.ImageAddGridViewAdapter;
 import com.example.pc.vita.Adapter.ImagePagerAdapter;
-import com.example.pc.vita.Adapter.MyViewPager;
+import com.example.pc.vita.Adapter.UploadViewPager;
 import com.example.pc.vita.Adapter.PhotoViewAttacher;
-import com.example.pc.vita.Data.MainStruct.ThemeObject;
 import com.example.pc.vita.Fragment.ImageDisplayFragment;
-import com.example.pc.vita.Network.MyInterface;
+import com.example.pc.vita.Network.PhotoCallbackInterface;
 import com.example.pc.vita.Network.NetRequest;
 import com.example.pc.vita.R;
 import com.example.pc.vita.Util.CommonUrl;
 import com.example.pc.vita.Util.CommonUtils;
 import com.example.pc.vita.Util.UploadPhotoUtil;
 import com.example.pc.vita.Util.UserInfoUtil;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,8 +61,8 @@ import java.util.Map;
  *
  * Created by pc on 2016/6/28.
  */
-public class PhotographerActivity extends AppCompatActivity implements View.OnClickListener, MyInterface.NetRequestIterface,
-        MyInterface.OnSingleTapDismissBigPhotoListener {
+public class PhotographerActivity extends AppCompatActivity implements View.OnClickListener, PhotoCallbackInterface.NetRequestIterface,
+        PhotoCallbackInterface.OnSingleTapDismissBigPhotoListener {
 
     private final int UPLOAD_TAKE_PICTURE = 5;
 
@@ -91,7 +88,7 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
     private List<String> pictureUrlList = new ArrayList<>();
     private ImageAddGridViewAdapter imageAddGridViewAdapter;
     private ImagePagerAdapter imagePagerAdapter;
-    private MyViewPager image_viewpager;
+    private UploadViewPager image_viewpager;
     private boolean isBigImageShow = false, isShowUploadPic=false,addPic = false, clearFormerUploadUrlList = true;
     private EditText theme_title_edit, theme_desc_edit;
     private ListView theme_listview;
@@ -272,7 +269,7 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.upload_pic_activity);
+        setContentView(R.layout.activity_upload_pic);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window window = getWindow();
 
@@ -297,7 +294,7 @@ public class PhotographerActivity extends AppCompatActivity implements View.OnCl
         theme_desc_edit = (EditText) findViewById(R.id.theme_desc_edit);
         delete_image = (ImageView) findViewById(R.id.delete_image);
         add_image_gridview = (GridView) findViewById(R.id.add_image_gridview);
-        image_viewpager = (MyViewPager) findViewById(R.id.image_viewpager);
+        image_viewpager = (UploadViewPager) findViewById(R.id.image_viewpager);
         theme_listview = (ListView) findViewById(R.id.theme_listview);
         upload.setOnClickListener(this);
         delete_image.setOnClickListener(this);

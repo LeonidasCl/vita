@@ -153,7 +153,7 @@
         android:background="@color/ee_black"
         android:visibility="gone" >
 
-        <com.example.pc.vita.Adapter.MyViewPager
+        <com.example.pc.vita.Adapter.UploadViewPager
             android:id="@+id/image_viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

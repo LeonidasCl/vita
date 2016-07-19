@@ -9,7 +9,6 @@ import org.json.JSONException;
  */
 public interface NetworkRecieverInterface {
 
-
     /* licl 2016/3/5
     * 此接口用于保存所有网络请求的返回状态常量集
     * 最后一位：0表示正常，其余表示错误类型
@@ -38,10 +37,4 @@ public interface NetworkRecieverInterface {
     //评论中含有非法字符
     String RETURN_INTERACT_COMMENT_ILLIGAL="10021";
 
-
-    /*licl 2016/3/5
-    *已实现这个方法
-    *在这个方法中保存JSON包
-    * */
-    public void recieve(String result,Context context) throws JSONException;
 }

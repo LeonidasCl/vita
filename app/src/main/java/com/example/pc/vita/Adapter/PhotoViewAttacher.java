@@ -45,7 +45,7 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
-import com.example.pc.vita.Network.MyInterface.OnSingleTapDismissBigPhotoListener;
+import com.example.pc.vita.Network.PhotoCallbackInterface.OnSingleTapDismissBigPhotoListener;
 import com.example.pc.vita.View.Custom.Compat;
 import com.example.pc.vita.View.Custom.IPhotoView;
 import com.example.pc.vita.View.Custom.PhotoView;

@@ -26,7 +26,7 @@ public class YuePaiDetailFragmentA extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
-		root = inflater.inflate(R.layout.frag_layout, container,false);
+		root = inflater.inflate(R.layout.fragment_yuepai_detail, container,false);
 		initUI(root);
 		return root;
 	}

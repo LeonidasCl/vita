@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.pc.vita.APP;
 import com.example.pc.vita.Data.Model.PictureModel;
-import com.example.pc.vita.Network.MyInterface;
+import com.example.pc.vita.Network.PhotoCallbackInterface;
 import com.example.pc.vita.Network.NetRequest;
 import com.example.pc.vita.R;
 import com.example.pc.vita.Util.CommonUrl;
@@ -34,7 +34,7 @@ import cn.bingoogolapple.bgabanner.BGABannerUtil;
  * 约拍主界面（一级）
  * Created by pc on 2016/7/7.
  */
-public class YuePaiFragment extends android.support.v4.app.Fragment implements  MyInterface.NetRequestIterface{
+public class YuePaiFragment extends android.support.v4.app.Fragment implements  PhotoCallbackInterface.NetRequestIterface{
 
     private BGABanner mSideZoomBanner;
     private NetRequest requestFragment;
@@ -47,6 +47,7 @@ public class YuePaiFragment extends android.support.v4.app.Fragment implements  
     private TextView yuepainavi;
     private Toolbar toolbar;
     public static int yuepaiStatus=0;//设置当前的约拍子页面种类：0-未选择 1-约模特 2-约摄影师 3-活动 4-榜单
+    private YuePaiFragmentD rankFragment;
 
 
     @Override
@@ -156,7 +157,14 @@ public class YuePaiFragment extends android.support.v4.app.Fragment implements  
                }
 
                 if (position==3){//榜单界面
+                    if (rankFragment == null) {
+                        rankFragment = new YuePaiFragmentD();
+                    }
 
+                    fragmentTrs = fragmentManager.beginTransaction();
+                    fragmentTrs.replace(R.id.fl_content, rankFragment);
+                    fragmentTrs.addToBackStack(null);
+                    fragmentTrs.commit();
                 }
             }
         });

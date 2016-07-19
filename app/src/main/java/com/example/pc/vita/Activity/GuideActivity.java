@@ -6,14 +6,12 @@ import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
-import android.view.Menu;
+
 import android.view.View;
-import android.view.WindowManager;
+
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.pc.vita.Adapter.MyPagerAdapter;
 import com.example.pc.vita.R;
 
 import java.util.ArrayList;

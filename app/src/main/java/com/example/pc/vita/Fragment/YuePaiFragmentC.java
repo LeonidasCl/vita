@@ -12,7 +12,7 @@ import android.widget.Button;
 
 import com.example.pc.vita.Activity.ModelActivity;
 import com.example.pc.vita.Activity.PhotographerActivity;
-import com.example.pc.vita.Activity.activityActivity;
+import com.example.pc.vita.Activity.SetHuodongActivity;
 import com.example.pc.vita.R;
 
 public class YuePaiFragmentC extends Fragment {
@@ -27,14 +27,6 @@ public class YuePaiFragmentC extends Fragment {
         yuepai=this.getActivity();
         View view = inflater.inflate(R.layout.fragment_yue_pai_c, container, false);
 
-     /*   view.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                // 尝试自己处理触摸事件, 完成处理 (不需要其他 View 再处理), 则返回 true
-                event.getRawY();
-                return false;
-            }
-        });*/
 
         Button toPhotograph=(Button)view.findViewById(R.id.button_yaopai);
         toPhotograph.setOnClickListener(new View.OnClickListener() {
@@ -56,7 +48,7 @@ public class YuePaiFragmentC extends Fragment {
         toActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(yuepai, activityActivity.class));
+                startActivity(new Intent(yuepai, SetHuodongActivity.class));
             }
         });
 
