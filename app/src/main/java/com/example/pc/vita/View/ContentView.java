@@ -215,11 +215,12 @@ public class ContentView extends TouchMoveView {
             huodong.setEndtime(new Date());
             huodong.setStarttime(new Date());
             huodong.setSetTime(new Date());
-            huodong.setJoinNum((int) Math.random() % 100);
-            huodong.setPraiseNum((int) Math.random() % 100);
+            huodong.setJoinNum((int) (Math.random() * 100)+1);
+            huodong.setPraiseNum((int) (Math.random() * 100) + 1);
             huodong.setUsrName("用户" + i);
             huodong.setLocation("这是活动地点");
-            huodong.setPrice(1234*i);
+            huodong.setPrice(1234 * i);
+            persons.add(huodong);
         }
         bootCounter+=20;
         return persons;

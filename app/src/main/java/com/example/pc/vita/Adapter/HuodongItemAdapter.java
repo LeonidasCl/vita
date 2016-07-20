@@ -43,7 +43,8 @@ public class HuodongItemAdapter extends BaseAdapter{
 
     @Override
     public int getCount() {
-        return rankList.size();
+         int size=rankList.size();
+        return size;
     }
 
     @Override
@@ -107,8 +108,8 @@ public class HuodongItemAdapter extends BaseAdapter{
             userIamgeSrc.setImageDrawable(usrimg);
             Drawable mainpic=res.getDrawable(R.drawable.huodong_loading);
             mainPicture.setImageDrawable(mainpic);
-            praiseNum.setText(item.getPraiseNum());
-            joinNum.setText(item.getJoinNum());
+            praiseNum.setText(String.valueOf(item.getPraiseNum()));
+            joinNum.setText(String.valueOf(item.getJoinNum()));
             userName.setText(item.getUsrName());
             location.setText(item.getLocation());
             time.setText(item.getStarttime().toString() + " - " + item.getEndtime().toString());
