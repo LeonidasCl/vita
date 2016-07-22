@@ -23,6 +23,8 @@ import com.example.pc.vita.Data.Model.YuePaiDataModel;
 import com.example.pc.vita.R;
 import com.example.pc.vita.View.Custom.CardView;
 import com.example.pc.vita.View.Custom.MatrixView;
+import com.example.pc.vita.View.FloatMenu.FilterMenu;
+import com.example.pc.vita.View.FloatMenu.FilterMenuLayout;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -49,12 +51,31 @@ public class YuePaiFragmentAB extends Fragment implements CardView.OnCardClickLi
     private ImageButton btn_next;
     private CardView cardView;
 
+    FilterMenu.OnMenuChangeListener listener = new FilterMenu.OnMenuChangeListener() {
+        @Override
+        public void onMenuItemClick(View view, int position) {
+            Toast.makeText(yuepai, "Touched position " + position, Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onMenuCollapse() {
+
+        }
+
+        @Override
+        public void onMenuExpand() {
+
+        }
+    };
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         yuepai=this.getActivity();
         View view = inflater.inflate(R.layout.fragment_yue_pai_a, container, false);
+        FilterMenuLayout layout = (FilterMenuLayout) view.findViewById(R.id.filter_menu1);
+        attachMenu(layout);
         initUI(view);
 
         navibar=yuepai.findViewById(R.id.fragment_list);
@@ -80,6 +101,18 @@ public class YuePaiFragmentAB extends Fragment implements CardView.OnCardClickLi
 
 
         return view;
+    }
+
+    private FilterMenu attachMenu(FilterMenuLayout layout){
+        return new FilterMenu.Builder(yuepai)
+                .addItem(R.drawable.ic_action_info)
+                .addItem(R.drawable.ic_action_info)
+                .addItem(R.drawable.ic_action_info)
+                .addItem(R.drawable.ic_action_info)
+                .addItem(R.drawable.ic_action_info)
+                .attach(layout)
+                .withListener(listener)
+                .build();
     }
 
     private void initUI(View view) {

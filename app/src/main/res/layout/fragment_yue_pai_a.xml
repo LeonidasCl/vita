@@ -5,16 +5,14 @@
                 android:clipChildren="false"
                 android:windowTranslucentStatus="true"
                 android:windowTranslucentNavigation="true"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+                xmlns:app="http://schemas.android.com/apk/res-auto">
+
 
     <android.support.percent.PercentFrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#66333333">
-
-
 
     <android.support.percent.PercentRelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -97,5 +95,19 @@
         android:orientation="vertical"
         >
     </LinearLayout>
+
+    <com.example.pc.vita.View.FloatMenu.FilterMenuLayout
+        android:id="@+id/filter_menu1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="8dp"
+        app:fm_expandedRadius="72dp"
+        app:fm_collapsedRadius="28dp"
+        app:fm_centerHorizontal="true"
+        app:fm_centerRight="130dp"
+        app:fm_centerTop="88dp"
+        app:fm_primaryColor="#50636363"
+        app:fm_primaryDarkColor="#af292929">
+    </com.example.pc.vita.View.FloatMenu.FilterMenuLayout>
 
 </FrameLayout>
