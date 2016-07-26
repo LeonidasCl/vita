@@ -4,11 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-    <include
-        android:id="@+id/title_layout"
-        layout="@layout/titlebar_layout"
-        android:layout_width="match_parent"
-        android:layout_height="70dp" />
 
     <TextView
         android:id="@+id/upload"
@@ -26,7 +21,6 @@
         android:id="@+id/add_theme_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/title_layout"
         android:background="@color/cc_white"
         android:clickable="true"
         android:orientation="vertical"
@@ -192,7 +186,6 @@
         android:id="@+id/show_upload_pic_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/title_layout"
         android:background="@color/cc_white"
         android:visibility="gone"
          >

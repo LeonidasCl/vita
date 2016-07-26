@@ -10,9 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.pc.vita.Activity.ModelActivity;
-import com.example.pc.vita.Activity.PhotographerActivity;
-import com.example.pc.vita.Activity.SetHuodongActivity;
+import com.example.pc.vita.Activity.CreateYuePaiActivity;
 import com.example.pc.vita.R;
 
 public class YuePaiFragmentC extends Fragment {
@@ -32,25 +30,25 @@ public class YuePaiFragmentC extends Fragment {
         toPhotograph.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(yuepai, PhotographerActivity.class));
+                startActivity(new Intent(yuepai, CreateYuePaiActivity.class));
             }
         });
 
         Button toModel=(Button)view.findViewById(R.id.button_beipai);
-        toModel.setOnClickListener(new View.OnClickListener() {
+        /*toModel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(yuepai, ModelActivity.class));
             }
-        });
+        });*/
 
         Button toActivity=(Button)view.findViewById(R.id.button_activity);
-        toActivity.setOnClickListener(new View.OnClickListener() {
+        /*toActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(yuepai, SetHuodongActivity.class));
             }
-        });
+        });*/
 
         navibar=yuepai.findViewById(R.id.fragment_list);
         navibar.setVisibility(View.GONE);
