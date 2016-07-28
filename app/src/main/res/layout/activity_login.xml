@@ -68,7 +68,9 @@
         android:textColorHighlight="#ffffff"
         android:maxLines="1"
         android:singleLine="true"
-        android:textSize="12sp"/>
+        android:textSize="12sp">
+                <requestFocus />
+                </com.example.pc.vita.View.Custom.IconTextView>
         </android.support.percent.PercentFrameLayout>
     </RelativeLayout>
 

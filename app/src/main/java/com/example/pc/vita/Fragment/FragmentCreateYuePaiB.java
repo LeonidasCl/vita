@@ -2,7 +2,6 @@ package com.example.pc.vita.Fragment;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -18,7 +17,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -26,8 +24,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -39,7 +35,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.pc.vita.APP;
-import com.example.pc.vita.Activity.CreateYuePaiActivity;
 import com.example.pc.vita.Adapter.ImageAddGridViewAdapter;
 import com.example.pc.vita.Adapter.ImagePagerAdapter;
 import com.example.pc.vita.Adapter.PhotoViewAttacher;
@@ -65,7 +60,7 @@ import java.util.Map;
 /**
  * Created by pc on 2016/7/26.
  */
-public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListener, PhotoCallbackInterface.NetRequestIterface,
+public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListener, PhotoCallbackInterface.NetRequestIterface,
             PhotoCallbackInterface.OnSingleTapDismissBigPhotoListener{
 
     private final int UPLOAD_TAKE_PICTURE=5;
@@ -97,7 +92,7 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
     private EditText theme_title_edit,theme_desc_edit;
     private ListView theme_listview;
 
-            Handler handler=new Handler(){
+    private Handler handler=new Handler(){
 
     //TODO 选完图片后就是在这里处理的
     @Override
@@ -273,7 +268,7 @@ public static String getPath_above19(final Context context,final Uri uri){
 public View onCreateView(LayoutInflater inflater,ViewGroup container,
                              Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            View root=inflater.inflate(R.layout.activity_upload_pic, container,false);
+            View root=inflater.inflate(R.layout.fragment_create_yuepai_b, container,false);
 
             requestFragment=new NetRequest(this,getActivity());
             edit_photo_fullscreen_layout=(RelativeLayout)root.findViewById(R.id.edit_photo_fullscreen_layout);
@@ -282,8 +277,7 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container,
             display_big_image_layout=(RelativeLayout)root.findViewById(R.id.display_big_image_layout);
             show_upload_pic_layout=(RelativeLayout)root.findViewById(R.id.show_upload_pic_layout);
             take_picture=(TextView)root.findViewById(R.id.take_picture);
-           // title=(TextView)root.findViewById(R.id.title);
-           // title.setText(getResources().getString(R.string.yuepai_create));
+
             position_in_total=(TextView)root.findViewById(R.id.position_in_total);
             select_local_picture=(TextView)root.findViewById(R.id.select_local_picture);
             upload=(TextView)root.findViewById(R.id.upload);

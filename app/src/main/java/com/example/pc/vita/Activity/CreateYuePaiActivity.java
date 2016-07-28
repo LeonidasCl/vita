@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import com.example.pc.vita.Fragment.FragmentCreateYuePaiA;
+import com.example.pc.vita.Fragment.FragmentCreateYuePaiB;
 import com.example.pc.vita.R;
 
 /**
@@ -54,8 +55,19 @@ public class CreateYuePaiActivity extends AppCompatActivity implements
     // 当指定Tab被选中时激发该方法
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-        // 创建一个新的Fragment对象
-        Fragment fragment = new FragmentCreateYuePaiA();
+        Fragment fragment=null;
+        int position=tab.getPosition();
+        switch (position){
+            case 0:
+                fragment = new FragmentCreateYuePaiA();
+                break;
+            case 1:
+                fragment=new FragmentCreateYuePaiB();
+                break;
+            case 2:
+                fragment=new FragmentCreateYuePaiB();
+                break;
+        }
         // 创建一个Bundle对象，用于向Fragment传入参数
         //Bundle args = new Bundle();
         // args.putInt(FragmentCreateYuePaiA.ARG_SECTION_NUMBER, tab.getPosition() + 1);

@@ -66,4 +66,12 @@
     <string name="rank_piarse_num">喜欢</string>
     <string name="rank_comment_num">评论</string>
     <string name="text_verify_code">发送验证码</string>
+    <string name="yuepai_create_theme">请输入标题</string>
+    <string name="yuepai_create_label">添加标签</string>
+    <string name="start_time">请选择开始时间</string>
+    <string name="end_time">请选择结束时间</string>
+    <string name="yuepai_theme_location">请详细描述地点信息</string>
+    <string name="yuepai_free">免费</string>
+    <string name="yuepai_price">请说明报酬</string>
+    <string name="create_yuepai_describe">请输入详细介绍及要求</string>
 </resources>
