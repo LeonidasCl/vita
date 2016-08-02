@@ -2,8 +2,10 @@ package com.example.pc.vita.Fragment;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -20,7 +22,9 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.SearchView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -29,6 +33,8 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridView;
@@ -53,6 +59,8 @@ import com.example.pc.vita.Util.UploadPhotoUtil;
 import com.example.pc.vita.Util.UserInfoUtil;
 import com.example.pc.vita.View.DateTimePicker.SlideDateTimeListener;
 import com.example.pc.vita.View.DateTimePicker.SlideDateTimePicker;
+import com.example.pc.vita.View.TagView.TagContainerLayout;
+import com.example.pc.vita.View.TagView.TagView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -92,6 +100,8 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
     private TextView endTime;
     private String takePictureUrl,newThemeId;
     private Intent intent;
+    private ListView lv;
+    private SearchView search;
     private NetRequest requestFragment;
     private SimpleDateFormat mFormatter = new SimpleDateFormat("yyyy/MM/dd E HH:mm");
     private GridView add_image_gridview;
@@ -105,6 +115,7 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
     private boolean isBigImageShow=false,isShowUploadPic=false,addPic=false,clearFormerUploadUrlList=true;
     private EditText theme_title_edit,theme_desc_edit;
     private ListView theme_listview;
+    private TagContainerLayout mTagContainerLayout;
     private SlideDateTimeListener startlistener = new SlideDateTimeListener() {
         @Override
         public void onDateTimeSet(Date date)
@@ -309,6 +320,70 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle sav
     super.onCreate(savedInstanceState);
     View root=inflater.inflate(R.layout.fragment_create_yuepai_b, container,false);
     requestFragment=new NetRequest(this,getActivity());
+    mTagContainerLayout = (TagContainerLayout) root.findViewById(R.id.tag_layout_yuepai);
+    List<String> list1 = new ArrayList<String>();
+    list1.add("Java");list1.add("C++");
+    mTagContainerLayout.setOnTagClickListener(new TagView.OnTagClickListener() {
+        @Override
+        public void onTagClick(final int position, String text) {
+            AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                    .setTitle("移除标签")
+                    .setMessage("要移除这个标签吗")
+                    .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mTagContainerLayout.removeTag(position);
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .create();
+            dialog.show();
+        }
+
+        @Override
+        public void onTagLongClick(int position, String text) {
+        }
+    });
+    mTagContainerLayout.setTags(list1);
+    lv = (ListView) root.findViewById(R.id.search_list);
+    String[] mStrings = { "标签1", "标签2", "标签3"};
+    lv.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, mStrings));
+    lv.setTextFilterEnabled(true);
+    search = (SearchView) root.findViewById(R.id.search_tag);
+    search.setIconifiedByDefault(false);
+    search.setSubmitButtonEnabled(false);
+    search.setOnQueryTextListener(new SearchView.OnQueryTextListener()
+    {
+        // 用户输入字符时激发该方法
+        @Override
+        public boolean onQueryTextChange(String newText)
+        {
+            if (TextUtils.isEmpty(newText))
+            {
+                lv.clearTextFilter();
+            }
+            else
+            {
+                lv.setFilterText(newText);
+            }
+            return true;
+        }
+        @Override
+        public boolean onQueryTextSubmit(String query) {return true;}
+    });
+    Button btnAddTag = (Button) root.findViewById(R.id.btn_tag_add);
+    btnAddTag.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            String txt=search.getQuery().toString();
+            mTagContainerLayout.addTag(txt);
+        }
+    });
     edit_photo_fullscreen_layout=(FrameLayout)root.findViewById(R.id.edit_photo_fullscreen_layout);
     edit_photo_fullscreen_layout.setOnClickListener(new View.OnClickListener() {
         @Override

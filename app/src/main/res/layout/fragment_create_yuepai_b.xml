@@ -45,25 +45,53 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp">
-        <Button
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/shape_round"
-            android:layout_marginTop="0dp"
-            android:text="+"
-            android:textSize="40sp"
-            android:textColor="#eeffffff"
-            android:layout_marginBottom="5dp"/>
-        <!--标签列表-->
-        <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-        </ListView>
+            <com.example.pc.vita.View.TagView.TagContainerLayout
+                android:id="@+id/tag_layout_yuepai"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                app:container_background_color="#00000000"
+                app:container_border_color="#3300ff00"
+                app:container_border_radius="0dp"
+                app:container_border_width="4dp"
+                app:container_enable_drag="true"
+                app:horizontal_interval="10dp"
+                app:tag_clickable="false"
+                app:tag_theme="random"
+                app:vertical_interval="10dp"  />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <android.support.v7.widget.SearchView
+                    android:id="@+id/search_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    >
+                </android.support.v7.widget.SearchView>
+                <ListView
+                    android:id="@+id/search_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp">
+                </ListView>
+            </LinearLayout>
+                <Button
+                    android:id="@+id/btn_tag_add"
+                    android:text="@string/addtag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+                </Button>
+            </LinearLayout>
     </LinearLayout>
 
         <com.example.pc.vita.View.Custom.IconTxtView

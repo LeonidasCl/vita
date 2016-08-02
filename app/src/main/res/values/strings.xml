@@ -74,4 +74,5 @@
     <string name="yuepai_free">免费</string>
     <string name="yuepai_price">请说明报酬</string>
     <string name="create_yuepai_describe">请输入详细介绍及要求</string>
+    <string name="addtag">添加</string>
 </resources>
