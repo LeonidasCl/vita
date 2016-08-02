@@ -38,7 +38,8 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="5dp"
             android:background="@drawable/comment_edittext_round_corner_bg"
-            android:padding="5dp" >
+            android:padding="5dp"
+            android:textSize="14sp">
             <requestFocus />
         </EditText>
         <!--标签添加与选择-->
@@ -51,9 +52,10 @@
             android:layout_marginEnd="20dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp">
+
             <com.example.pc.vita.View.TagView.TagContainerLayout
                 android:id="@+id/tag_layout_yuepai"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 app:container_background_color="#00000000"
@@ -62,37 +64,41 @@
                 app:container_border_width="4dp"
                 app:container_enable_drag="true"
                 app:horizontal_interval="10dp"
-                app:tag_clickable="false"
+                app:tag_clickable="true"
                 app:tag_theme="random"
                 app:vertical_interval="10dp"  />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-                <android.support.v7.widget.SearchView
-                    android:id="@+id/search_tag"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    >
-                </android.support.v7.widget.SearchView>
-                <ListView
-                    android:id="@+id/search_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp">
-                </ListView>
-            </LinearLayout>
                 <Button
                     android:id="@+id/btn_tag_add"
                     android:text="@string/addtag"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
                 </Button>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <android.support.v7.widget.SearchView
+                        android:id="@+id/search_tag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        >
+                    </android.support.v7.widget.SearchView>
+                    <ListView
+                        android:id="@+id/search_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    </ListView>
+                </LinearLayout>
             </LinearLayout>
-    </LinearLayout>
+
+        </LinearLayout>
 
         <com.example.pc.vita.View.Custom.IconTxtView
             android:id="@+id/text_start_time"
@@ -105,7 +111,7 @@
             android:layout_marginBottom="5dp"
             android:textColor="@color/aa_black"
             android:background="@drawable/shape_round_small_corner"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:text="@string/start_time"/>
 
         <com.example.pc.vita.View.Custom.IconTxtView
@@ -119,7 +125,7 @@
             android:layout_marginBottom="5dp"
             android:textColor="@color/aa_black"
             android:background="@drawable/shape_round_small_corner"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:text="@string/end_time"/>
 
         <EditText
@@ -136,7 +142,8 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:background="@drawable/comment_edittext_round_corner_bg"
-            android:padding="5dp" >
+            android:padding="5dp"
+            android:textSize="14sp">
         </EditText>
 
     <LinearLayout
@@ -168,7 +175,8 @@
             android:layout_marginStart="10dp"
             android:layout_gravity="end"
             android:background="@drawable/comment_edittext_round_corner_bg"
-            android:padding="5dp" >
+            android:padding="5dp"
+            android:textSize="14sp">
         </EditText>
 
         </LinearLayout>
@@ -193,7 +201,8 @@
                 android:hint="@string/create_yuepai_describe"
                 android:textColor="@color/aa_black"
                 android:textColorHint="@color/item_selected_gray"
-                android:padding="5dp" />
+                android:padding="5dp"
+                android:textSize="14sp"/>
         </LinearLayout>
 
         <GridView
@@ -241,7 +250,7 @@
                     android:layout_height="40dp"
                     android:gravity="center"
                     android:textColor="@color/cc_white"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
                 <ImageView
                     android:id="@+id/delete_image"
@@ -296,7 +305,7 @@
             android:background="@color/gold"
             android:text="@string/upload"
             android:textColor="#ffffff"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
     </FrameLayout>
 
     <!-- 拍照、选择本地图片的底部悬浮菜单 -->

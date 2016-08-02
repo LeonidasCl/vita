@@ -322,7 +322,7 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle sav
     requestFragment=new NetRequest(this,getActivity());
     mTagContainerLayout = (TagContainerLayout) root.findViewById(R.id.tag_layout_yuepai);
     List<String> list1 = new ArrayList<String>();
-    list1.add("Java");list1.add("C++");
+    list1.add("Java");list1.add("C++");list1.add("C#");list1.add("PHP");
     mTagContainerLayout.setOnTagClickListener(new TagView.OnTagClickListener() {
         @Override
         public void onTagClick(final int position, String text) {
@@ -351,26 +351,19 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle sav
     });
     mTagContainerLayout.setTags(list1);
     lv = (ListView) root.findViewById(R.id.search_list);
-    String[] mStrings = { "标签1", "标签2", "标签3"};
-    lv.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, mStrings));
-    lv.setTextFilterEnabled(true);
+    String[] mStrings = {"ad","dffa","uyiu","rqer","qwgt","afrgb","rtyr"};
     search = (SearchView) root.findViewById(R.id.search_tag);
     search.setIconifiedByDefault(false);
     search.setSubmitButtonEnabled(false);
+    search.setQueryHint("查找或输入标签");
+    lv.setAdapter(new ArrayAdapter<>(getActivity(),R.layout.tag_list_item, mStrings));
+    lv.setTextFilterEnabled(true);
     search.setOnQueryTextListener(new SearchView.OnQueryTextListener()
     {
         // 用户输入字符时激发该方法
         @Override
         public boolean onQueryTextChange(String newText)
         {
-            if (TextUtils.isEmpty(newText))
-            {
-                lv.clearTextFilter();
-            }
-            else
-            {
-                lv.setFilterText(newText);
-            }
             return true;
         }
         @Override
@@ -381,6 +374,7 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle sav
         @Override
         public void onClick(View v) {
             String txt=search.getQuery().toString();
+            if (!txt.equals(""))
             mTagContainerLayout.addTag(txt);
         }
     });
