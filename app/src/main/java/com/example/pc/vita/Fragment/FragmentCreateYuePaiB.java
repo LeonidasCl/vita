@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -19,6 +20,7 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.text.Editable;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -28,13 +30,16 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.pc.vita.APP;
+import com.example.pc.vita.Activity.CreateYuePaiActivity;
 import com.example.pc.vita.Adapter.ImageAddGridViewAdapter;
 import com.example.pc.vita.Adapter.ImagePagerAdapter;
 import com.example.pc.vita.Adapter.PhotoViewAttacher;
@@ -46,13 +51,17 @@ import com.example.pc.vita.Util.CommonUrl;
 import com.example.pc.vita.Util.CommonUtils;
 import com.example.pc.vita.Util.UploadPhotoUtil;
 import com.example.pc.vita.Util.UserInfoUtil;
+import com.example.pc.vita.View.DateTimePicker.SlideDateTimeListener;
+import com.example.pc.vita.View.DateTimePicker.SlideDateTimePicker;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,16 +79,21 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
     private final int SAVE_THEME_IMAGE=8;
     private final int SHOW_TAKE_PICTURE=9;
     private final int SHOW_LOCAL_PICTURE=10;
-    private RelativeLayout edit_photo_fullscreen_layout,edit_photo_outer_layout,
+    private FrameLayout edit_photo_fullscreen_layout;
+    private RelativeLayout edit_photo_outer_layout,
             uploading_photo_progress,display_big_image_layout,show_upload_pic_layout;
     private Animation get_photo_layout_out_from_up,get_photo_layout_in_from_down;
     private TextView take_picture,select_local_picture,position_in_total,upload;
     private ImageView delete_image;
-
+    private TextView startTime;
+    private boolean timeFlag=false;
+    private Date startdate=new Date();
+    private Date enddate=new Date();
+    private TextView endTime;
     private String takePictureUrl,newThemeId;
     private Intent intent;
     private NetRequest requestFragment;
-
+    private SimpleDateFormat mFormatter = new SimpleDateFormat("yyyy/MM/dd E HH:mm");
     private GridView add_image_gridview;
     private int addPicCount=1,addTakePicCount=1,viewpagerPosition;
     private List<String> uploadImgUrlList=new ArrayList<>();
@@ -91,6 +105,28 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
     private boolean isBigImageShow=false,isShowUploadPic=false,addPic=false,clearFormerUploadUrlList=true;
     private EditText theme_title_edit,theme_desc_edit;
     private ListView theme_listview;
+    private SlideDateTimeListener startlistener = new SlideDateTimeListener() {
+        @Override
+        public void onDateTimeSet(Date date)
+        {
+            //Toast.makeText(getContext(), mFormatter.format(date), Toast.LENGTH_SHORT).show();
+            startdate=date;
+            timeFlag=true;
+            startTime.setText(mFormatter.format(date));
+        }
+        @Override
+        public void onDateTimeCancel() {}
+    };
+    private SlideDateTimeListener endlistener = new SlideDateTimeListener() {
+        @Override
+        public void onDateTimeSet(Date date)
+        {
+            enddate=date;
+            endTime.setText(mFormatter.format(date));
+        }
+        @Override
+        public void onDateTimeCancel() {}
+    };
 
     private Handler handler=new Handler(){
 
@@ -264,69 +300,124 @@ public static String getPath_above19(final Context context,final Uri uri){
             return null;
             }
 
+    public FrameLayout getEdit_photo_fullscreen_layout(){
+        return edit_photo_fullscreen_layout;
+    }
+
 @Override
-public View onCreateView(LayoutInflater inflater,ViewGroup container,
-                             Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            View root=inflater.inflate(R.layout.fragment_create_yuepai_b, container,false);
-
-            requestFragment=new NetRequest(this,getActivity());
-            edit_photo_fullscreen_layout=(RelativeLayout)root.findViewById(R.id.edit_photo_fullscreen_layout);
-            edit_photo_outer_layout=(RelativeLayout)root.findViewById(R.id.edit_photo_outer_layout);
-            uploading_photo_progress=(RelativeLayout)root.findViewById(R.id.uploading_photo_progress);
-            display_big_image_layout=(RelativeLayout)root.findViewById(R.id.display_big_image_layout);
-            show_upload_pic_layout=(RelativeLayout)root.findViewById(R.id.show_upload_pic_layout);
-            take_picture=(TextView)root.findViewById(R.id.take_picture);
-
-            position_in_total=(TextView)root.findViewById(R.id.position_in_total);
-            select_local_picture=(TextView)root.findViewById(R.id.select_local_picture);
-            upload=(TextView)root.findViewById(R.id.upload);
-            upload.setVisibility(View.VISIBLE);
-            theme_title_edit=(EditText)root.findViewById(R.id.theme_title_edit);
-            theme_desc_edit=(EditText)root.findViewById(R.id.theme_desc_edit);
-            delete_image=(ImageView)root.findViewById(R.id.delete_image);
-            add_image_gridview=(GridView)root.findViewById(R.id.add_image_gridview);
-            image_viewpager=(UploadViewPager)root.findViewById(R.id.image_viewpager);
-            theme_listview=(ListView)root.findViewById(R.id.theme_listview);
-            upload.setOnClickListener(this);
-            delete_image.setOnClickListener(this);
-
-            ImageDisplayFragment.showNetImg=false;
-            addPictureList.add(getResources().getDrawable(R.mipmap.theme_add_picture_icon));
-            imageAddGridViewAdapter=new ImageAddGridViewAdapter(getActivity(), addPictureList);
-            add_image_gridview.setAdapter(imageAddGridViewAdapter);
-            add_image_gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View v,
-                                        int position, long id) {
-                    //这里是添加图片的按钮的回调
-                    if (position == 0) {
-                        if (addPicCount == 9) {
-                            CommonUtils.getUtilInstance().showToast(getActivity(), getString(R.string.no_more_than_9));
-                            return;
-                        } else {
-                            //点击添加图片
-                            edit_photo_fullscreen_layout
-                                    .setVisibility(View.VISIBLE);
-                            get_photo_layout_in_from_down = AnimationUtils
-                                    .loadAnimation(getActivity(), R.anim.search_layout_in_from_down);
-                            edit_photo_outer_layout
-                                    .startAnimation(get_photo_layout_in_from_down);
-                        }
-                    } else {
-                        //点击图片查看大图
-                        showImageViewPager(position, pictureUrlList, uploadImgUrlList, "local", "upload");
-                        viewpagerPosition = position - 1;
-                    }
-                }
-            });
-
-            take_picture.setOnClickListener(this);
-            select_local_picture.setOnClickListener(this);
-
-            return root;
-
+public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    View root=inflater.inflate(R.layout.fragment_create_yuepai_b, container,false);
+    requestFragment=new NetRequest(this,getActivity());
+    edit_photo_fullscreen_layout=(FrameLayout)root.findViewById(R.id.edit_photo_fullscreen_layout);
+    edit_photo_fullscreen_layout.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            hideEditPhotoLayout();
+        }
+    });
+    edit_photo_outer_layout=(RelativeLayout)root.findViewById(R.id.edit_photo_outer_layout);
+    TextView cancelEditPhoto=(TextView)edit_photo_outer_layout.findViewById(R.id.cancel);
+    cancelEditPhoto.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            hideEditPhotoLayout();
+        }
+    });
+    uploading_photo_progress=(RelativeLayout)root.findViewById(R.id.uploading_photo_progress);
+    display_big_image_layout=(RelativeLayout)root.findViewById(R.id.display_big_image_layout);
+    show_upload_pic_layout=(RelativeLayout)root.findViewById(R.id.show_upload_pic_layout);
+    take_picture=(TextView)root.findViewById(R.id.take_picture);
+    startTime=(TextView)root.findViewById(R.id.text_start_time);
+    startTime.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (timeFlag)
+            {
+                new SlideDateTimePicker.Builder(getActivity().getSupportFragmentManager())
+                        .setListener(startlistener)
+                        .setInitialDate(new Date())
+                        //.setMinDate(new Date())
+                        //.setMaxDate(enddate)
+                        .setIs24HourTime(true)
+                        .setTheme(SlideDateTimePicker.HOLO_LIGHT)
+                        //.setIndicatorColor(Color.parseColor("E6BF66"))
+                        .build()
+                        .show();
+                return;
             }
+            new SlideDateTimePicker.Builder(getActivity().getSupportFragmentManager())
+                    .setListener(startlistener)
+                    .setInitialDate(new Date())
+                    //.setMinDate(new Date())
+                    .setIs24HourTime(true)
+                    .setTheme(SlideDateTimePicker.HOLO_LIGHT)
+                    //.setIndicatorColor(Color.parseColor("E6BF66"))
+                    .build()
+                    .show();
+        }
+    });
+    endTime=(TextView)root.findViewById(R.id.text_end_time);
+    endTime.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (!timeFlag)
+            {
+                Toast.makeText(getContext(),"请先选择开始时间", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            new SlideDateTimePicker.Builder(getActivity().getSupportFragmentManager())
+                    .setListener(endlistener)
+                    .setInitialDate(startdate)
+                    .setMinDate(startdate)
+                    .build()
+                    .show();
+        }
+    });
+    position_in_total=(TextView)root.findViewById(R.id.position_in_total);
+    select_local_picture=(TextView)root.findViewById(R.id.select_local_picture);
+    upload=(TextView)root.findViewById(R.id.upload);
+    upload.setVisibility(View.VISIBLE);
+    theme_title_edit=(EditText)root.findViewById(R.id.theme_title_edit);
+    theme_desc_edit=(EditText)root.findViewById(R.id.theme_desc_edit);
+    delete_image=(ImageView)root.findViewById(R.id.delete_image);
+    add_image_gridview=(GridView)root.findViewById(R.id.add_image_gridview);
+    image_viewpager=(UploadViewPager)root.findViewById(R.id.image_viewpager);
+    theme_listview=(ListView)root.findViewById(R.id.theme_listview);
+    upload.setOnClickListener(this);
+    delete_image.setOnClickListener(this);
+
+    ImageDisplayFragment.showNetImg=false;
+    addPictureList.add(getResources().getDrawable(R.mipmap.theme_add_picture_icon));
+    imageAddGridViewAdapter=new ImageAddGridViewAdapter(getActivity(), addPictureList);
+    add_image_gridview.setAdapter(imageAddGridViewAdapter);
+    add_image_gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+            //这里是添加图片的按钮的回调
+            if (position == 0) {
+                if (addPicCount == 9) {
+                    CommonUtils.getUtilInstance().showToast(getActivity(), getString(R.string.no_more_than_9));
+                } else {
+                    //点击添加图片
+                    edit_photo_fullscreen_layout.setVisibility(View.VISIBLE);
+                    get_photo_layout_in_from_down = AnimationUtils.loadAnimation(getActivity(), R.anim.search_layout_in_from_down);
+                    edit_photo_outer_layout.startAnimation(get_photo_layout_in_from_down);
+                }
+            } else {
+                //点击图片查看大图
+                showImageViewPager(position, pictureUrlList, uploadImgUrlList, "local", "upload");
+                viewpagerPosition = position - 1;
+            }
+        }
+    });
+
+    take_picture.setOnClickListener(this);
+    select_local_picture.setOnClickListener(this);
+
+    return root;
+
+}
 
 public void showImageViewPager(int position,
     final List<String>pictureUrlList,final List<String>localUrlList,
@@ -381,37 +472,6 @@ public void onPageScrolled(int arg0,float arg1,int arg2){
             PhotoViewAttacher.setOnSingleTapToPhotoViewListener(this);
             }
 
-
-public void showEditPhotoLayout(View view){
-            edit_photo_fullscreen_layout.setVisibility(View.VISIBLE);
-            get_photo_layout_in_from_down=AnimationUtils.loadAnimation(
-                    getActivity(),R.anim.search_layout_in_from_down);
-            edit_photo_outer_layout.startAnimation(get_photo_layout_in_from_down);
-            }
-
-public void hideEditPhotoLayout(View view){
-            get_photo_layout_out_from_up=AnimationUtils.loadAnimation(
-                    getActivity(),R.anim.search_layout_out_from_up);
-            edit_photo_outer_layout.startAnimation(get_photo_layout_out_from_up);
-            get_photo_layout_out_from_up
-            .setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationEnd(Animation arg0) {
-                    //
-                    edit_photo_fullscreen_layout.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation arg0) {
-                    //
-                }
-
-                @Override
-                public void onAnimationStart(Animation arg0) {
-                    //
-                }
-            });
-            }
 // 下面函数是选中了要上传图片或者拍照打完钩后运行的
 public void onActivityResult(int requestCode,int resultCode,Intent intent){
             super.onActivityResult(requestCode,resultCode,intent);
@@ -521,7 +581,7 @@ public void saveThemeInfo(){
             Map<String, Object>map=new HashMap<String, Object>();
             map.put("themeTitle",theme_title_edit.getText().toString());
             map.put("themeDescr",theme_desc_edit.getText().toString());
-            requestFragment.httpRequest(map,CommonUrl.saveThemeInfo);
+            requestFragment.httpRequest(map, CommonUrl.saveThemeInfo);
             }
 
 //
@@ -581,27 +641,9 @@ private void hideDisplayBigImageLayout(){
 public void exception(IOException e,String requestUrl){
             Log.d("发生错误", "--------------------------" + e.getMessage());
             }
-public boolean onKeyDown(int keyCode,KeyEvent event){
-            //super.onKeyDown(keyCode,event);
-            if(keyCode== KeyEvent.KEYCODE_BACK&&event.getRepeatCount()==0){
-            if(isShowUploadPic){
-            show_upload_pic_layout.setVisibility(View.GONE);
-            upload.setVisibility(View.VISIBLE);
-            //title.setText(getResources().getString(R.string.yuepai_create));
-            theme_title_edit.setText("");
-            theme_desc_edit.setText("");
-            addPictureList.clear();addPictureList.add(getResources().getDrawable(
-            R.mipmap.theme_add_picture_icon));
-            imageAddGridViewAdapter.changeList(addPictureList);
-            imageAddGridViewAdapter.notifyDataSetChanged();
-            isShowUploadPic=false;
-            return false;
-            }if(isBigImageShow){
-            hideDisplayBigImageLayout();
-            return false;
-            }
-            }
-            getActivity().finish();
-            return false;
-            }
-            }
+
+    public void hideEditPhotoLayout(){
+        edit_photo_fullscreen_layout.setVisibility(View.GONE);
+    }
+
+}

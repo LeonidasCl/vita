@@ -9,7 +9,7 @@ import android.util.AttributeSet;
 import android.widget.EditText;
 import android.widget.TextView;
   
-public class IconTextView extends EditText {
+public class IconEditView extends EditText {
       
     private final String nameSpace="http://com.licl.icontext";
       
@@ -18,13 +18,13 @@ public class IconTextView extends EditText {
       
     private Bitmap bitmap;  
   
-    public IconTextView(Context context, AttributeSet attrs) {  
+    public IconEditView(Context context, AttributeSet attrs) {
         super(context, attrs);  
         resourceId=attrs.getAttributeResourceValue(nameSpace, "iconSrc", 0);//获取图像资源的值  
         if(resourceId!=0)  
             bitmap=BitmapFactory.decodeResource(getResources(), resourceId);  
           
-    }  
+    }
       
     @Override  
     protected void onDraw(Canvas canvas) {  

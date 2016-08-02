@@ -8,6 +8,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.CreateActivity" parent="Theme.AppCompat">
+        <item name="colorPrimary">@color/gold</item>
+        <item name="colorPrimaryDark">@color/lightgold</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
     <style name="Vita.ActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -20,7 +26,6 @@
         <item name="windowNoTitle">true</item>
         <!--溢出菜单样式 -->
         <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
-
     </style>
 
     <!--溢出菜单样式 -->

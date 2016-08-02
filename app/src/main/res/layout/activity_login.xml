@@ -51,7 +51,7 @@
             xmlns:loginlayout="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-    <com.example.pc.vita.View.Custom.IconTextView
+    <com.example.pc.vita.View.Custom.IconEditView
         xmlns:iconview="http://com.licl.icontext"
         iconview:iconSrc="@drawable/login_email"
         android:id="@+id/login_username"
@@ -70,7 +70,7 @@
         android:singleLine="true"
         android:textSize="12sp">
                 <requestFocus />
-                </com.example.pc.vita.View.Custom.IconTextView>
+                </com.example.pc.vita.View.Custom.IconEditView>
         </android.support.percent.PercentFrameLayout>
     </RelativeLayout>
 
@@ -88,7 +88,7 @@
             xmlns:loginlayout="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-    <com.example.pc.vita.View.Custom.IconTextView
+    <com.example.pc.vita.View.Custom.IconEditView
         xmlns:iconview="http://com.licl.icontext"
         iconview:iconSrc="@drawable/login_password"
         android:id="@+id/login_password"
@@ -109,7 +109,7 @@
         android:singleLine="true"
         android:textSize="12sp"/>
 
-            <com.example.pc.vita.View.Custom.IconTextView
+            <com.example.pc.vita.View.Custom.IconEditView
                 xmlns:iconview="http://com.licl.icontext"
                 iconview:iconSrc="@drawable/login_password"
                 android:id="@+id/register_verifycode"

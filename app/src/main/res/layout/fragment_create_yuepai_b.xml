@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
 
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
     <!-- 除上传图片外的所有内容框 -->
     <LinearLayout
@@ -22,7 +19,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/cc_white"
+        android:textColor="@color/aa_black"
         android:clickable="true"
+        xmlns:iconview="http://com.licl.icontext"
         android:orientation="vertical">
         <!--标题-->
         <EditText
@@ -32,6 +31,7 @@
             android:singleLine="true"
             android:hint="@string/yuepai_create_theme"
             android:textColorHint="@color/item_selected_gray"
+            android:textColor="@color/aa_black"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
@@ -66,26 +66,30 @@
         </ListView>
     </LinearLayout>
 
-        <TextView
+        <com.example.pc.vita.View.Custom.IconTxtView
             android:id="@+id/text_start_time"
+            iconview:iconSrc="@drawable/login_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginTop="0dp"
             android:layout_marginBottom="5dp"
+            android:textColor="@color/aa_black"
             android:background="@drawable/shape_round_small_corner"
             android:textSize="18sp"
             android:text="@string/start_time"/>
 
-        <TextView
+        <com.example.pc.vita.View.Custom.IconTxtView
             android:id="@+id/text_end_time"
+            iconview:iconSrc="@drawable/login_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginTop="0dp"
             android:layout_marginBottom="5dp"
+            android:textColor="@color/aa_black"
             android:background="@drawable/shape_round_small_corner"
             android:textSize="18sp"
             android:text="@string/end_time"/>
@@ -96,6 +100,7 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:hint="@string/yuepai_theme_location"
+            android:textColor="@color/aa_black"
             android:textColorHint="@color/item_selected_gray"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="20dp"
@@ -130,10 +135,10 @@
             android:singleLine="true"
             android:inputType="none"
             android:hint="@string/yuepai_price"
+            android:textColor="@color/aa_black"
             android:textColorHint="@color/item_selected_gray"
             android:layout_marginStart="10dp"
             android:layout_gravity="end"
-            android:textColor="#000000"
             android:background="@drawable/comment_edittext_round_corner_bg"
             android:padding="5dp" >
         </EditText>
@@ -158,6 +163,7 @@
                 android:gravity="top|start"
                 android:background="#00000000"
                 android:hint="@string/create_yuepai_describe"
+                android:textColor="@color/aa_black"
                 android:textColorHint="@color/item_selected_gray"
                 android:padding="5dp" />
         </LinearLayout>
@@ -166,88 +172,16 @@
             android:id="@+id/add_image_gridview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="100dp"
             android:cacheColorHint="#00000000"
             android:fadingEdge="none"
             android:listSelector="#00000000"
             android:numColumns="4"
             android:scrollbars="none" />
     </LinearLayout>
-
-    <!-- 拍照、选择本地图片的底部悬浮菜单 -->
-    <RelativeLayout
-        android:id="@+id/edit_photo_fullscreen_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#55000000"
-        android:clickable="true"
-        android:onClick="hideEditPhotoLayout"
-        android:focusable="true"
-        android:visibility="gone" >
-
-        <RelativeLayout
-            android:id="@+id/edit_photo_outer_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:orientation="vertical" >
-
-            <LinearLayout
-                android:id="@+id/edit_photo_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/take_picture_layout_round_corner_bg"
-                android:orientation="vertical" >
-
-                <TextView
-                    android:id="@+id/take_picture"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:text="@string/take_picture"
-                    android:textColor="@color/chocolate"
-                    android:textSize="20sp" />
-
-                <View style="@style/horizontal_divider" >
-                </View>
-
-                <TextView
-                    android:id="@+id/select_local_picture"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:text="@string/select_local_picture"
-                    android:textColor="@color/chocolate"
-                    android:textSize="20sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/edit_photo_layout"
-                android:layout_margin="10dp"
-                android:orientation="vertical" >
-
-                <TextView
-                    android:id="@+id/cancel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/video_order_layout_round_corner_bg"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:text="@string/cancel"
-                    android:textColor="@color/chocolate"
-                    android:clickable="true"
-                    android:onClick="hideEditPhotoLayout"
-                    android:textSize="20sp" />
-            </LinearLayout>
-        </RelativeLayout>
-    </RelativeLayout>
 
     <!-- 点开已添加的图片查看大图 -->
     <RelativeLayout
@@ -335,5 +269,79 @@
             android:text="@string/upload"
             android:textColor="#ffffff"
             android:textSize="18sp" />
+    </FrameLayout>
+
+    <!-- 拍照、选择本地图片的底部悬浮菜单 -->
+    <FrameLayout
+        android:id="@+id/edit_photo_fullscreen_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#55000000"
+        android:clickable="true"
+        android:layout_gravity="bottom"
+        android:focusable="true"
+        android:visibility="gone" >
+
+        <RelativeLayout
+            android:id="@+id/edit_photo_outer_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="15dp"
+            android:layout_gravity="bottom"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:id="@+id/edit_photo_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/take_picture_layout_round_corner_bg"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/take_picture"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="@string/take_picture"
+                    android:textColor="@color/chocolate"
+                    android:textSize="20sp" />
+
+                <View style="@style/horizontal_divider" >
+                </View>
+
+                <TextView
+                    android:id="@+id/select_local_picture"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="@string/select_local_picture"
+                    android:textColor="@color/chocolate"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/edit_photo_layout"
+                android:layout_margin="10dp"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/cancel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/video_order_layout_round_corner_bg"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="@string/cancel"
+                    android:textColor="@color/chocolate"
+                    android:clickable="true"
+                    android:textSize="20sp" />
+            </LinearLayout>
+        </RelativeLayout>
     </FrameLayout>
 </FrameLayout>

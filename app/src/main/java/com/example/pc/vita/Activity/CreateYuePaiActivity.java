@@ -5,6 +5,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+
 import com.example.pc.vita.Fragment.FragmentCreateYuePaiA;
 import com.example.pc.vita.Fragment.FragmentCreateYuePaiB;
 import com.example.pc.vita.R;
@@ -15,7 +17,8 @@ import com.example.pc.vita.R;
  */
 public class CreateYuePaiActivity extends AppCompatActivity implements
         ActionBar.TabListener {
-
+    private Fragment fragment;
+    private int position=-1;
     private static final String SELECTED_ITEM = "selected_item";
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -26,12 +29,10 @@ public class CreateYuePaiActivity extends AppCompatActivity implements
         // 设置ActionBar的导航方式：Tab导航
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         // 依次添加三个Tab页，并为三个Tab标签添加事件监听器
-        actionBar.addTab(actionBar.newTab().setText("约模特")
-                .setTabListener(this));
-        actionBar.addTab(actionBar.newTab().setText("约摄影师")
-                .setTabListener(this));
-        actionBar.addTab(actionBar.newTab().setText("发起活动")
-                .setTabListener(this));
+        actionBar.addTab(actionBar.newTab().setText("约模特").setTabListener(this));
+        actionBar.addTab(actionBar.newTab().setText("约摄影师").setTabListener(this));
+        actionBar.addTab(actionBar.newTab().setText("发起活动").setTabListener(this));
+        actionBar.setTitle("发起约拍/创建活动");
     }
 
     @Override
@@ -44,6 +45,38 @@ public class CreateYuePaiActivity extends AppCompatActivity implements
                     savedInstanceState.getInt(SELECTED_ITEM));
         }
     }
+    //监听返回键，有弹出层时关闭弹出层，否则停止activity
+    @Override
+    public void onBackPressed() {
+        int state;
+        switch (position){
+            case 0:
+                FragmentCreateYuePaiB fraga=(FragmentCreateYuePaiB)fragment;
+                state=fraga.getEdit_photo_fullscreen_layout().getVisibility();
+                if (state== View.GONE)
+                    finish();
+                else
+                    fraga.hideEditPhotoLayout();
+                break;
+            case 1:
+                FragmentCreateYuePaiB fragb=(FragmentCreateYuePaiB)fragment;
+                state=fragb.getEdit_photo_fullscreen_layout().getVisibility();
+                if (state== View.GONE)
+                    finish();
+                else
+                    fragb.hideEditPhotoLayout();
+                break;
+            case 2:
+                FragmentCreateYuePaiB fragc=(FragmentCreateYuePaiB)fragment;
+                state=fragc.getEdit_photo_fullscreen_layout().getVisibility();
+                if (state== View.GONE)
+                    finish();
+                else
+                    fragc.hideEditPhotoLayout();
+                break;
+        }
+
+    }
 
     @Override
     public void onSaveInstanceState(Bundle outState)
@@ -55,8 +88,8 @@ public class CreateYuePaiActivity extends AppCompatActivity implements
     // 当指定Tab被选中时激发该方法
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-        Fragment fragment=null;
-        int position=tab.getPosition();
+        fragment=null;
+        position=tab.getPosition();
         switch (position){
             case 0:
                 fragment = new FragmentCreateYuePaiA();
@@ -83,11 +116,8 @@ public class CreateYuePaiActivity extends AppCompatActivity implements
 
     @Override
     public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-
     }
-
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-
     }
 }
