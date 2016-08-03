@@ -32,6 +32,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -356,18 +357,32 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle sav
     search.setIconifiedByDefault(false);
     search.setSubmitButtonEnabled(false);
     search.setQueryHint("查找或输入标签");
-    lv.setAdapter(new ArrayAdapter<>(getActivity(),R.layout.tag_list_item, mStrings));
+    final ArrayAdapter adapter=new ArrayAdapter<>(getActivity(),R.layout.tag_list_item, mStrings);
+    lv.setAdapter(adapter);
     lv.setTextFilterEnabled(true);
-    search.setOnQueryTextListener(new SearchView.OnQueryTextListener()
-    {
+    search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
         // 用户输入字符时激发该方法
         @Override
-        public boolean onQueryTextChange(String newText)
-        {
+        public boolean onQueryTextChange(String newText) {
+            if (TextUtils.isEmpty(newText)) {
+                lv.clearTextFilter();
+            } else {
+                adapter.getFilter().filter(newText);
+                //lv.setFilterText(newText);
+            }
             return true;
         }
+
         @Override
-        public boolean onQueryTextSubmit(String query) {return true;}
+        public boolean onQueryTextSubmit(String query) {
+            return true;
+        }
+    });
+    lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        }
     });
     Button btnAddTag = (Button) root.findViewById(R.id.btn_tag_add);
     btnAddTag.setOnClickListener(new View.OnClickListener() {
