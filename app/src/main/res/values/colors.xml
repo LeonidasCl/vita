@@ -8,6 +8,7 @@
     <color name="chocolate">#5C3317</color>
     <color name="item_selected_gray">#d9d9d9</color>
     <color name="edit_photo_bg_color">#f1f4f2</color>
+    <color name="four_black">#44000000</color>
     <color name="aa_black">#aa000000</color>
     <color name="ee_black">#ee000000</color>
     <color name="cc_white">#ccffffff</color>

@@ -6,6 +6,7 @@
 
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollview"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -90,12 +91,14 @@
                         android:textSize="14sp"
                         >
                     </android.support.v7.widget.SearchView>
+
                     <ListView
                         android:id="@+id/search_list"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1">
+                        android:background="@color/four_black"
+                        android:layout_height="wrap_content">
                     </ListView>
+
                 </LinearLayout>
             </LinearLayout>
 
@@ -283,6 +286,7 @@
             android:listSelector="#00000000" />
     </RelativeLayout>
 
+    <!-- 上传进度 -->
     <include
         android:id="@+id/uploading_photo_progress"
         android:layout_width="match_parent"

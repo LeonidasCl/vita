@@ -357,9 +357,11 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle sav
     search.setIconifiedByDefault(false);
     search.setSubmitButtonEnabled(false);
     search.setQueryHint("查找或输入标签");
-    final ArrayAdapter adapter=new ArrayAdapter<>(getActivity(),R.layout.tag_list_item, mStrings);
+    final ArrayAdapter adapter=new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1, mStrings);
     lv.setAdapter(adapter);
     lv.setTextFilterEnabled(true);
+    //暂时用这种办法让listview不占用空间
+    adapter.getFilter().filter("clear");
     search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
         // 用户输入字符时激发该方法
         @Override
@@ -378,10 +380,21 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle sav
             return true;
         }
     });
+    /*search.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            //if (!hasFocus)
+                //暂时用这种办法让listview不占用空间
+                adapter.getFilter().filter("clear");
+        }
+    });*/
     lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+            String str=(String)lv.getItemAtPosition(position);
+            search.setQuery(str,false);
+            //暂时用这种办法让listview不占用空间
+            adapter.getFilter().filter("clear");
         }
     });
     Button btnAddTag = (Button) root.findViewById(R.id.btn_tag_add);
@@ -424,7 +437,7 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle sav
                         //.setMinDate(new Date())
                         //.setMaxDate(enddate)
                         .setIs24HourTime(true)
-                        .setTheme(SlideDateTimePicker.HOLO_LIGHT)
+                        .setTheme(SlideDateTimePicker.HOLO_DARK)
                         //.setIndicatorColor(Color.parseColor("E6BF66"))
                         .build()
                         .show();
@@ -435,7 +448,7 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle sav
                     .setInitialDate(new Date())
                     //.setMinDate(new Date())
                     .setIs24HourTime(true)
-                    .setTheme(SlideDateTimePicker.HOLO_LIGHT)
+                    .setTheme(SlideDateTimePicker.HOLO_DARK)
                     //.setIndicatorColor(Color.parseColor("E6BF66"))
                     .build()
                     .show();
