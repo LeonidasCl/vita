@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -23,16 +22,13 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SearchView;
-import android.text.Editable;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -46,13 +42,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.pc.vita.APP;
-import com.example.pc.vita.Activity.CreateYuePaiActivity;
 import com.example.pc.vita.Adapter.ImageAddGridViewAdapter;
 import com.example.pc.vita.Adapter.ImagePagerAdapter;
 import com.example.pc.vita.Adapter.PhotoViewAttacher;
 import com.example.pc.vita.Adapter.UploadViewPager;
 import com.example.pc.vita.Network.NetRequest;
-import com.example.pc.vita.Network.PhotoCallbackInterface;
+import com.example.pc.vita.Network.NetworkCallbackInterface;
 import com.example.pc.vita.R;
 import com.example.pc.vita.Util.CommonUrl;
 import com.example.pc.vita.Util.CommonUtils;
@@ -78,8 +73,8 @@ import java.util.Map;
 /**
  * Created by pc on 2016/7/26.
  */
-public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListener, PhotoCallbackInterface.NetRequestIterface,
-            PhotoCallbackInterface.OnSingleTapDismissBigPhotoListener{
+public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListener, NetworkCallbackInterface.NetRequestIterface,
+            NetworkCallbackInterface.OnSingleTapDismissBigPhotoListener{
 
     private final int UPLOAD_TAKE_PICTURE=5;
 

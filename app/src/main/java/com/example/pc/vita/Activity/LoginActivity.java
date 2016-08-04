@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.pc.vita.APP;
-import com.example.pc.vita.Network.PhotoCallbackInterface;
+import com.example.pc.vita.Network.NetworkCallbackInterface;
 import com.example.pc.vita.Network.NetRequest;
 import com.example.pc.vita.R;
 import com.example.pc.vita.Util.CommonUrl;
@@ -31,7 +31,7 @@ import java.util.Map;
 /**
  *
  */
-public class LoginActivity extends AppCompatActivity implements PhotoCallbackInterface.NetRequestIterface{
+public class LoginActivity extends AppCompatActivity implements NetworkCallbackInterface.NetRequestIterface{
 
     private TextView username;
     private TextView password;
@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity implements PhotoCallbackInt
     private int loginReturn;
     private ImageView loginbtnimg;
     private CountDownTimer timeCount;
-    private int eventFlag=1;//1为登录 2为忘记密码 3为注册
+    private int eventFlag=1;//1为登录 2为忘记密码 3为验证注册 4为最终注册
     TranslateAnimation animationHide=new TranslateAnimation(Animation.RELATIVE_TO_SELF,
             0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
             Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
@@ -87,20 +87,22 @@ public class LoginActivity extends AppCompatActivity implements PhotoCallbackInt
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Map map = new HashMap();
                 if (eventFlag==1){
                 //检查输入格式，发弹窗请求到handler，并发网络请求
-                Map map = new HashMap();
                 String usrnm=username.getText().toString();
                 String pwd=password.getText().toString();
                 map.put("username",usrnm);
                 map.put("password",pwd);
-                loginProgressDlg = ProgressDialog.show(LoginActivity.this, "vita", "正在登录", true, false);
+                loginProgressDlg = ProgressDialog.show(LoginActivity.this, "vita", "处理中", true, false);
                 requestFragment.httpRequest(map, CommonUrl.loginAccount); }
                 if (eventFlag==2){
                     //TODO
                 }
                 if (eventFlag==3){
+                    //TODO
+                }
+                if (eventFlag==4){
                     //TODO
                 }
             }
@@ -207,7 +209,43 @@ public class LoginActivity extends AppCompatActivity implements PhotoCallbackInt
 
     @Override
     public void requestFinish(String result, String requestUrl) {
-        if (requestUrl.equals(CommonUrl.loginAccount)) {//登录请求被返回
+        if (requestUrl.equals(CommonUrl.loginAccount)) {//返回登录请求
+            try {
+                JSONObject object = new JSONObject(result);
+                loginReturn = object.getInt("loginReturn");
+                loginProgressDlg.cancel();//进度条取消
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if (requestUrl.equals(CommonUrl.loginAccount)) {//返回了验证码
+            try {
+                JSONObject object = new JSONObject(result);
+                loginReturn = object.getInt("loginReturn");
+                loginProgressDlg.cancel();//进度条取消
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if (requestUrl.equals(CommonUrl.loginAccount)) {//返回了验证结果
+            try {
+                JSONObject object = new JSONObject(result);
+                //object.getString();
+                loginReturn = object.getInt("loginReturn");
+                loginProgressDlg.cancel();//进度条取消
+
+                btn_verifycode.setVisibility(View.GONE);
+                forgotpassword.setVisibility(View.GONE);
+                signup.setEnabled(false);
+                username.setHint("请指定昵称");
+                password.setHint("请设置密码");
+                btn_login.setText("  注   册");
+                eventFlag=4;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if (requestUrl.equals(CommonUrl.loginAccount)) {//返回注册结果
             try {
                 JSONObject object = new JSONObject(result);
                 loginReturn = object.getInt("loginReturn");

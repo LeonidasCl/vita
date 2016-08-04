@@ -26,8 +26,6 @@ public class APP extends Application {
     @Override public void onCreate() {
         super.onCreate();
         context = this;
-
-
         applicationContext = this;
         getScreenDimension();
         initImageLoader(this);
@@ -113,7 +111,6 @@ public class APP extends Application {
                 .diskCacheSize(50 * 1024 * 1024)
                         // .discCacheFileCount(200)
                         // .defaultDisplayImageOptions(options)
-
                 .diskCache(new UnlimitedDiskCache(cacheDir)).build();
 
         // Initialize ImageLoader with configuration.

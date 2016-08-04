@@ -22,10 +22,10 @@ import okhttp3.Response;
 
 
 public class NetRequest {
-	private PhotoCallbackInterface.NetRequestIterface netRequestIterface;
+	private NetworkCallbackInterface.NetRequestIterface netRequestIterface;
 	private Context context;
 
-	public NetRequest(PhotoCallbackInterface.NetRequestIterface netRequestIterface, Context context) {
+	public NetRequest(NetworkCallbackInterface.NetRequestIterface netRequestIterface, Context context) {
 		this.netRequestIterface = netRequestIterface;
 		this.context = context;
 	}

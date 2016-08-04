@@ -7,8 +7,8 @@ public class UserModel extends BaseDataModel {
 
     private String classKey, englishName, id, nickName, photoUrl, recentLook,
             signature, userId;
-    private int age, fansNum, favoriteNum, followNum, goldNum,themeNum, isGameUpdate,
-            isMessageReceive, loginDays, sex, videoNum;
+    private int age, fansNum, favoriteNum, followNum, themeNum,
+            isMessageReceive, loginDays, sex;
     public int getThemeNum() {
         return themeNum;
     }
@@ -116,21 +116,6 @@ public class UserModel extends BaseDataModel {
         this.followNum = followNum;
     }
 
-    public int getGoldNum() {
-        return goldNum;
-    }
-
-    public void setGoldNum(int goldNum) {
-        this.goldNum = goldNum;
-    }
-
-    public int getIsGameUpdate() {
-        return isGameUpdate;
-    }
-
-    public void setIsGameUpdate(int isGameUpdate) {
-        this.isGameUpdate = isGameUpdate;
-    }
 
     public int getIsMessageReceive() {
         return isMessageReceive;
@@ -154,14 +139,6 @@ public class UserModel extends BaseDataModel {
 
     public void setSex(int sex) {
         this.sex = sex;
-    }
-
-    public int getVideoNum() {
-        return videoNum;
-    }
-
-    public void setVideoNum(int videoNum) {
-        this.videoNum = videoNum;
     }
 
     public Float getLatitude() {

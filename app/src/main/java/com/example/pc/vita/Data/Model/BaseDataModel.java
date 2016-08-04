@@ -1,15 +1,19 @@
 package com.example.pc.vita.Data.Model;
 
+import android.util.Log;
+
 import com.example.pc.vita.APP;
 import com.example.pc.vita.Data.Cache.ACache;
-
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.io.Serializable;
 
 /**
  * Created by pc on 2016/3/7.
  */
-public abstract class BaseDataModel {
+public abstract class BaseDataModel implements Serializable {
+
+    private String objectID;
 
     BaseDataModel(){
         this.mCache = ACache.get(APP.context);
@@ -18,17 +22,35 @@ public abstract class BaseDataModel {
     private ACache mCache;
 
     /*这个方法完成自定义数据模型的缓存*/
-    public boolean save(JSONObject jsonObject){
+    public boolean save(JSONObject jsonObject,int period){
+        if (objectID.equals(null))
+        {
+            Log.i("Cache Error","该对象未设置唯一标识...是否忘记调用setObjectID()?");
+            return false;
+        }
         String classname=getClass().getName();
         if(mCache!=null){
-            mCache.put(classname, jsonObject,ACache.TIME_HOUR);
+            mCache.put(classname+getObjectID(), jsonObject,period);
             return true;
         }
         return false;
     }
-    /*直接调用用于销毁数据模型，例如注销用户
-    * 这个方法可以被外部调用
-    * */
+
+    /*这个方法完成自定义数据模型的缓存*/
+    public boolean save(BaseDataModel Object,int period){
+        if (objectID.equals(null))
+        {
+            Log.i("Cache Error","该对象未设置唯一标识...是否忘记调用setObjectID()?");
+            return false;
+        }
+        String classname=getClass().getName();
+        if(mCache!=null){
+            mCache.put(classname+getObjectID(), Object,period);
+            return true;
+        }
+        return false;
+    }
+
     public boolean delete(){
        return mCache.remove(getClass().getName());
     }
@@ -40,11 +62,9 @@ public abstract class BaseDataModel {
     * 在本类的公共方法getString中直接按键名获取相应值
     * */
     private JSONObject getJson(){
-        JSONObject jsonObject = mCache.getAsJSONObject(getClass().getName());
+        JSONObject jsonObject = mCache.getAsJSONObject(getClass().getName()+getObjectID());
         if (jsonObject==null)
-        {
-
-        }
+        {}
         return jsonObject;
     }
 
@@ -67,4 +87,11 @@ public abstract class BaseDataModel {
         else return varname+" is null";
     }
 
+    public String getObjectID() {
+        return objectID;
+    }
+
+    public void setObjectID(String objectID) {
+        this.objectID = objectID;
+    }
 }

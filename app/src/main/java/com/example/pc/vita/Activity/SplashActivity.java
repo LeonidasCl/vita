@@ -3,7 +3,7 @@ package com.example.pc.vita.Activity;
 
 import com.example.pc.vita.APP;
 import com.example.pc.vita.Data.Model.LoginDataModel;
-import com.example.pc.vita.Network.PhotoCallbackInterface;
+import com.example.pc.vita.Network.NetworkCallbackInterface;
 import com.example.pc.vita.Network.NetRequest;
 import com.example.pc.vita.R;
 import com.example.pc.vita.Util.CommonUrl;
@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SplashActivity extends BaseSplashActivity implements PhotoCallbackInterface.NetRequestIterface {
+public class SplashActivity extends BaseSplashActivity implements NetworkCallbackInterface.NetRequestIterface {
 
     private NetRequest requestFragment;
 
@@ -56,7 +56,7 @@ public class SplashActivity extends BaseSplashActivity implements PhotoCallbackI
         map.put("userName", "15652009705");
         map.put("pwd", "123456");
         map.put("thirdPart", "");
-        requestFragment.httpRequest(map, CommonUrl.loginAccountNew);
+        requestFragment.httpRequest(map, CommonUrl.loginAccount);
     }
 
 
@@ -77,7 +77,7 @@ public class SplashActivity extends BaseSplashActivity implements PhotoCallbackI
 
     @Override
     public void requestFinish(String result, String requestUrl) {
-        if (requestUrl.equals(CommonUrl.loginAccountNew)) {
+        if (requestUrl.equals(CommonUrl.loginAccount)) {
 
             Gson gson = new Gson();
             LoginDataModel loginStatusInfoObject = gson.fromJson(result, LoginDataModel.class);

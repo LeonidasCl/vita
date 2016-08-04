@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //设置导航栏颜色
             window.setNavigationBarColor(getResources().getColor(R.color.gold));
         }
-        //actbar.setTitle("未登录");
+
         initLocalData();
         initNetworkData();
         try {
