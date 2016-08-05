@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.pc.vita.APP;
+import com.example.pc.vita.Activity.LoginActivity;
 import com.example.pc.vita.R;
 import com.example.pc.vita.Util.CommonUtils;
 import com.example.pc.vita.Util.UserInfoUtil;
@@ -34,25 +36,23 @@ public class NetRequest {
 	 */
 	public void httpRequest(Map<String, Object> map, final String requestUrl) {
 		if (!CommonUtils.getUtilInstance().isConnectingToInternet(context)) {
-			Toast.makeText(context,
-					context.getString(R.string.internet_fail_connect),Toast.LENGTH_LONG).show();
+			Toast.makeText(context, context.getString(R.string.internet_fail_connect),Toast.LENGTH_LONG).show();
 			return;
 		}
+
+		//CommonUtils.getUtilInstance().showToast(APP.context,map.toString());
 
 		OkHttpClient mOkHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(5000, TimeUnit.MILLISECONDS)
                 .writeTimeout(8, TimeUnit.SECONDS)
                 .readTimeout(20, TimeUnit.SECONDS)
-                .build();;
+                .build();
         FormBody.Builder builder = new FormBody.Builder();
 		if (null != map && !map.isEmpty())
 			for (String key : map.keySet()) {
 				builder.add(key, map.get(key)+"");
 			}
-		if(UserInfoUtil.getInstance().getAuthKey()!=null) {
-			builder.add("authKey", UserInfoUtil.getInstance().getAuthKey());
-		}
-		Log.d("gaolei", " authKey------------------"+UserInfoUtil.getInstance().getAuthKey());
+
 		Request request = new Request.Builder()
 				.url(requestUrl)
 				.post(builder.build())
@@ -70,7 +70,9 @@ public class NetRequest {
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     String result = response.body().string();
-//					Log.d("gaolei", "onResponse----------------------" + result);
+					Log.d("vita", "onResponse----------------------" + result);
+                    //Toast.makeText(context, result,Toast.LENGTH_LONG).show();
+                    //CommonUtils.getUtilInstance().showToast(APP.context,result);
                     netRequestIterface.requestFinish(result, requestUrl);
                 }
 

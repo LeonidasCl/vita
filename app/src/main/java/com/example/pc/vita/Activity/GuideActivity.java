@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.pc.vita.Network.StatusCode;
 import com.example.pc.vita.R;
 
 import java.util.ArrayList;
@@ -87,8 +88,8 @@ public class GuideActivity extends AppCompatActivity implements View.OnClickList
                 finish();
                 Intent intent = new Intent("android.intent.action.LOGINACTIVITY");
                 ///////***********2016-3-8 added by licl****************////
-                /*********/intent.putExtra("father", "GuideActivity");/////////////
-
+                //intent.putExtra("father", "GuideActivity");/////////////
+                intent.putExtra("method", StatusCode.STATUS_LOGIN);
                 startActivity(intent);
             }
         });
@@ -98,8 +99,8 @@ public class GuideActivity extends AppCompatActivity implements View.OnClickList
                 finish();
                 Intent intent = new Intent("android.intent.action.LOGINACTIVITY");
                 ///////***********2016-3-8 added by licl****************////
-                /*********/intent.putExtra("father", "GuideActivity");/////////////
-                intent.putExtra("method", "register");
+                //intent.putExtra("father", "GuideActivity");/////////////
+                intent.putExtra("method", StatusCode.STATUS_REGISTER);
                 startActivity(intent);
             }
         });

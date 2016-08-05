@@ -20,6 +20,7 @@ import com.example.pc.vita.Data.Model.UserModel;
 import com.example.pc.vita.Fragment.HomeFragment;
 import com.example.pc.vita.Fragment.UserFragment;
 import com.example.pc.vita.Fragment.YuePaiFragment;
+import com.example.pc.vita.Network.StatusCode;
 import com.example.pc.vita.R;
 import com.example.pc.vita.Util.SystemBarTintManager;
 
@@ -54,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageButton btn_user;
     private android.support.v7.app.ActionBar actbar;
     private TextView toolbarTitle;
+
+    private ImageButton btnAvartar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +129,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
         initView();
+        btnAvartar=(ImageButton)findViewById(R.id.toolbar_btn_avatar);
+        btnAvartar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (isLogin){
+
+                    }else {
+                        Intent intent = new Intent("android.intent.action.LOGINACTIVITY");
+                        intent.putExtra("method", StatusCode.STATUS_LOGIN);/////////////
+                        startActivity(intent);
+                    }
+
+                }
+            });
 
         fragmentTrs=fragmentMgr.beginTransaction();
         btn_yuepai.setSelected(true);
@@ -151,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      /*   String name=user.getUsername();
         if(name==null)
             return false;*/
-        return true;
+        return false;
     }
 
     private void initView() {

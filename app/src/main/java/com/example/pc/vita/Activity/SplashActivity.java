@@ -31,7 +31,7 @@ public class SplashActivity extends BaseSplashActivity implements NetworkCallbac
             HashMap loginParams=new HashMap<String,String>();
             loginParams.put("username",username);
             loginParams.put("usertoken", usertoken);
-            String result= BaseNetworkRequestor.getInstance().sendRequest(NetworkRecieverInterface.HTTP_POST,
+            String result= BaseNetworkRequestor.getInstance().sendRequest(StatusCode.HTTP_POST,
                     "http://www.airserverseu.applinzi.com/userlogin.php", loginParams, response, getApplicationContext());
 
             if (result.equals(response.RETURN_LOGIN_SUCCESS)){
@@ -44,7 +44,7 @@ public class SplashActivity extends BaseSplashActivity implements NetworkCallbac
             HashMap loginParams=new HashMap<>();
             loginParams.put("username","vita");
             loginParams.put("usertoken", "5AA765D61D8327DE");
-            String result= BaseNetworkRequestor.getInstance().sendRequest(NetworkRecieverInterface.HTTP_POST,
+            String result= BaseNetworkRequestor.getInstance().sendRequest(StatusCode.HTTP_POST,
                     "http://223.3.67.125:800/huodong/ask?type=askCommentId&topicId=1", loginParams, response, getApplicationContext());
 
             if (result.equals(response.RETURN_LOGIN_SUCCESS)){
@@ -56,7 +56,7 @@ public class SplashActivity extends BaseSplashActivity implements NetworkCallbac
         map.put("userName", "15652009705");
         map.put("pwd", "123456");
         map.put("thirdPart", "");
-        requestFragment.httpRequest(map, CommonUrl.loginAccount);
+        //requestFragment.httpRequest(map, CommonUrl.loginAccount);
     }
 
 
