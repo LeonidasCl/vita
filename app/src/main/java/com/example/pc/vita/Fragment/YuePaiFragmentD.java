@@ -51,8 +51,8 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
         isPop=true;
     }
 
-    public View getRankView(){
-        return rankView;
+    public View getListView(){
+        return listView;
     }
 
     @Override

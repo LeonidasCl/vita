@@ -5,14 +5,12 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -51,25 +49,25 @@ public class YuePaiFragment extends android.support.v4.app.Fragment implements  
     private YuePaiFragmentC yuepaiFragment;
     private YuePaiFragmentAB yuePaiFragmentAB;
     private ArrayList tips=new ArrayList();
-    //private YuePaiFragmentD rankFragment;
     private ImageButton btn_yuepai_a;
     private ImageButton btn_yuepai_b;
     private ImageButton btn_yuepai_c;
     private ImageButton btn_create_yuepai;
     private float mLastTouchY;
     private float mDelY;
+    private YuePaiFragmentD rankFrag;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_yuepai, container, false);
 
-        YuePaiFragmentD rank=new YuePaiFragmentD();
+        rankFrag =new YuePaiFragmentD();
 
         mSideZoomBanner = (BGABanner) view.findViewById(R.id.banner_main_zoom);
         setListener();
         loadData();
-        fragmentManager.beginTransaction().replace(R.id.fragment_rank,rank).commit();
+        fragmentManager.beginTransaction().replace(R.id.fragment_rank, rankFrag).commit();
 
         mSideZoomBanner.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -174,8 +172,14 @@ public class YuePaiFragment extends android.support.v4.app.Fragment implements  
             }
         });
 
-        //touchMove=rankView.findViewById(R.id.fragment_rank);
-/*        rank.getView().setOnTouchListener(new View.OnTouchListener() {
+        //touchMove=rankView.findViewById(R.id.fragment_rank)
+
+        return view;
+    }
+
+    @Override
+    public void onStart(){
+       rankFrag.getListView().setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
@@ -195,15 +199,15 @@ public class YuePaiFragment extends android.support.v4.app.Fragment implements  
 
                 return false;
             }
-        });*/
+        });
 
-        return view;
+        super.onStart();
     }
 
     private void slip(float step) {
         int intStep = step > 0 ? ((int)(step + 0.5f)) : -((int)(Math.abs(step) + 0.5f));
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams)mSideZoomBanner.getLayoutParams();
-        layoutParams.topMargin = layoutParams.topMargin + intStep;
+        layoutParams.topMargin = layoutParams.topMargin - 10;
         mSideZoomBanner.setLayoutParams(layoutParams);
         mSideZoomBanner.invalidate();
     }
