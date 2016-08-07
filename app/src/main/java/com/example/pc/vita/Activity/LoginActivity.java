@@ -1,6 +1,5 @@
 package com.example.pc.vita.Activity;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -14,16 +13,20 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.pc.vita.APP;
+import com.example.pc.vita.Data.Cache.ACache;
+import com.example.pc.vita.Data.Model.LoginDataModel;
+import com.example.pc.vita.Data.Model.UserModel;
 import com.example.pc.vita.Network.NetworkCallbackInterface;
 import com.example.pc.vita.Network.NetRequest;
 import com.example.pc.vita.Network.StatusCode;
 import com.example.pc.vita.R;
 import com.example.pc.vita.Util.CommonUrl;
 import com.example.pc.vita.Util.CommonUtils;
+import com.google.gson.Gson;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
@@ -109,8 +112,9 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                 //检查输入格式，发弹窗请求到handler，并发网络请求
                 String usrnm=username.getText().toString();
                 String pwd=password.getText().toString();
-                map.put("username",usrnm);
+                map.put("phone",usrnm);
                 map.put("password",pwd);
+                map.put("askcode",StatusCode.REQUEST_LOGIN);
                 loginProgressDlg = ProgressDialog.show(LoginActivity.this, "vita", "处理中", true, false);
                 requestFragment.httpRequest(map, CommonUrl.loginAccount);
                 }
@@ -127,7 +131,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                     phone=name;
                     map.put("code",code);
                     map.put("type", StatusCode.REQUEST_REGISTER_VERIFYB);
-                    requestFragment.httpRequest(map, CommonUrl.registerAccountA);
+                    requestFragment.httpRequest(map, CommonUrl.registerAccount);
                     loginProgressDlg = ProgressDialog.show(LoginActivity.this, "vita", "处理中", true, false);
                         return;
                     }else {
@@ -145,7 +149,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                         map.put("nickName",nickName);
                         map.put("password",password);
                         map.put("type", StatusCode.REQUEST_REGISTER);
-                        requestFragment.httpRequest(map, CommonUrl.registerAccountA);
+                        requestFragment.httpRequest(map, CommonUrl.registerAccount);
                         loginProgressDlg = ProgressDialog.show(LoginActivity.this, "vita", "处理中", true, false);
                         return;
                     }else {
@@ -166,7 +170,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                     {
                         map.put("phone",usrnm);
                         map.put("type",StatusCode.REQUEST_REGISTER_VERIFYA);
-                        requestFragment.httpRequest(map, CommonUrl.registerAccountA);
+                        requestFragment.httpRequest(map, CommonUrl.registerAccount);
                         loginProgressDlg = ProgressDialog.show(LoginActivity.this, "vita", "处理中", true, false);
                         timeCount.start();
                     }else {
@@ -283,15 +287,23 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
     @Override
     public void requestFinish(String result, String requestUrl) {
         if (requestUrl.equals(CommonUrl.loginAccount)) {//返回登录请求
-            try {
-                JSONObject object = new JSONObject(result);
-                loginReturn = object.getInt("loginReturn");
-                loginProgressDlg.cancel();//进度条取消
-            } catch (JSONException e) {
-                e.printStackTrace();
+                Gson gson=new Gson();
+                LoginDataModel loginStatusInfoObject = gson.fromJson(result, LoginDataModel.class);
+                int code = Integer.valueOf(loginStatusInfoObject.getErrorCode());
+                String content=loginStatusInfoObject.getContent();
+            if (code==StatusCode.REQUEST_LOGIN_SUCCESS){
+                String authKey=loginStatusInfoObject.getAuthKey();
+                UserModel user=loginStatusInfoObject.getUser();
+                ACache cache=ACache.get(LoginActivity.this);
+                cache.put("auth_key",authKey,ACache.TIME_WEEK);
+                cache.put("user_model",user,ACache.TIME_WEEK);
+            }else {
+                Looper.prepare();CommonUtils.getUtilInstance().showToast(APP.context, content);Looper.loop();
             }
+                loginProgressDlg.cancel();//进度条取消
+
         }
-        if (requestUrl.equals(CommonUrl.registerAccountA)) {//返回了注册请求
+        if (requestUrl.equals(CommonUrl.registerAccount)) {//返回了注册请求
             try {
                 JSONObject object = new JSONObject(result);
                 int code = Integer.valueOf(object.getString("code"));
@@ -322,6 +334,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                         loginProgressDlg.cancel();//进度条取消
                         //解析并缓存用户信息、登录首信息//
                         finish();
+                        Looper.prepare();
                         CommonUtils.getUtilInstance().showToast(APP.context, "注册成功");
                         Looper.loop();
                         return;

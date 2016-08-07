@@ -2,7 +2,6 @@ package com.example.pc.vita.Fragment;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -22,10 +21,9 @@ import java.util.List;
  * licl 2016.7.18
  * 重写的排行榜fragment
  */
-public class YuePaiFragmentD extends Fragment{
+public class YuePaiFragmentD extends android.support.v4.app.Fragment{
 
     private Activity yuepai;
-    private View navibar;
 
     final int GRAPHER_AND_POP = 0;
     final int GRAPHER_AND_STYLE = 1;
@@ -46,11 +44,15 @@ public class YuePaiFragmentD extends Fragment{
     private int bootCounter=0;
     private int maxRecords = 400;
 
-    View view;
+    View rankView;
 
     public YuePaiFragmentD() {
         isGrapher=true;
         isPop=true;
+    }
+
+    public View getRankView(){
+        return rankView;
     }
 
     @Override
@@ -58,16 +60,18 @@ public class YuePaiFragmentD extends Fragment{
                              Bundle savedInstanceState) {
         yuepai=this.getActivity();
 
-        view = inflater.inflate(R.layout.fragment_rank, container, false);
+        rankView = inflater.inflate(R.layout.fragment_rank, container, false);
 
-        button_grapher = (ImageButton)view.findViewById(R.id.button_grapher);
-        button_model = (ImageButton)view.findViewById(R.id.button_model);
-        button_pop = (ImageButton)view.findViewById(R.id.button_pop);
-        button_style = (ImageButton)view.findViewById(R.id.button_style);
+
+
+        button_grapher = (ImageButton) rankView.findViewById(R.id.button_grapher);
+        button_model = (ImageButton) rankView.findViewById(R.id.button_model);
+        button_pop = (ImageButton) rankView.findViewById(R.id.button_pop);
+        button_style = (ImageButton) rankView.findViewById(R.id.button_style);
 
         personAdapter = new RankItemAdapter(yuepai,bootData(GRAPHER_AND_POP));
-        listView = (ListView) view.findViewById(R.id.rank_list);
-        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
+        listView = (ListView) rankView.findViewById(R.id.rank_list);
+        refreshLayout = (SwipeRefreshLayout) rankView.findViewById(R.id.swipe_refresh_layout);
         listView.setAdapter(personAdapter);
 
         onScrollListener();
@@ -75,10 +79,7 @@ public class YuePaiFragmentD extends Fragment{
 
         setListener();
 
-        navibar=yuepai.findViewById(R.id.fragment_list);
-        navibar.setVisibility(View.GONE);
-
-        return view;
+        return rankView;
     }
 
     private void setListener(){
@@ -208,11 +209,4 @@ public class YuePaiFragmentD extends Fragment{
         bootCounter+=20;
         return persons;
     }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        navibar.setVisibility(View.VISIBLE);
-    }
-
 }

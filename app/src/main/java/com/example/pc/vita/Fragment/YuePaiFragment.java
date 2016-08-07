@@ -1,25 +1,32 @@
 package com.example.pc.vita.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.pc.vita.APP;
+import com.example.pc.vita.Activity.CreateYuePaiActivity;
 import com.example.pc.vita.Data.Model.PictureModel;
 import com.example.pc.vita.Network.NetworkCallbackInterface;
 import com.example.pc.vita.Network.NetRequest;
 import com.example.pc.vita.R;
 import com.example.pc.vita.Util.CommonUrl;
 import com.google.gson.Gson;
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.AnimatorListenerAdapter;
+import com.nineoldandroids.view.ViewPropertyAnimator;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -44,61 +51,170 @@ public class YuePaiFragment extends android.support.v4.app.Fragment implements  
     private YuePaiFragmentC yuepaiFragment;
     private YuePaiFragmentAB yuePaiFragmentAB;
     private ArrayList tips=new ArrayList();
-    private TextView yuepainavi;
-    private Toolbar toolbar;
-    public static int yuepaiStatus=0;//设置当前的约拍子页面种类：0-未选择 1-约模特 2-约摄影师 3-活动 4-榜单
-    private YuePaiFragmentD rankFragment;
-
+    //private YuePaiFragmentD rankFragment;
+    private ImageButton btn_yuepai_a;
+    private ImageButton btn_yuepai_b;
+    private ImageButton btn_yuepai_c;
+    private ImageButton btn_create_yuepai;
+    private float mLastTouchY;
+    private float mDelY;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_yuepai, container, false);
 
-        mSideZoomBanner = (BGABanner) view.findViewById(R.id.banner_main_zoom);
-        yuepainavi=(TextView)view.findViewById(R.id.yuepainavi);
+        YuePaiFragmentD rank=new YuePaiFragmentD();
 
+        mSideZoomBanner = (BGABanner) view.findViewById(R.id.banner_main_zoom);
         setListener();
         loadData();
+        fragmentManager.beginTransaction().replace(R.id.fragment_rank,rank).commit();
+
         mSideZoomBanner.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override
             public void onPageSelected(int position) {
-                int x=mSideZoomBanner.getCurrentItem();
-                if (x==0){
-                    yuepainavi.setText("约模特");
-                }
-                if (x==1){
-                    yuepainavi.setText("约摄影");
-                }
-                if (x==2){
-                    yuepainavi.setText("活动");
-                }
-                if (x==3){
-                    yuepainavi.setText("榜单");
-                }
+                int x = mSideZoomBanner.getCurrentItem();
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
 
+        btn_yuepai_a=(ImageButton)view.findViewById(R.id.btn_yuepai_a);
+        btn_yuepai_a.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                ViewPropertyAnimator.animate(v).scaleY(1.4f).scaleX(1.4f).setDuration(80)
+                        .setListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                ViewPropertyAnimator.animate(v).scaleY(1.2f).scaleX(1.2f)
+                                        .setListener(new AnimatorListenerAdapter() {
+                                            @Override
+                                            public void onAnimationEnd(Animator animation) {
+                                            if (yuePaiFragmentAB == null) {
+                                                yuePaiFragmentAB = new YuePaiFragmentAB();
+                                                yuePaiFragmentAB.setEventflag(1);
+                                            }
+                                            fragmentTrs = fragmentManager.beginTransaction();
+                                            fragmentTrs.replace(R.id.fl_content, yuePaiFragmentAB);
+                                            fragmentTrs.addToBackStack(null);
+                                            fragmentTrs.commit();
+                                            }
+                                        }).setDuration(30);
+                            }
+                        });
+            }
+        });
+
+        btn_yuepai_b=(ImageButton)view.findViewById(R.id.btn_yuepai_b);
+        btn_yuepai_b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                ViewPropertyAnimator.animate(v).scaleY(1.4f).scaleX(1.4f).setDuration(80)
+                        .setListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                ViewPropertyAnimator.animate(v).scaleY(1.2f).scaleX(1.2f)
+                                        .setListener(new AnimatorListenerAdapter() {
+                                            @Override
+                                            public void onAnimationEnd(Animator animation) {
+                                                if (yuePaiFragmentAB == null) {
+                                                    yuePaiFragmentAB = new YuePaiFragmentAB();
+                                                    yuePaiFragmentAB.setEventflag(2);
+                                                }
+                                                fragmentTrs = fragmentManager.beginTransaction();
+                                                fragmentTrs.replace(R.id.fl_content, yuePaiFragmentAB);
+                                                fragmentTrs.addToBackStack(null);
+                                                fragmentTrs.commit();
+                                            }
+                                        }).setDuration(30);
+                            }
+                        });
+            }
+        });
+
+        btn_yuepai_c=(ImageButton)view.findViewById(R.id.btn_yuepai_c);
+        btn_yuepai_c.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                ViewPropertyAnimator.animate(v).scaleY(1.4f).scaleX(1.4f).setDuration(80)
+                        .setListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                ViewPropertyAnimator.animate(v).scaleY(1.2f).scaleX(1.2f)
+                                        .setListener(new AnimatorListenerAdapter() {
+                                            @Override
+                                            public void onAnimationEnd(Animator animation) {
+                                                if (yuepaiFragment == null) {
+                                                    yuepaiFragment = new YuePaiFragmentC();
+                                                }
+                                                fragmentTrs = fragmentManager.beginTransaction();
+                                                fragmentTrs.replace(R.id.fl_content, yuepaiFragment);
+                                                fragmentTrs.addToBackStack(null);
+                                                fragmentTrs.commit();
+                                            }
+                                        }).setDuration(30);
+                            }
+                        });
+            }
+        });
+
+        btn_create_yuepai=(ImageButton)view.findViewById(R.id.btn_create_yuepai);
+        btn_create_yuepai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), CreateYuePaiActivity.class));
+            }
+        });
+
+        //touchMove=rankView.findViewById(R.id.fragment_rank);
+/*        rank.getView().setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        mLastTouchY = event.getRawY();
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        mDelY = event.getRawY() - mLastTouchY;
+                        slip(mDelY);
+                        mLastTouchY = event.getRawY();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        slip(mDelY);
+                        break;
+                }
+
+                return false;
+            }
+        });*/
+
         return view;
+    }
+
+    private void slip(float step) {
+        int intStep = step > 0 ? ((int)(step + 0.5f)) : -((int)(Math.abs(step) + 0.5f));
+        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams)mSideZoomBanner.getLayoutParams();
+        layoutParams.topMargin = layoutParams.topMargin + intStep;
+        mSideZoomBanner.setLayoutParams(layoutParams);
+        mSideZoomBanner.invalidate();
     }
 
     private void loadData() {
         fragmentManager=getFragmentManager();
         tips.clear();
-        tips.add("我要拍摄，我想约模特");
-        tips.add("我想被拍，我要约摄影师");
-        tips.add("发起或加入一个线下活动");
-        tips.add("查看榜单，围观大牛");
+        tips.add("推荐信息或广告位a");
+        tips.add("推荐信息或广告位b");
+        tips.add("推荐信息或广告位c");
+        tips.add("推荐信息或广告位d");
         mSideZoomBanner.setViewsAndTips(getViews(naviContent), tips);
         loadData(naviContent);
 
@@ -122,49 +238,15 @@ public class YuePaiFragment extends android.support.v4.app.Fragment implements  
             public void onClickBannerItem(int position) {
 
                 if (position==0){
-                    if (yuePaiFragmentAB == null) {
-                        yuePaiFragmentAB = new YuePaiFragmentAB();
-                        yuePaiFragmentAB.setEventflag(1);
-                    }
-
-                    fragmentTrs = fragmentManager.beginTransaction();
-                    fragmentTrs.replace(R.id.fl_content, yuePaiFragmentAB);
-                    fragmentTrs.addToBackStack(null);
-                    fragmentTrs.commit();
                 }
 
                 if (position==1){
-                    if (yuePaiFragmentAB == null) {
-                        yuePaiFragmentAB = new YuePaiFragmentAB();
-                        yuePaiFragmentAB.setEventflag(2);
-                    }
-
-                    fragmentTrs = fragmentManager.beginTransaction();
-                    fragmentTrs.replace(R.id.fl_content, yuePaiFragmentAB);
-                    fragmentTrs.addToBackStack(null);
-                    fragmentTrs.commit();
                 }
 
-               if(position==2) {//如果是活动界面
-                if (yuepaiFragment == null) {
-                    yuepaiFragment = new YuePaiFragmentC();
-                }
-
-                fragmentTrs = fragmentManager.beginTransaction();
-                fragmentTrs.replace(R.id.fl_content, yuepaiFragment);
-                fragmentTrs.addToBackStack(null);
-                fragmentTrs.commit();
+               if(position==2) {
                }
 
-                if (position==3){//榜单界面
-                    if (rankFragment == null) {
-                        rankFragment = new YuePaiFragmentD();
-                    }
-
-                    fragmentTrs = fragmentManager.beginTransaction();
-                    fragmentTrs.replace(R.id.fl_content, rankFragment);
-                    fragmentTrs.addToBackStack(null);
-                    fragmentTrs.commit();
+                if (position==3){
                 }
             }
         });

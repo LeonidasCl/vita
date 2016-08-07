@@ -42,7 +42,7 @@
         android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
         loginlayout:layout_heightPercent="10%"
-        loginlayout:layout_widthPercent="48%"
+        loginlayout:layout_widthPercent="55%"
         android:layout_below="@+id/login_upside"
         android:layout_centerHorizontal="true">
             <android.support.percent.PercentFrameLayout
@@ -79,7 +79,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         loginlayout:layout_heightPercent="10%"
-        loginlayout:layout_widthPercent="48%"
+        loginlayout:layout_widthPercent="55%"
         android:layout_below="@+id/login_centerside1"
         android:layout_alignStart="@+id/login_centerside1">
         <android.support.percent.PercentFrameLayout

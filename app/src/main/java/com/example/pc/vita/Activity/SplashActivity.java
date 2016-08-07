@@ -2,6 +2,7 @@ package com.example.pc.vita.Activity;
 
 
 import com.example.pc.vita.APP;
+import com.example.pc.vita.Data.Cache.ACache;
 import com.example.pc.vita.Data.Model.LoginDataModel;
 import com.example.pc.vita.Network.NetworkCallbackInterface;
 import com.example.pc.vita.Network.NetRequest;
@@ -92,7 +93,7 @@ public class SplashActivity extends BaseSplashActivity implements NetworkCallbac
 
                 UserInfoUtil.getInstance().setPhotoUrl(
                         loginStatusInfoObject.getUser()
-                                .getPhotoUrl());
+                                .getAvatar());
                 UserInfoUtil.getInstance().setNickName(
                         loginStatusInfoObject.getUser()
                                 .getNickName());

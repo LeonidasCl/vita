@@ -5,7 +5,7 @@ package com.example.pc.vita.Data.Model;
  */
 public class UserModel extends BaseDataModel {
 
-    private String classKey, englishName, id, nickName, photoUrl, recentLook,
+    private String classType, phone, id, nickName, avatar, recentLook,
             signature, userId;
     private int age, fansNum, favoriteNum, followNum, themeNum,
             isMessageReceive, loginDays, sex;
@@ -20,20 +20,20 @@ public class UserModel extends BaseDataModel {
     private Float latitude, longitude;
     private long lastLoginTime, registDate;
 
-    public String getClassKey() {
-        return classKey;
+    public String getClassType() {
+        return classType;
     }
 
-    public void setClassKey(String classKey) {
-        this.classKey = classKey;
+    public void setClassType(String classType) {
+        this.classType = classType;
     }
 
-    public String getEnglishName() {
-        return englishName;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setEnglishName(String englishName) {
-        this.englishName = englishName;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getId() {
@@ -52,12 +52,12 @@ public class UserModel extends BaseDataModel {
         this.nickName = nickName;
     }
 
-    public String getPhotoUrl() {
-        return photoUrl;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getRecentLook() {

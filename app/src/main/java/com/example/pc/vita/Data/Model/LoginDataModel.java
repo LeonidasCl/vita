@@ -2,7 +2,7 @@ package com.example.pc.vita.Data.Model;
 
 public class LoginDataModel {
 	private String authKey = null;
-
+    private String content;
 	private UserModel user;
 	private String errorCode;
 
@@ -32,5 +32,7 @@ public class LoginDataModel {
 	}
 
 
-
+    public String getContent() {
+        return content;
+    }
 }

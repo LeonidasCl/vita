@@ -51,12 +51,12 @@ public class CreateYuePaiActivity extends AppCompatActivity implements
         int state;
         switch (position){
             case 0:
-                FragmentCreateYuePaiB fraga=(FragmentCreateYuePaiB)fragment;
-                state=fraga.getEdit_photo_fullscreen_layout().getVisibility();
+                FragmentCreateYuePaiA fraga=(FragmentCreateYuePaiA)fragment;
+                /*state=fraga.getEdit_photo_fullscreen_layout().getVisibility();
                 if (state== View.GONE)
                     finish();
                 else
-                    fraga.hideEditPhotoLayout();
+                    fraga.hideEditPhotoLayout();*/
                 break;
             case 1:
                 FragmentCreateYuePaiB fragb=(FragmentCreateYuePaiB)fragment;

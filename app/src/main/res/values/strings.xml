@@ -75,4 +75,8 @@
     <string name="yuepai_price">请说明报酬</string>
     <string name="create_yuepai_describe">请输入详细介绍及要求</string>
     <string name="addtag">添加标签</string>
+    <string name="tv_yuepai_a">摄影师入口</string>
+    <string name="tv_yuepai_b">模特入口</string>
+    <string name="tv_yuepai_c">约活动</string>
+    <string name="tv_create_yuepai">发起约拍/活动</string>
 </resources>

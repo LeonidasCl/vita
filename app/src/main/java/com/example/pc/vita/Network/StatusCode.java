@@ -24,4 +24,8 @@ public interface StatusCode {
     //注册请求类别的成功返回码
     int RECIEVE_REGISTER_SUCCESS=10004;
 
+    //注册请求类别的成功返回码
+    int REQUEST_LOGIN=10106;
+
+    int REQUEST_LOGIN_SUCCESS =10101 ;
 }
