@@ -193,7 +193,7 @@ public class YuePaiFragment extends android.support.v4.app.Fragment implements  
                         mLastTouchY = event.getRawY();
                         break;
                     case MotionEvent.ACTION_UP:
-                        slip(mDelY);
+                        //slip(-mDelY);
                         break;
                 }
 
@@ -205,12 +205,16 @@ public class YuePaiFragment extends android.support.v4.app.Fragment implements  
     }
 
     private void slip(float step) {
-        int intStep = step > 0 ? ((int)(step + 0.5f)) : -((int)(Math.abs(step) + 0.5f));
+        //step=mSideZoomBanner.getHeight()/2;
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams)mSideZoomBanner.getLayoutParams();
-        layoutParams.topMargin = layoutParams.topMargin - 10;
-        mSideZoomBanner.setLayoutParams(layoutParams);
-        mSideZoomBanner.invalidate();
-    }
+        if (-layoutParams.topMargin<layoutParams.height)
+        {
+                layoutParams.topMargin -= layoutParams.height/20;
+                mSideZoomBanner.setLayoutParams(layoutParams);
+                mSideZoomBanner.invalidate();
+            }
+        }
+
 
     private void loadData() {
         fragmentManager=getFragmentManager();

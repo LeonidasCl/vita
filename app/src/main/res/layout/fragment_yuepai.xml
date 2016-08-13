@@ -11,6 +11,7 @@
         android:windowTranslucentNavigation="true"
         android:layout_height="150dp"
         android:layout_width="match_parent"
+        android:layout_marginBottom="10dp"
         android:id="@+id/banner_main_zoom"
         style="@style/BannerDefaultStyle"
         android:layout_gravity="top"
