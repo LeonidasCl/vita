@@ -2,6 +2,7 @@ package com.example.pc.vita.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
@@ -67,7 +68,8 @@ public class YuePaiFragment extends android.support.v4.app.Fragment implements  
         mSideZoomBanner = (BGABanner) view.findViewById(R.id.banner_main_zoom);
         setListener();
         loadData();
-        fragmentManager.beginTransaction().replace(R.id.fragment_rank, rankFrag).commit();
+        FragmentManager childfragManager=getChildFragmentManager();
+        childfragManager.beginTransaction().replace(R.id.fragment_rank, rankFrag).commit();
 
         mSideZoomBanner.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -178,7 +180,19 @@ public class YuePaiFragment extends android.support.v4.app.Fragment implements  
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState){
+        super.onActivityCreated(savedInstanceState);
+        int x=2;
+        x++;
+    }
+
+    @Override
     public void onStart(){
+
+        /*if(rankFrag==null){
+            rankFrag =new YuePaiFragmentD();
+        }*/
+       //rankFrag.onCreateView();
        rankFrag.getListView().setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
