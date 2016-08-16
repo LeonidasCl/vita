@@ -233,7 +233,7 @@ public class YuePaiFragment extends android.support.v4.app.Fragment implements  
     private void loadData() {
         fragmentManager=getFragmentManager();
         tips.clear();
-        tips.add("推荐信息或广告位a");
+        tips.add("推荐信息或广告位as");
         tips.add("推荐信息或广告位b");
         tips.add("推荐信息或广告位c");
         tips.add("推荐信息或广告位d");
