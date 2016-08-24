@@ -13,6 +13,7 @@ import android.widget.ListView;
 import com.example.pc.vita.Adapter.RankItemAdapter;
 import com.example.pc.vita.Data.Model.RankItemModel;
 import com.example.pc.vita.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,12 +38,13 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
     boolean isGrapher;//是否显示摄影师
     boolean isPop;//是否显示人气榜
 
-
+    boolean refreshing=false;
     private SwipeRefreshLayout refreshLayout;
     private RankItemAdapter personAdapter;
     private ListView listView;
     private int bootCounter=0;
     private int maxRecords = 400;
+
 
     View rankView;
 
@@ -51,15 +53,22 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
         isPop=true;
     }
 
-    public View getListView(){
+    public ListView getListView(){
         return listView;
     }
 
+    public boolean isRefreshing(){
+        return refreshing;
+    }
+
+    public void setFreshing(boolean bool){
+        refreshing=bool;
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         yuepai=this.getActivity();
-
+        refreshing=false;
         rankView = inflater.inflate(R.layout.fragment_rank, container, false);
 
 
@@ -73,6 +82,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
         listView = (ListView) rankView.findViewById(R.id.rank_list);
         refreshLayout = (SwipeRefreshLayout) rankView.findViewById(R.id.swipe_refresh_layout);
         listView.setAdapter(personAdapter);
+
 
         onScrollListener();
         onRefreshListener();
@@ -169,6 +179,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                 personAdapter.refresh(bootData(isGrapher ? (isPop ? GRAPHER_AND_POP : GRAPHER_AND_STYLE) : (isPop ? MODEL_AND_POP : MODEL_AND_STYLE)));
                 personAdapter.notifyDataSetChanged();
                 refreshLayout.setRefreshing(false);
+                refreshing=true;
             }
         });
     }

@@ -1,5 +1,6 @@
 package com.example.pc.vita.Fragment;
 
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -57,6 +60,12 @@ public class YuePaiFragment extends android.support.v4.app.Fragment implements  
     private float mLastTouchY;
     private float mDelY;
     private YuePaiFragmentD rankFrag;
+
+    @Override
+    public void onResume() {
+        //如果之前动过还原动画flag
+        super.onResume();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -199,15 +208,42 @@ public class YuePaiFragment extends android.support.v4.app.Fragment implements  
 
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        mLastTouchY = event.getRawY();
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        mDelY = event.getRawY() - mLastTouchY;
-                        slip(mDelY);
-                        mLastTouchY = event.getRawY();
+                        if(rankFrag.isRefreshing()){
+                            ValueAnimator anim=ValueAnimator.ofInt(-mSideZoomBanner.getHeight(),0);
+                            anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                                @Override
+                                public void onAnimationUpdate(ValueAnimator animation) {
+                                    //mSideZoomBanner.setPadding(0,(Integer)animation.getAnimatedValue(),0,0);
+                                    ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) mSideZoomBanner.getLayoutParams();
+                                    layoutParams.topMargin = (Integer) animation.getAnimatedValue();
+                                    mSideZoomBanner.setLayoutParams(layoutParams);
+                                    mSideZoomBanner.invalidate();
+                                }
+                            });
+                            anim.setDuration(300);
+                            anim.start();
+                            rankFrag.setFreshing(false);
+                        }
                         break;
                     case MotionEvent.ACTION_UP:
-                        //slip(-mDelY);
+                        ViewGroup.MarginLayoutParams layoutParam = (ViewGroup.MarginLayoutParams)mSideZoomBanner.getLayoutParams();
+                        if (layoutParam.topMargin>=0){
+                            ValueAnimator anim=ValueAnimator.ofInt(0,-mSideZoomBanner.getHeight());
+                            anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                                @Override
+                                public void onAnimationUpdate(ValueAnimator animation) {
+                                    //mSideZoomBanner.setPadding(0,(Integer)animation.getAnimatedValue(),0,0);
+                                    ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams)mSideZoomBanner.getLayoutParams();
+                                    layoutParams.topMargin = (Integer)animation.getAnimatedValue();
+                                    mSideZoomBanner.setLayoutParams(layoutParams);
+                                    mSideZoomBanner.invalidate();
+                                }
+                            });
+                            anim.setDuration(300);
+                            anim.start();
+                        }
                         break;
                 }
 

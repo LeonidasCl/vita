@@ -20,7 +20,7 @@ import java.util.List;
 
 /**
  * licl 2016.7.18
- * 这个适配器写法大量参照ekansh在2015.10.20的一个开源例子
+ *
  */
 public class HuodongItemAdapter extends BaseAdapter{
 

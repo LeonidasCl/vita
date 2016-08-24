@@ -11,7 +11,7 @@ public interface StatusCode {
     int HTTP_GET=1;
     int HTTP_POST=2;
 
-    int STATUS_ERROR=00000;
+    int STATUS_ERROR= 0;
     int STATUS_LOGIN=10100;
     int STATUS_REGISTER=10000;
 

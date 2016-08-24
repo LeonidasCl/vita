@@ -29,12 +29,6 @@ import org.json.JSONException;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
 
-    /*
-    TODO 把两个占位用的空Fragment改成写好的最新和最热门图片页面
-    TODO 图片页面支持下拉刷新，并能点开大图
-    TODO 网络模型已全部写好 参看network包
-    */
-
     private boolean isLogin=false;
     private UserModel user;
 
@@ -256,14 +250,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_yuepai.setSelected(false);
         btn_user.setSelected(false);
         if(mainFragmentNavigation != null){
-            //
+
             fragmentTrs.hide(mainFragmentNavigation);
         }
         if(findFragment != null){
             fragmentTrs.hide(findFragment);
         }
         if(userFragment != null){
-            //
+
             fragmentTrs.hide(userFragment);
         }
         if(yuePaiFragment != null){
@@ -285,18 +279,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_favorite:
-                // User chose the "Settings" item, show the app settings UI...
+            case R.id.action_logout:
+
                 return true;
 
             case R.id.action_settings:
-                // User chose the "Favorite" action, mark the current item
-                // as a favorite...
+
                 return true;
 
             default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
+
                 return super.onOptionsItemSelected(item);
 
         }

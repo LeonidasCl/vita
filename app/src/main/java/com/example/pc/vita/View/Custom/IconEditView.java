@@ -22,12 +22,11 @@ public class IconEditView extends EditText {
         super(context, attrs);  
         resourceId=attrs.getAttributeResourceValue(nameSpace, "iconSrc", 0);//获取图像资源的值  
         if(resourceId!=0)  
-            bitmap=BitmapFactory.decodeResource(getResources(), resourceId);  
-          
+            bitmap=BitmapFactory.decodeResource(getResources(), resourceId);
     }
       
     @Override  
-    protected void onDraw(Canvas canvas) {  
+    protected void onDraw(Canvas canvas) {
         if(bitmap!=null){  
             Rect src=new Rect();//原图区域  
             Rect target=new Rect();//目标区域  
